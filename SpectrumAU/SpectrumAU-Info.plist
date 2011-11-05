@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>AudioComponents</key>
+	<dict>
+		<key>description</key>
+		<string>Spectrum Analyzer</string>
+		<key>factoryFunction</key>
+		<string>FilterFactory</string>
+		<key>manufacturer</key>
+		<string>Fred G</string>
+		<key>name</key>
+		<string>My Spectrum Analyzer</string>
+		<key>subtype</key>
+		<string>FILT</string>
+		<key>type</key>
+		<string>auxfx</string>
+		<key>version</key>
+		<string>1</string>
+	</dict>
+	<key>CFBundleDevelopmentRegion</key>
+	<string>English</string>
+	<key>CFBundleExecutable</key>
+	<string>${EXECUTABLE_NAME}</string>
+	<key>CFBundleIconFile</key>
+	<string></string>
+	<key>CFBundleIdentifier</key>
+	<string>com.fred.${PRODUCT_NAME:rfc1034identifier}</string>
+	<key>CFBundleInfoDictionaryVersion</key>
+	<string>6.0</string>
+	<key>CFBundleName</key>
+	<string>${PRODUCT_NAME}</string>
+	<key>CFBundlePackageType</key>
+	<string>BNDL</string>
+	<key>CFBundleShortVersionString</key>
+	<string>1.0</string>
+	<key>CFBundleSignature</key>
+	<string>????</string>
+	<key>CFBundleVersion</key>
+	<string>1</string>
+	<key>NSHumanReadableCopyright</key>
+	<string>Copyright © 2011 __MyCompanyName__. All rights reserved.</string>
+	<key>NSPrincipalClass</key>
+	<string></string>
+</dict>
+</plist>
