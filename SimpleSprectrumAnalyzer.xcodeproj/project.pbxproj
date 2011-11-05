@@ -6,14 +6,408 @@
 	objectVersion = 46;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		B63A96F214657837002D8A37 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B63A96F114657837002D8A37 /* Cocoa.framework */; };
+		B63A970214657955002D8A37 /* SimpleSpectrum_ViewFactory.h in Headers */ = {isa = PBXBuildFile; fileRef = B63A96E2146575AA002D8A37 /* SimpleSpectrum_ViewFactory.h */; };
+		B63A970314657955002D8A37 /* SimpleSpectrum_UIView.h in Headers */ = {isa = PBXBuildFile; fileRef = B63A96E614657605002D8A37 /* SimpleSpectrum_UIView.h */; };
+		B63A970414657955002D8A37 /* SimpleSpectrum_GraphView.h in Headers */ = {isa = PBXBuildFile; fileRef = B63A96E814657621002D8A37 /* SimpleSpectrum_GraphView.h */; };
+		B63A970514657983002D8A37 /* SprectrumView.xib in Resources */ = {isa = PBXBuildFile; fileRef = B63A96B0146570EA002D8A37 /* SprectrumView.xib */; };
+		B63A97061465799B002D8A37 /* SimpleSpectrum_ViewFactory.m in Sources */ = {isa = PBXBuildFile; fileRef = B63A96E3146575AA002D8A37 /* SimpleSpectrum_ViewFactory.m */; };
+		B63A97071465799B002D8A37 /* SimpleSpectrum_UIView.m in Sources */ = {isa = PBXBuildFile; fileRef = B63A96E714657605002D8A37 /* SimpleSpectrum_UIView.m */; };
+		B63A97081465799B002D8A37 /* SimpleSpectrum_GraphView.m in Sources */ = {isa = PBXBuildFile; fileRef = B63A96E914657621002D8A37 /* SimpleSpectrum_GraphView.m */; };
+		B63A970B146579B2002D8A37 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B63A9709146579B2002D8A37 /* AudioToolbox.framework */; };
+		B63A970C146579B2002D8A37 /* AudioUnit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B63A970A146579B2002D8A37 /* AudioUnit.framework */; };
+		B63A971214657AE9002D8A37 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B63A96F114657837002D8A37 /* Cocoa.framework */; };
+		B63A972014657BD5002D8A37 /* SpectrumVersion.h in Headers */ = {isa = PBXBuildFile; fileRef = B63A96E014657361002D8A37 /* SpectrumVersion.h */; };
+		B63A972114657BE8002D8A37 /* AUBase.h in Headers */ = {isa = PBXBuildFile; fileRef = B63A96B61465722B002D8A37 /* AUBase.h */; };
+		B63A972214657BE8002D8A37 /* AUDispatch.h in Headers */ = {isa = PBXBuildFile; fileRef = B63A96B81465722B002D8A37 /* AUDispatch.h */; };
+		B63A972314657BE8002D8A37 /* AUInputElement.h in Headers */ = {isa = PBXBuildFile; fileRef = B63A96BA1465722B002D8A37 /* AUInputElement.h */; };
+		B63A972414657BE8002D8A37 /* AUOutputElement.h in Headers */ = {isa = PBXBuildFile; fileRef = B63A96BC1465722B002D8A37 /* AUOutputElement.h */; };
+		B63A972514657BE8002D8A37 /* AUPlugInDispatch.h in Headers */ = {isa = PBXBuildFile; fileRef = B63A96BE1465722B002D8A37 /* AUPlugInDispatch.h */; };
+		B63A972614657BE8002D8A37 /* AUScopeElement.h in Headers */ = {isa = PBXBuildFile; fileRef = B63A96C11465722B002D8A37 /* AUScopeElement.h */; };
+		B63A972714657BE8002D8A37 /* ComponentBase.h in Headers */ = {isa = PBXBuildFile; fileRef = B63A96C31465722B002D8A37 /* ComponentBase.h */; };
+		B63A972814657BFE002D8A37 /* AUEffectBase.h in Headers */ = {isa = PBXBuildFile; fileRef = B63A96C8146572A2002D8A37 /* AUEffectBase.h */; };
+		B63A972914657C13002D8A37 /* AUBaseHelper.h in Headers */ = {isa = PBXBuildFile; fileRef = B63A96D5146572AE002D8A37 /* AUBaseHelper.h */; };
+		B63A972A14657C13002D8A37 /* AUBuffer.h in Headers */ = {isa = PBXBuildFile; fileRef = B63A96D7146572AE002D8A37 /* AUBuffer.h */; };
+		B63A972B14657C13002D8A37 /* AUInputFormatConverter.h in Headers */ = {isa = PBXBuildFile; fileRef = B63A96D8146572AE002D8A37 /* AUInputFormatConverter.h */; };
+		B63A972C14657C13002D8A37 /* AUMIDIDefs.h in Headers */ = {isa = PBXBuildFile; fileRef = B63A96D9146572AE002D8A37 /* AUMIDIDefs.h */; };
+		B63A972D14657C13002D8A37 /* AUSilentTimeout.h in Headers */ = {isa = PBXBuildFile; fileRef = B63A96DA146572AE002D8A37 /* AUSilentTimeout.h */; };
+		B63A972E14657C13002D8A37 /* AUTimestampGenerator.h in Headers */ = {isa = PBXBuildFile; fileRef = B63A96DC146572AE002D8A37 /* AUTimestampGenerator.h */; };
+		B63A972F14657C55002D8A37 /* AUBaseHelper.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B63A96D4146572AE002D8A37 /* AUBaseHelper.cpp */; };
+		B63A973014657C55002D8A37 /* AUBuffer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B63A96D6146572AE002D8A37 /* AUBuffer.cpp */; };
+		B63A973114657C55002D8A37 /* AUTimestampGenerator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B63A96DB146572AE002D8A37 /* AUTimestampGenerator.cpp */; };
+		B63A973214657C55002D8A37 /* AUEffectBase.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B63A96C7146572A2002D8A37 /* AUEffectBase.cpp */; };
+		B63A973314657C55002D8A37 /* AUBase.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B63A96B51465722B002D8A37 /* AUBase.cpp */; };
+		B63A973414657C55002D8A37 /* AUDispatch.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B63A96B71465722B002D8A37 /* AUDispatch.cpp */; };
+		B63A973514657C55002D8A37 /* AUInputElement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B63A96B91465722B002D8A37 /* AUInputElement.cpp */; };
+		B63A973614657C55002D8A37 /* AUOutputElement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B63A96BB1465722B002D8A37 /* AUOutputElement.cpp */; };
+		B63A973714657C55002D8A37 /* AUPlugInDispatch.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B63A96BD1465722B002D8A37 /* AUPlugInDispatch.cpp */; };
+		B63A973814657C55002D8A37 /* AUScopeElement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B63A96C01465722B002D8A37 /* AUScopeElement.cpp */; };
+		B63A973914657C55002D8A37 /* ComponentBase.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B63A96C21465722B002D8A37 /* ComponentBase.cpp */; };
+		B63A973A14657C55002D8A37 /* Spectrum.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B63A96DE14657324002D8A37 /* Spectrum.cpp */; };
+		B63A973B14657C6F002D8A37 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B63A9709146579B2002D8A37 /* AudioToolbox.framework */; };
+		B63A973C14657C6F002D8A37 /* AudioUnit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B63A970A146579B2002D8A37 /* AudioUnit.framework */; };
+		B63A974014657C83002D8A37 /* CoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B63A973F14657C83002D8A37 /* CoreServices.framework */; };
+		B63A974414657D35002D8A37 /* Spectrum.r in Rez */ = {isa = PBXBuildFile; fileRef = B63A96E11465738D002D8A37 /* Spectrum.r */; };
+		B63A974D14658362002D8A37 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = B63A974B14658362002D8A37 /* InfoPlist.strings */; };
+		B63A975014658399002D8A37 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = B63A974E14658399002D8A37 /* InfoPlist.strings */; };
+		B63A975214658407002D8A37 /* SpectrumAU-Prefix.pch in Headers */ = {isa = PBXBuildFile; fileRef = B63A975114658407002D8A37 /* SpectrumAU-Prefix.pch */; };
+		B63A975414658417002D8A37 /* SpectrumCocoaView-Prefix.pch in Headers */ = {isa = PBXBuildFile; fileRef = B63A975314658417002D8A37 /* SpectrumCocoaView-Prefix.pch */; };
+		B63A9755146584D4002D8A37 /* Spectrum.h in Headers */ = {isa = PBXBuildFile; fileRef = B63A96DD14657318002D8A37 /* Spectrum.h */; };
+		B63A975714658689002D8A37 /* SpectrumCocoaView.bundle in Resources */ = {isa = PBXBuildFile; fileRef = B63A96EE14657836002D8A37 /* SpectrumCocoaView.bundle */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		B63A971D14657BA7002D8A37 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = B63A969F14656852002D8A37 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = B63A96ED14657836002D8A37;
+			remoteInfo = SpectrumCocoaView;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		B63A974514657D4A002D8A37 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 7;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		B63A96B0146570EA002D8A37 /* SprectrumView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SprectrumView.xib; sourceTree = "<group>"; };
+		B63A96B51465722B002D8A37 /* AUBase.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = AUBase.cpp; sourceTree = "<group>"; };
+		B63A96B61465722B002D8A37 /* AUBase.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AUBase.h; sourceTree = "<group>"; };
+		B63A96B71465722B002D8A37 /* AUDispatch.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = AUDispatch.cpp; sourceTree = "<group>"; };
+		B63A96B81465722B002D8A37 /* AUDispatch.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AUDispatch.h; sourceTree = "<group>"; };
+		B63A96B91465722B002D8A37 /* AUInputElement.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = AUInputElement.cpp; sourceTree = "<group>"; };
+		B63A96BA1465722B002D8A37 /* AUInputElement.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AUInputElement.h; sourceTree = "<group>"; };
+		B63A96BB1465722B002D8A37 /* AUOutputElement.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = AUOutputElement.cpp; sourceTree = "<group>"; };
+		B63A96BC1465722B002D8A37 /* AUOutputElement.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AUOutputElement.h; sourceTree = "<group>"; };
+		B63A96BD1465722B002D8A37 /* AUPlugInDispatch.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = AUPlugInDispatch.cpp; sourceTree = "<group>"; };
+		B63A96BE1465722B002D8A37 /* AUPlugInDispatch.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AUPlugInDispatch.h; sourceTree = "<group>"; };
+		B63A96BF1465722B002D8A37 /* AUResources.r */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.rez; path = AUResources.r; sourceTree = "<group>"; };
+		B63A96C01465722B002D8A37 /* AUScopeElement.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = AUScopeElement.cpp; sourceTree = "<group>"; };
+		B63A96C11465722B002D8A37 /* AUScopeElement.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AUScopeElement.h; sourceTree = "<group>"; };
+		B63A96C21465722B002D8A37 /* ComponentBase.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ComponentBase.cpp; sourceTree = "<group>"; };
+		B63A96C31465722B002D8A37 /* ComponentBase.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ComponentBase.h; sourceTree = "<group>"; };
+		B63A96C7146572A2002D8A37 /* AUEffectBase.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = AUEffectBase.cpp; sourceTree = "<group>"; };
+		B63A96C8146572A2002D8A37 /* AUEffectBase.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AUEffectBase.h; sourceTree = "<group>"; };
+		B63A96D4146572AE002D8A37 /* AUBaseHelper.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = AUBaseHelper.cpp; sourceTree = "<group>"; };
+		B63A96D5146572AE002D8A37 /* AUBaseHelper.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AUBaseHelper.h; sourceTree = "<group>"; };
+		B63A96D6146572AE002D8A37 /* AUBuffer.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = AUBuffer.cpp; sourceTree = "<group>"; };
+		B63A96D7146572AE002D8A37 /* AUBuffer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AUBuffer.h; sourceTree = "<group>"; };
+		B63A96D8146572AE002D8A37 /* AUInputFormatConverter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AUInputFormatConverter.h; sourceTree = "<group>"; };
+		B63A96D9146572AE002D8A37 /* AUMIDIDefs.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AUMIDIDefs.h; sourceTree = "<group>"; };
+		B63A96DA146572AE002D8A37 /* AUSilentTimeout.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AUSilentTimeout.h; sourceTree = "<group>"; };
+		B63A96DB146572AE002D8A37 /* AUTimestampGenerator.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = AUTimestampGenerator.cpp; sourceTree = "<group>"; };
+		B63A96DC146572AE002D8A37 /* AUTimestampGenerator.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AUTimestampGenerator.h; sourceTree = "<group>"; };
+		B63A96DD14657318002D8A37 /* Spectrum.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Spectrum.h; sourceTree = "<group>"; };
+		B63A96DE14657324002D8A37 /* Spectrum.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Spectrum.cpp; sourceTree = "<group>"; };
+		B63A96DF14657343002D8A37 /* Spectrum.exp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.exports; path = Spectrum.exp; sourceTree = "<group>"; };
+		B63A96E014657361002D8A37 /* SpectrumVersion.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SpectrumVersion.h; sourceTree = "<group>"; };
+		B63A96E11465738D002D8A37 /* Spectrum.r */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.rez; path = Spectrum.r; sourceTree = "<group>"; };
+		B63A96E2146575AA002D8A37 /* SimpleSpectrum_ViewFactory.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SimpleSpectrum_ViewFactory.h; sourceTree = "<group>"; };
+		B63A96E3146575AA002D8A37 /* SimpleSpectrum_ViewFactory.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SimpleSpectrum_ViewFactory.m; sourceTree = "<group>"; };
+		B63A96E614657605002D8A37 /* SimpleSpectrum_UIView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SimpleSpectrum_UIView.h; sourceTree = "<group>"; };
+		B63A96E714657605002D8A37 /* SimpleSpectrum_UIView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SimpleSpectrum_UIView.m; sourceTree = "<group>"; };
+		B63A96E814657621002D8A37 /* SimpleSpectrum_GraphView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SimpleSpectrum_GraphView.h; sourceTree = "<group>"; };
+		B63A96E914657621002D8A37 /* SimpleSpectrum_GraphView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SimpleSpectrum_GraphView.m; sourceTree = "<group>"; };
+		B63A96EE14657836002D8A37 /* SpectrumCocoaView.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SpectrumCocoaView.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
+		B63A96F114657837002D8A37 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
+		B63A96F414657837002D8A37 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
+		B63A96F514657837002D8A37 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
+		B63A96F614657837002D8A37 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		B63A96F914657837002D8A37 /* SpectrumCocoaView-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "SpectrumCocoaView-Info.plist"; sourceTree = "<group>"; };
+		B63A9709146579B2002D8A37 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = SDKs/MacOSX10.7.sdk/System/Library/Frameworks/AudioToolbox.framework; sourceTree = DEVELOPER_DIR; };
+		B63A970A146579B2002D8A37 /* AudioUnit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioUnit.framework; path = SDKs/MacOSX10.7.sdk/System/Library/Frameworks/AudioUnit.framework; sourceTree = DEVELOPER_DIR; };
+		B63A971114657AE9002D8A37 /* SpectrumAU.component */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SpectrumAU.component; sourceTree = BUILT_PRODUCTS_DIR; };
+		B63A971514657AE9002D8A37 /* SpectrumAU-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "SpectrumAU-Info.plist"; sourceTree = "<group>"; };
+		B63A973F14657C83002D8A37 /* CoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreServices.framework; path = SDKs/MacOSX10.7.sdk/System/Library/Frameworks/CoreServices.framework; sourceTree = DEVELOPER_DIR; };
+		B63A974C14658362002D8A37 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		B63A974F14658399002D8A37 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		B63A975114658407002D8A37 /* SpectrumAU-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "SpectrumAU-Prefix.pch"; sourceTree = "<group>"; };
+		B63A975314658417002D8A37 /* SpectrumCocoaView-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "SpectrumCocoaView-Prefix.pch"; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		B63A96EB14657836002D8A37 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B63A970B146579B2002D8A37 /* AudioToolbox.framework in Frameworks */,
+				B63A970C146579B2002D8A37 /* AudioUnit.framework in Frameworks */,
+				B63A96F214657837002D8A37 /* Cocoa.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		B63A970E14657AE9002D8A37 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B63A974014657C83002D8A37 /* CoreServices.framework in Frameworks */,
+				B63A973B14657C6F002D8A37 /* AudioToolbox.framework in Frameworks */,
+				B63A973C14657C6F002D8A37 /* AudioUnit.framework in Frameworks */,
+				B63A971214657AE9002D8A37 /* Cocoa.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
 /* Begin PBXGroup section */
 		B63A969D14656852002D8A37 = {
 			isa = PBXGroup;
 			children = (
+				B63A974714657DFA002D8A37 /* Dependencies */,
+				B63A96AD14656C03002D8A37 /* Resources */,
+				B63A96A914656BD7002D8A37 /* Source */,
+				B63A96EF14657836002D8A37 /* Products */,
 			);
 			sourceTree = "<group>";
 		};
+		B63A96A914656BD7002D8A37 /* Source */ = {
+			isa = PBXGroup;
+			children = (
+				B63A96B3146571ED002D8A37 /* AUPublic */,
+				B63A96AA14656BD7002D8A37 /* SpectrumAU */,
+				B63A96AB14656BD7002D8A37 /* SpectrumCocoaView */,
+			);
+			path = Source;
+			sourceTree = "<group>";
+		};
+		B63A96AA14656BD7002D8A37 /* SpectrumAU */ = {
+			isa = PBXGroup;
+			children = (
+				B63A96DD14657318002D8A37 /* Spectrum.h */,
+				B63A96DE14657324002D8A37 /* Spectrum.cpp */,
+				B63A96DF14657343002D8A37 /* Spectrum.exp */,
+				B63A96E014657361002D8A37 /* SpectrumVersion.h */,
+				B63A96E11465738D002D8A37 /* Spectrum.r */,
+			);
+			path = SpectrumAU;
+			sourceTree = "<group>";
+		};
+		B63A96AB14656BD7002D8A37 /* SpectrumCocoaView */ = {
+			isa = PBXGroup;
+			children = (
+				B63A96E2146575AA002D8A37 /* SimpleSpectrum_ViewFactory.h */,
+				B63A96E3146575AA002D8A37 /* SimpleSpectrum_ViewFactory.m */,
+				B63A96E614657605002D8A37 /* SimpleSpectrum_UIView.h */,
+				B63A96E714657605002D8A37 /* SimpleSpectrum_UIView.m */,
+				B63A96E814657621002D8A37 /* SimpleSpectrum_GraphView.h */,
+				B63A96E914657621002D8A37 /* SimpleSpectrum_GraphView.m */,
+			);
+			path = SpectrumCocoaView;
+			sourceTree = "<group>";
+		};
+		B63A96AD14656C03002D8A37 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				B63A974A146582C3002D8A37 /* SpectrumAU */,
+				B63A96F714657837002D8A37 /* SpectrumCocoaView */,
+				B63A96B0146570EA002D8A37 /* SprectrumView.xib */,
+			);
+			path = Resources;
+			sourceTree = SOURCE_ROOT;
+		};
+		B63A96B3146571ED002D8A37 /* AUPublic */ = {
+			isa = PBXGroup;
+			children = (
+				B63A96D3146572AE002D8A37 /* Utility */,
+				B63A96C6146572A2002D8A37 /* OtherBases */,
+				B63A96B41465722B002D8A37 /* AUBase */,
+			);
+			name = AUPublic;
+			path = Extras/CoreAudio/AudioUnits/AUPublic;
+			sourceTree = DEVELOPER_DIR;
+		};
+		B63A96B41465722B002D8A37 /* AUBase */ = {
+			isa = PBXGroup;
+			children = (
+				B63A96B51465722B002D8A37 /* AUBase.cpp */,
+				B63A96B61465722B002D8A37 /* AUBase.h */,
+				B63A96B71465722B002D8A37 /* AUDispatch.cpp */,
+				B63A96B81465722B002D8A37 /* AUDispatch.h */,
+				B63A96B91465722B002D8A37 /* AUInputElement.cpp */,
+				B63A96BA1465722B002D8A37 /* AUInputElement.h */,
+				B63A96BB1465722B002D8A37 /* AUOutputElement.cpp */,
+				B63A96BC1465722B002D8A37 /* AUOutputElement.h */,
+				B63A96BD1465722B002D8A37 /* AUPlugInDispatch.cpp */,
+				B63A96BE1465722B002D8A37 /* AUPlugInDispatch.h */,
+				B63A96BF1465722B002D8A37 /* AUResources.r */,
+				B63A96C01465722B002D8A37 /* AUScopeElement.cpp */,
+				B63A96C11465722B002D8A37 /* AUScopeElement.h */,
+				B63A96C21465722B002D8A37 /* ComponentBase.cpp */,
+				B63A96C31465722B002D8A37 /* ComponentBase.h */,
+			);
+			name = AUBase;
+			path = Extras/CoreAudio/AudioUnits/AUPublic/AUBase;
+			sourceTree = DEVELOPER_DIR;
+		};
+		B63A96C6146572A2002D8A37 /* OtherBases */ = {
+			isa = PBXGroup;
+			children = (
+				B63A96C7146572A2002D8A37 /* AUEffectBase.cpp */,
+				B63A96C8146572A2002D8A37 /* AUEffectBase.h */,
+			);
+			name = OtherBases;
+			path = Extras/CoreAudio/AudioUnits/AUPublic/OtherBases;
+			sourceTree = DEVELOPER_DIR;
+		};
+		B63A96D3146572AE002D8A37 /* Utility */ = {
+			isa = PBXGroup;
+			children = (
+				B63A96D4146572AE002D8A37 /* AUBaseHelper.cpp */,
+				B63A96D5146572AE002D8A37 /* AUBaseHelper.h */,
+				B63A96D6146572AE002D8A37 /* AUBuffer.cpp */,
+				B63A96D7146572AE002D8A37 /* AUBuffer.h */,
+				B63A96D8146572AE002D8A37 /* AUInputFormatConverter.h */,
+				B63A96D9146572AE002D8A37 /* AUMIDIDefs.h */,
+				B63A96DA146572AE002D8A37 /* AUSilentTimeout.h */,
+				B63A96DB146572AE002D8A37 /* AUTimestampGenerator.cpp */,
+				B63A96DC146572AE002D8A37 /* AUTimestampGenerator.h */,
+			);
+			name = Utility;
+			path = Extras/CoreAudio/AudioUnits/AUPublic/Utility;
+			sourceTree = DEVELOPER_DIR;
+		};
+		B63A96EF14657836002D8A37 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				B63A96EE14657836002D8A37 /* SpectrumCocoaView.bundle */,
+				B63A971114657AE9002D8A37 /* SpectrumAU.component */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		B63A96F314657837002D8A37 /* Other Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				B63A96F414657837002D8A37 /* AppKit.framework */,
+				B63A96F514657837002D8A37 /* CoreData.framework */,
+				B63A96F614657837002D8A37 /* Foundation.framework */,
+			);
+			name = "Other Frameworks";
+			sourceTree = "<group>";
+		};
+		B63A96F714657837002D8A37 /* SpectrumCocoaView */ = {
+			isa = PBXGroup;
+			children = (
+				B63A975314658417002D8A37 /* SpectrumCocoaView-Prefix.pch */,
+				B63A974E14658399002D8A37 /* InfoPlist.strings */,
+				B63A96F914657837002D8A37 /* SpectrumCocoaView-Info.plist */,
+			);
+			path = SpectrumCocoaView;
+			sourceTree = "<group>";
+		};
+		B63A974714657DFA002D8A37 /* Dependencies */ = {
+			isa = PBXGroup;
+			children = (
+				B63A96F314657837002D8A37 /* Other Frameworks */,
+				B63A96F114657837002D8A37 /* Cocoa.framework */,
+				B63A973F14657C83002D8A37 /* CoreServices.framework */,
+				B63A9709146579B2002D8A37 /* AudioToolbox.framework */,
+				B63A970A146579B2002D8A37 /* AudioUnit.framework */,
+			);
+			name = Dependencies;
+			sourceTree = SOURCE_ROOT;
+		};
+		B63A974A146582C3002D8A37 /* SpectrumAU */ = {
+			isa = PBXGroup;
+			children = (
+				B63A975114658407002D8A37 /* SpectrumAU-Prefix.pch */,
+				B63A974B14658362002D8A37 /* InfoPlist.strings */,
+				B63A971514657AE9002D8A37 /* SpectrumAU-Info.plist */,
+			);
+			path = SpectrumAU;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		B63A970114657942002D8A37 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B63A970214657955002D8A37 /* SimpleSpectrum_ViewFactory.h in Headers */,
+				B63A970314657955002D8A37 /* SimpleSpectrum_UIView.h in Headers */,
+				B63A970414657955002D8A37 /* SimpleSpectrum_GraphView.h in Headers */,
+				B63A975414658417002D8A37 /* SpectrumCocoaView-Prefix.pch in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		B63A971F14657BC3002D8A37 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B63A9755146584D4002D8A37 /* Spectrum.h in Headers */,
+				B63A972914657C13002D8A37 /* AUBaseHelper.h in Headers */,
+				B63A972A14657C13002D8A37 /* AUBuffer.h in Headers */,
+				B63A972B14657C13002D8A37 /* AUInputFormatConverter.h in Headers */,
+				B63A972C14657C13002D8A37 /* AUMIDIDefs.h in Headers */,
+				B63A972D14657C13002D8A37 /* AUSilentTimeout.h in Headers */,
+				B63A972E14657C13002D8A37 /* AUTimestampGenerator.h in Headers */,
+				B63A972814657BFE002D8A37 /* AUEffectBase.h in Headers */,
+				B63A972114657BE8002D8A37 /* AUBase.h in Headers */,
+				B63A972214657BE8002D8A37 /* AUDispatch.h in Headers */,
+				B63A972314657BE8002D8A37 /* AUInputElement.h in Headers */,
+				B63A972414657BE8002D8A37 /* AUOutputElement.h in Headers */,
+				B63A972514657BE8002D8A37 /* AUPlugInDispatch.h in Headers */,
+				B63A972614657BE8002D8A37 /* AUScopeElement.h in Headers */,
+				B63A972714657BE8002D8A37 /* ComponentBase.h in Headers */,
+				B63A972014657BD5002D8A37 /* SpectrumVersion.h in Headers */,
+				B63A975214658407002D8A37 /* SpectrumAU-Prefix.pch in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
+/* Begin PBXNativeTarget section */
+		B63A96ED14657836002D8A37 /* SpectrumCocoaView */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = B63A96FE14657837002D8A37 /* Build configuration list for PBXNativeTarget "SpectrumCocoaView" */;
+			buildPhases = (
+				B63A970114657942002D8A37 /* Headers */,
+				B63A96EC14657836002D8A37 /* Resources */,
+				B63A96EA14657836002D8A37 /* Sources */,
+				B63A96EB14657836002D8A37 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = SpectrumCocoaView;
+			productName = SpectrumCocoaView;
+			productReference = B63A96EE14657836002D8A37 /* SpectrumCocoaView.bundle */;
+			productType = "com.apple.product-type.bundle";
+		};
+		B63A971014657AE9002D8A37 /* SpectrumAU */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = B63A971A14657AE9002D8A37 /* Build configuration list for PBXNativeTarget "SpectrumAU" */;
+			buildPhases = (
+				B63A971F14657BC3002D8A37 /* Headers */,
+				B63A970F14657AE9002D8A37 /* Resources */,
+				B63A970D14657AE9002D8A37 /* Sources */,
+				B63A970E14657AE9002D8A37 /* Frameworks */,
+				B63A974314657D27002D8A37 /* Rez */,
+				B63A974514657D4A002D8A37 /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				B63A971E14657BA7002D8A37 /* PBXTargetDependency */,
+			);
+			name = SpectrumAU;
+			productName = SpectrumAU;
+			productReference = B63A971114657AE9002D8A37 /* SpectrumAU.component */;
+			productType = "com.apple.product-type.bundle";
+		};
+/* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
 		B63A969F14656852002D8A37 /* Project object */ = {
@@ -29,23 +423,243 @@
 				en,
 			);
 			mainGroup = B63A969D14656852002D8A37;
+			productRefGroup = B63A96EF14657836002D8A37 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
+				B63A96ED14657836002D8A37 /* SpectrumCocoaView */,
+				B63A971014657AE9002D8A37 /* SpectrumAU */,
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		B63A96EC14657836002D8A37 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B63A970514657983002D8A37 /* SprectrumView.xib in Resources */,
+				B63A975014658399002D8A37 /* InfoPlist.strings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		B63A970F14657AE9002D8A37 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B63A974D14658362002D8A37 /* InfoPlist.strings in Resources */,
+				B63A975714658689002D8A37 /* SpectrumCocoaView.bundle in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXRezBuildPhase section */
+		B63A974314657D27002D8A37 /* Rez */ = {
+			isa = PBXRezBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B63A974414657D35002D8A37 /* Spectrum.r in Rez */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXRezBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		B63A96EA14657836002D8A37 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B63A97061465799B002D8A37 /* SimpleSpectrum_ViewFactory.m in Sources */,
+				B63A97071465799B002D8A37 /* SimpleSpectrum_UIView.m in Sources */,
+				B63A97081465799B002D8A37 /* SimpleSpectrum_GraphView.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		B63A970D14657AE9002D8A37 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B63A972F14657C55002D8A37 /* AUBaseHelper.cpp in Sources */,
+				B63A973014657C55002D8A37 /* AUBuffer.cpp in Sources */,
+				B63A973114657C55002D8A37 /* AUTimestampGenerator.cpp in Sources */,
+				B63A973214657C55002D8A37 /* AUEffectBase.cpp in Sources */,
+				B63A973314657C55002D8A37 /* AUBase.cpp in Sources */,
+				B63A973414657C55002D8A37 /* AUDispatch.cpp in Sources */,
+				B63A973514657C55002D8A37 /* AUInputElement.cpp in Sources */,
+				B63A973614657C55002D8A37 /* AUOutputElement.cpp in Sources */,
+				B63A973714657C55002D8A37 /* AUPlugInDispatch.cpp in Sources */,
+				B63A973814657C55002D8A37 /* AUScopeElement.cpp in Sources */,
+				B63A973914657C55002D8A37 /* ComponentBase.cpp in Sources */,
+				B63A973A14657C55002D8A37 /* Spectrum.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		B63A971E14657BA7002D8A37 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = B63A96ED14657836002D8A37 /* SpectrumCocoaView */;
+			targetProxy = B63A971D14657BA7002D8A37 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		B63A974B14658362002D8A37 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				B63A974C14658362002D8A37 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		B63A974E14658399002D8A37 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				B63A974F14658399002D8A37 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
 		B63A96A414656852002D8A37 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				INSTALL_PATH = "/Users/fred/Library/Audio/Plug-Ins/Components/";
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
 			};
 			name = Debug;
 		};
 		B63A96A514656852002D8A37 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				INSTALL_PATH = "/Users/fred/Library/Audio/Plug-Ins/Components/";
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
+			};
+			name = Release;
+		};
+		B63A96FF14657837002D8A37 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Resources/SpectrumCocoaView/SpectrumCocoaView-Prefix.pch";
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_FILE = "Resources/SpectrumCocoaView/SpectrumCocoaView-Info.plist";
+				INSTALL_PATH = "$(USER_LIBRARY_DIR)/Bundles";
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				WRAPPER_EXTENSION = bundle;
+			};
+			name = Debug;
+		};
+		B63A970014657837002D8A37 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Resources/SpectrumCocoaView/SpectrumCocoaView-Prefix.pch";
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_FILE = "Resources/SpectrumCocoaView/SpectrumCocoaView-Info.plist";
+				INSTALL_PATH = "$(USER_LIBRARY_DIR)/Bundles";
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				WRAPPER_EXTENSION = bundle;
+			};
+			name = Release;
+		};
+		B63A971B14657AE9002D8A37 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				COPY_PHASE_STRIP = NO;
+				EXPORTED_SYMBOLS_FILE = Filter.exp;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Resources/SpectrumAU/SpectrumAU-Prefix.pch";
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				GENERATE_PKGINFO_FILE = YES;
+				INFOPLIST_FILE = "Resources/SpectrumAU/SpectrumAU-Info.plist";
+				INSTALL_PATH = "$(USER_LIBRARY_DIR)/Audio/Plug-Ins/Components/";
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				ONLY_ACTIVE_ARCH = YES;
+				OTHER_LDFLAGS = "-bundle";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				WRAPPER_EXTENSION = component;
+			};
+			name = Debug;
+		};
+		B63A971C14657AE9002D8A37 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				EXPORTED_SYMBOLS_FILE = Filter.exp;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Resources/SpectrumAU/SpectrumAU-Prefix.pch";
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				GENERATE_PKGINFO_FILE = YES;
+				INFOPLIST_FILE = "Resources/SpectrumAU/SpectrumAU-Info.plist";
+				INSTALL_PATH = "$(USER_LIBRARY_DIR)/Audio/Plug-Ins/Components/";
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				OTHER_LDFLAGS = "-bundle";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				WRAPPER_EXTENSION = component;
 			};
 			name = Release;
 		};
@@ -59,7 +673,23 @@
 				B63A96A514656852002D8A37 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
+			defaultConfigurationName = Debug;
+		};
+		B63A96FE14657837002D8A37 /* Build configuration list for PBXNativeTarget "SpectrumCocoaView" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				B63A96FF14657837002D8A37 /* Debug */,
+				B63A970014657837002D8A37 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		B63A971A14657AE9002D8A37 /* Build configuration list for PBXNativeTarget "SpectrumAU" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				B63A971B14657AE9002D8A37 /* Debug */,
+				B63A971C14657AE9002D8A37 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
 		};
 /* End XCConfigurationList section */
 	};
