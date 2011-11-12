@@ -4,4 +4,16 @@
 
 #ifdef __OBJC__
     #import <Cocoa/Cocoa.h>
+    #import <AppKit/AppKit.h>
+    #import <Foundation/Foundation.h>
+    #import <AudioUnit/AUCocoaUIView.h>
 #endif
+
+#import <AudioUnit/AudioUnit.h>
+#import <AudioToolbox/AudioToolbox.h>
+#import <OpenGL/gl.h>
+#import <OpenGL/glu.h>
+#import <OpenGL/glext.h>
+#import <OpenGL/gltypes.h>
+
+#define max(a,b) a>b?a:b
