@@ -132,7 +132,6 @@
 		B627C751146AE67700DFE624 /* CAVectorUnit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CAVectorUnit.h; sourceTree = "<group>"; };
 		B627C752146AE67700DFE624 /* CAVectorUnitTypes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CAVectorUnitTypes.h; sourceTree = "<group>"; };
 		B627C756146AEB2F00DFE624 /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = System/Library/Frameworks/OpenGL.framework; sourceTree = SDKROOT; };
-		B627C758146AEFB500DFE624 /* GLUT.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLUT.framework; path = System/Library/Frameworks/GLUT.framework; sourceTree = SDKROOT; };
 		B63A96B51465722B002D8A37 /* AUBase.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = AUBase.cpp; sourceTree = "<group>"; };
 		B63A96B61465722B002D8A37 /* AUBase.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AUBase.h; sourceTree = "<group>"; };
 		B63A96B71465722B002D8A37 /* AUDispatch.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = AUDispatch.cpp; sourceTree = "<group>"; };
@@ -185,9 +184,7 @@
 		B6E506B21468239F00315DD1 /* vecLib.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = vecLib.framework; path = System/Library/Frameworks/vecLib.framework; sourceTree = SDKROOT; };
 		B6E74279146D8A2200193D74 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		B6E7427C146D8A2200193D74 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
-		B6E7427D146D8A2200193D74 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		B6E7427E146D8A2200193D74 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
-		B6E742BD146D8BDE00193D74 /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
 		B6E742C3146D8E5400193D74 /* TestPluginUI.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TestPluginUI.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B6E742C8146D8E5500193D74 /* SpectrumTestUI-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "SpectrumTestUI-Info.plist"; sourceTree = "<group>"; };
 		B6E7515E146759DA00287728 /* SimpleSpectrumSharedData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SimpleSpectrumSharedData.h; sourceTree = "<group>"; };
@@ -377,12 +374,9 @@
 		B63A974714657DFA002D8A37 /* Dependencies */ = {
 			isa = PBXGroup;
 			children = (
-				B6E7427D146D8A2200193D74 /* CoreData.framework */,
 				B6E7427C146D8A2200193D74 /* AppKit.framework */,
 				B6E7427E146D8A2200193D74 /* Foundation.framework */,
 				B6E74279146D8A2200193D74 /* Cocoa.framework */,
-				B6E742BD146D8BDE00193D74 /* SenTestingKit.framework */,
-				B627C758146AEFB500DFE624 /* GLUT.framework */,
 				B627C756146AEB2F00DFE624 /* OpenGL.framework */,
 				B6E506B21468239F00315DD1 /* vecLib.framework */,
 				B63A96F114657837002D8A37 /* Cocoa.framework */,
@@ -765,6 +759,7 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				INFOPLIST_FILE = "Resources/SpectrumCocoaView/SpectrumCocoaView-Info.plist";
+				INSTALL_PATH = "";
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = (
@@ -802,6 +797,7 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				INFOPLIST_FILE = "Resources/SpectrumCocoaView/SpectrumCocoaView-Info.plist";
+				INSTALL_PATH = "";
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				OTHER_LDFLAGS = (
 					"-framework",
