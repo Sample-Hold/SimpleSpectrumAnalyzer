@@ -10,12 +10,13 @@
 
 @implementation SimpleSpectrum_UIView
 
+@synthesize AU = mAU;
+
 #pragma mark ____ (INIT /) DEALLOC ____
 -(id)initWithFrame:(NSRect)frameRect
 {
-    if (self = [super initWithFrame:frameRect]) {
+    if (self = [super initWithFrame:frameRect])
         [self performSelector:@selector(registerEventListener:) withObject:self];
-    }
     
     return self;
 }
@@ -28,17 +29,12 @@
 }
 
 #pragma mark ____ PUBLIC METHODS ____
--(void)setAU:(AudioUnit)inAU withSize:(NSSize)preferredSize 
-{ 
-	mAU = inAU;
-    mPreferredSize = preferredSize;
-}
-
 void dispatchAudioUnitEventProc(void * inUserData, 
                                 void * inObject,
                                 AudioUnitEvent const * inEvent,
                                 UInt64 inEventHostTime,
-                                AudioUnitParameterValue inParameterValue) {
+                                AudioUnitParameterValue inParameterValue) 
+{
     SimpleSpectrum_UIView * refView = (SimpleSpectrum_UIView *) inUserData;
     
     [refView dispatchAudioUnitEvent:*inEvent hostTime:inEventHostTime value:inParameterValue];

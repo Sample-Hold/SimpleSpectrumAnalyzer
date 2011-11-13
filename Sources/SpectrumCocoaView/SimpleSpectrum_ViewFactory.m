@@ -28,11 +28,13 @@
         return nil;
     }
     
-    [uiFreshlyLoadedView setAU:inAudioUnit withSize:inPreferredSize];
-    [uiFreshlyLoadedView setAutoresizesSubviews:YES];
-    [uiFreshlyLoadedView setAutoresizingMask:NSViewWidthSizable | NSViewHeightSizable];
-
-    return [uiFreshlyLoadedView autorelease];
+    [uiFreshlyLoadedView setAU:inAudioUnit];
+    
+    NSView *returnView = uiFreshlyLoadedView;
+    uiFreshlyLoadedView = nil;	// zero out pointer.  This is a view factory.  Once a view's been created
+    // and handed off, the factory keeps no record of it.
+    
+    return [returnView autorelease];
 }
 
 @end

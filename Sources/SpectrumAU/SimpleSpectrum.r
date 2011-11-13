@@ -6,7 +6,7 @@
 #define kAudioUnitResID_Filter				1000
 
 #define RES_ID			kAudioUnitResID_Filter
-#define COMP_TYPE		'aufx'
+#define COMP_TYPE		'auol'
 #define COMP_SUBTYPE	'SPCT'
 #define COMP_MANUF		'FRED'
 #define VERSION			kSpectrumAnalyzerVersion

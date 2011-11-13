@@ -13,11 +13,10 @@
     IBOutlet SimpleSpectrum_GraphView * graphView;
 
     AudioUnit mAU;
-    NSSize mPreferredSize;
     AUEventListenerRef mAUEventListener;    
 }
 
--(void)setAU:(AudioUnit)inAU withSize:(NSSize)preferredSize;
+@property AudioUnit AU;
 
 void dispatchAudioUnitEventProc(void * inUserData, 
                                 void * inObject,

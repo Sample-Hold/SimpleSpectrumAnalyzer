@@ -10,6 +10,8 @@
 
 @implementation SimpleSpectrum_TestUIAppDelegate
 
+@synthesize window = mWindow;
+
 - (void)dealloc
 {
     [super dealloc];

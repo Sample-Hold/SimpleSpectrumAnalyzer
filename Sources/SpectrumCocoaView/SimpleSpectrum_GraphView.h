@@ -8,18 +8,16 @@
 
 #import "SimpleSpectrumSharedData.h"
 
-#define BITS_PER_PIXEL          32.0
-#define DEPTH_SIZE              32.0
-#define DEFAULT_TIME_INTERVAL   0.001
+#define DEFAULT_HSCALE          512
+#define DEFAULT_VSCALE          256
 
 @interface SimpleSpectrum_GraphView : NSOpenGLView
 {
-    float * testCoordinates;
-    unsigned testSize;
-    
-    NSTimer  *time;
+    Float32 * mSpectrum;
+    Point mScale;
 }
 
-void fillWithTestCoordinates(float * output, unsigned outputSize);
+-(void)resetScale:(Point)scale;
+-(void)fillSpectrumWithTestCoordinates;
 
 @end
