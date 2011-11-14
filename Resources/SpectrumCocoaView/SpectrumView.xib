@@ -94,6 +94,7 @@
 									<int key="NSState">1</int>
 									<reference key="NSOnImage" ref="494166855"/>
 									<reference key="NSMixedImage" ref="628329627"/>
+									<int key="NSTag">1</int>
 								</object>
 								<object class="NSMenuItem" id="961340302">
 									<reference key="NSMenu" ref="315462524"/>
@@ -102,6 +103,7 @@
 									<int key="NSMnemonicLoc">2147483647</int>
 									<reference key="NSOnImage" ref="494166855"/>
 									<reference key="NSMixedImage" ref="628329627"/>
+									<int key="NSTag">2</int>
 								</object>
 								<object class="NSMenuItem" id="39508599">
 									<reference key="NSMenu" ref="315462524"/>
@@ -110,6 +112,7 @@
 									<int key="NSMnemonicLoc">2147483647</int>
 									<reference key="NSOnImage" ref="494166855"/>
 									<reference key="NSMixedImage" ref="628329627"/>
+									<int key="NSTag">3</int>
 								</object>
 								<object class="NSMenuItem" id="864368001">
 									<reference key="NSMenu" ref="315462524"/>
@@ -118,6 +121,7 @@
 									<int key="NSMnemonicLoc">2147483647</int>
 									<reference key="NSOnImage" ref="494166855"/>
 									<reference key="NSMixedImage" ref="628329627"/>
+									<int key="NSTag">4</int>
 								</object>
 								<object class="NSMenuItem" id="526339059">
 									<reference key="NSMenu" ref="315462524"/>
@@ -126,6 +130,7 @@
 									<int key="NSMnemonicLoc">2147483647</int>
 									<reference key="NSOnImage" ref="494166855"/>
 									<reference key="NSMixedImage" ref="628329627"/>
+									<int key="NSTag">5</int>
 								</object>
 							</object>
 						</object>
@@ -149,6 +154,7 @@
 									<int key="NSMnemonicLoc">2147483647</int>
 									<reference key="NSOnImage" ref="494166855"/>
 									<reference key="NSMixedImage" ref="628329627"/>
+									<int key="NSTag">1</int>
 								</object>
 								<object class="NSMenuItem" id="1001225914">
 									<reference key="NSMenu" ref="404542168"/>
@@ -157,6 +163,7 @@
 									<int key="NSMnemonicLoc">2147483647</int>
 									<reference key="NSOnImage" ref="494166855"/>
 									<reference key="NSMixedImage" ref="628329627"/>
+									<int key="NSTag">2</int>
 								</object>
 								<object class="NSMenuItem" id="355654260">
 									<reference key="NSMenu" ref="404542168"/>
@@ -166,6 +173,7 @@
 									<int key="NSState">1</int>
 									<reference key="NSOnImage" ref="494166855"/>
 									<reference key="NSMixedImage" ref="628329627"/>
+									<int key="NSTag">3</int>
 								</object>
 							</object>
 						</object>
@@ -189,6 +197,7 @@
 									<int key="NSMnemonicLoc">2147483647</int>
 									<reference key="NSOnImage" ref="494166855"/>
 									<reference key="NSMixedImage" ref="628329627"/>
+									<int key="NSTag">1</int>
 								</object>
 								<object class="NSMenuItem" id="500010798">
 									<reference key="NSMenu" ref="998755208"/>
@@ -198,6 +207,7 @@
 									<int key="NSState">1</int>
 									<reference key="NSOnImage" ref="494166855"/>
 									<reference key="NSMixedImage" ref="628329627"/>
+									<int key="NSTag">2</int>
 								</object>
 								<object class="NSMenuItem" id="100070671">
 									<reference key="NSMenu" ref="998755208"/>
@@ -206,6 +216,7 @@
 									<int key="NSMnemonicLoc">2147483647</int>
 									<reference key="NSOnImage" ref="494166855"/>
 									<reference key="NSMixedImage" ref="628329627"/>
+									<int key="NSTag">3</int>
 								</object>
 							</object>
 						</object>
@@ -239,6 +250,118 @@
 						<reference key="destination" ref="943844645"/>
 					</object>
 					<int key="connectionID">86</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">blockSizeChanged:</string>
+						<reference key="source" ref="1005"/>
+						<reference key="destination" ref="989720331"/>
+					</object>
+					<int key="connectionID">87</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">blockSizeChanged:</string>
+						<reference key="source" ref="1005"/>
+						<reference key="destination" ref="961340302"/>
+					</object>
+					<int key="connectionID">88</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">blockSizeChanged:</string>
+						<reference key="source" ref="1005"/>
+						<reference key="destination" ref="39508599"/>
+					</object>
+					<int key="connectionID">89</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">blockSizeChanged:</string>
+						<reference key="source" ref="1005"/>
+						<reference key="destination" ref="864368001"/>
+					</object>
+					<int key="connectionID">90</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">blockSizeChanged:</string>
+						<reference key="source" ref="1005"/>
+						<reference key="destination" ref="526339059"/>
+					</object>
+					<int key="connectionID">91</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">channelSelectChanged:</string>
+						<reference key="source" ref="1005"/>
+						<reference key="destination" ref="960040521"/>
+					</object>
+					<int key="connectionID">92</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">channelSelectChanged:</string>
+						<reference key="source" ref="1005"/>
+						<reference key="destination" ref="1001225914"/>
+					</object>
+					<int key="connectionID">93</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">channelSelectChanged:</string>
+						<reference key="source" ref="1005"/>
+						<reference key="destination" ref="355654260"/>
+					</object>
+					<int key="connectionID">94</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">windowChanged:</string>
+						<reference key="source" ref="1005"/>
+						<reference key="destination" ref="687411794"/>
+					</object>
+					<int key="connectionID">95</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">windowChanged:</string>
+						<reference key="source" ref="1005"/>
+						<reference key="destination" ref="500010798"/>
+					</object>
+					<int key="connectionID">96</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">windowChanged:</string>
+						<reference key="source" ref="1005"/>
+						<reference key="destination" ref="100070671"/>
+					</object>
+					<int key="connectionID">97</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">windowMenu</string>
+						<reference key="source" ref="1005"/>
+						<reference key="destination" ref="998755208"/>
+					</object>
+					<int key="connectionID">98</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">channelSelectMenu</string>
+						<reference key="source" ref="1005"/>
+						<reference key="destination" ref="404542168"/>
+					</object>
+					<int key="connectionID">99</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">blockSizeMenu</string>
+						<reference key="source" ref="1005"/>
+						<reference key="destination" ref="315462524"/>
+					</object>
+					<int key="connectionID">100</int>
 				</object>
 			</object>
 			<object class="IBMutableOrderedSet" key="objectRecords">
@@ -485,7 +608,7 @@
 				<reference key="dict.values" ref="0"/>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">86</int>
+			<int key="maxID">100</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<object class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -501,15 +624,89 @@
 				<object class="IBPartialClassDescription">
 					<string key="className">SimpleSpectrum_UIView</string>
 					<string key="superclassName">NSView</string>
+					<object class="NSMutableDictionary" key="actions">
+						<bool key="EncodedWithXMLCoder">YES</bool>
+						<object class="NSArray" key="dict.sortedKeys">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>blockSizeChanged:</string>
+							<string>channelSelectChanged:</string>
+							<string>windowChanged:</string>
+						</object>
+						<object class="NSMutableArray" key="dict.values">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>id</string>
+							<string>id</string>
+							<string>id</string>
+						</object>
+					</object>
+					<object class="NSMutableDictionary" key="actionInfosByName">
+						<bool key="EncodedWithXMLCoder">YES</bool>
+						<object class="NSArray" key="dict.sortedKeys">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>blockSizeChanged:</string>
+							<string>channelSelectChanged:</string>
+							<string>windowChanged:</string>
+						</object>
+						<object class="NSMutableArray" key="dict.values">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<object class="IBActionInfo">
+								<string key="name">blockSizeChanged:</string>
+								<string key="candidateClassName">id</string>
+							</object>
+							<object class="IBActionInfo">
+								<string key="name">channelSelectChanged:</string>
+								<string key="candidateClassName">id</string>
+							</object>
+							<object class="IBActionInfo">
+								<string key="name">windowChanged:</string>
+								<string key="candidateClassName">id</string>
+							</object>
+						</object>
+					</object>
 					<object class="NSMutableDictionary" key="outlets">
-						<string key="NS.key.0">graphView</string>
-						<string key="NS.object.0">SimpleSpectrum_GraphView</string>
+						<bool key="EncodedWithXMLCoder">YES</bool>
+						<object class="NSArray" key="dict.sortedKeys">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>blockSizeMenu</string>
+							<string>channelSelectMenu</string>
+							<string>graphView</string>
+							<string>windowMenu</string>
+						</object>
+						<object class="NSMutableArray" key="dict.values">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>NSMenu</string>
+							<string>NSMenu</string>
+							<string>SimpleSpectrum_GraphView</string>
+							<string>NSMenu</string>
+						</object>
 					</object>
 					<object class="NSMutableDictionary" key="toOneOutletInfosByName">
-						<string key="NS.key.0">graphView</string>
-						<object class="IBToOneOutletInfo" key="NS.object.0">
-							<string key="name">graphView</string>
-							<string key="candidateClassName">SimpleSpectrum_GraphView</string>
+						<bool key="EncodedWithXMLCoder">YES</bool>
+						<object class="NSArray" key="dict.sortedKeys">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>blockSizeMenu</string>
+							<string>channelSelectMenu</string>
+							<string>graphView</string>
+							<string>windowMenu</string>
+						</object>
+						<object class="NSMutableArray" key="dict.values">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<object class="IBToOneOutletInfo">
+								<string key="name">blockSizeMenu</string>
+								<string key="candidateClassName">NSMenu</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">channelSelectMenu</string>
+								<string key="candidateClassName">NSMenu</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">graphView</string>
+								<string key="candidateClassName">SimpleSpectrum_GraphView</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">windowMenu</string>
+								<string key="candidateClassName">NSMenu</string>
+							</object>
 						</object>
 					</object>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">

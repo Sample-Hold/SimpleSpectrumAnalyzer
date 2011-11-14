@@ -71,14 +71,6 @@ public:
 
 AUDIOCOMPONENT_ENTRY(AUBaseFactory, SimpleSpectrum)
 
-#pragma mark -
-enum
-{
-	kSpectrumParam_BlockSize = 0,
-	kSpectrumParam_SelectChannel = 1,
-    kSpectrumParam_Window = 2
-};
-
 static CFStringRef kBlockSize_Name = CFSTR("Block");
 static CFStringRef kSelectChannel_Name = CFSTR("Channel");
 static CFStringRef kWindow_Name = CFSTR("Window");

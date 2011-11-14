@@ -53,7 +53,8 @@ OSStatus SimpleSpectrum::Initialize()
 	OSStatus result = AUEffectBase::Initialize();
 	
 	if(result == noErr ) {
-		// in case the AU was un-initialized and parameters were changed
+		// update UI given audio channel layout
+        PropertyChanged(kAudioUnitProperty_AudioChannelLayout, kAudioUnitScope_Global, 0);
 	}
 	
 	return result;

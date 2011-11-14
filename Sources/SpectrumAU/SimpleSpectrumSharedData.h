@@ -9,7 +9,12 @@
 #ifndef SimpleSprectrumAnalyzer_SpectrumSharedData_h
 #define SimpleSprectrumAnalyzer_SpectrumSharedData_h
 
-typedef SInt64 SampleTime;
+enum
+{
+	kSpectrumParam_BlockSize = 0,
+	kSpectrumParam_SelectChannel = 1,
+    kSpectrumParam_Window = 2
+};
 
 struct SpectrumOverview
 {

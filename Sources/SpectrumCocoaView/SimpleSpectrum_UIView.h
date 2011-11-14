@@ -11,12 +11,21 @@
 @interface SimpleSpectrum_UIView : NSView
 {
     IBOutlet SimpleSpectrum_GraphView * graphView;
-
+    IBOutlet NSMenu * blockSizeMenu;
+    IBOutlet NSMenu * channelSelectMenu;
+    IBOutlet NSMenu * windowMenu;
+    
     AudioUnit mAU;
     AUEventListenerRef mAUEventListener;    
 }
 
-@property AudioUnit AU;
+-(IBAction) blockSizeChanged:(id)sender;
+-(IBAction) channelSelectChanged:(id)sender;
+-(IBAction) windowChanged:(id)sender;
+
+-(void)setAU:(AudioUnit)inAU;
+
+-(void)synchronizeUIWithParameterValues;
 
 void dispatchAudioUnitEventProc(void * inUserData, 
                                 void * inObject,
@@ -24,10 +33,14 @@ void dispatchAudioUnitEventProc(void * inUserData,
                                 UInt64 inEventHostTime,
                                 AudioUnitParameterValue inParameterValue);
 
--(void)dispatchAudioUnitEvent:(AudioUnitEvent) inAUEvent
+-(void)dispatchAudioUnitEvent:(AudioUnitEvent const *)inAUEvent 
                             hostTime:(UInt64) inHostTime
                             value:(Float32) inValue;
 
+-(void)activateMenuItem:(NSMenuItem const *)item;
+
+-(void)activateMenuItemByTag:(NSInteger)tag
+                      onMenu:(NSMenu const *)menu;
 
 @end
 

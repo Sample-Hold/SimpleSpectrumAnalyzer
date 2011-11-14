@@ -21,7 +21,7 @@
 -(void)dealloc
 {
     free(mSpectrum);
-    [super dealloc];
+    [[self openGLContext] release];
 }
 
 #pragma mark ____ PUBLIC METHODS ____
@@ -70,7 +70,7 @@
     glTranslatef(0.375, 0.375, 0);
     
     glBegin(GL_LINE_STRIP);
-    glColor3ub(255, 255, 0);
+    glColor3ub(20, 250, 0);
     for(unsigned i = 0; i< mScale.h; ++i)
         glVertex2i(i, mSpectrum[i] * mScale.v);
     
