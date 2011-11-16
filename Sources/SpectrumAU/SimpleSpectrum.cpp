@@ -8,6 +8,8 @@
 
 #include "SimpleSpectrum.h"
 
+#define kMaxBlockSize 16384
+
 #pragma mark ____SimpleSpectrumKernel
 SimpleSpectrumKernel::SimpleSpectrumKernel(AUEffectBase *inAudioUnit ) : AUKernelBase(inAudioUnit) 
 {
@@ -27,14 +29,15 @@ void SimpleSpectrumKernel::Reset()
 void SimpleSpectrumKernel::Process(const Float32 	*inSourceP,
                              Float32 		*inDestP,
                              UInt32 	    inFramesToProcess,
-                             UInt32			inNumChannels, // for version 2 AudioUnits inNumChannels is always 1
+                             UInt32			inNumChannels,
                              bool &			ioSilence) 
 {
-	// pass-thru since we don't process any audio data
+	// input buses passthrough are done in SimpleSpectrum::Render
+	//memcpy((void*)inSourceP, (void*)inDestP, inFramesToProcess*sizeof(Float32));
 }
 
 #pragma mark ____SimpleSpectrum
-SimpleSpectrum::SimpleSpectrum(AudioUnit component) : AUEffectBase(component) 
+SimpleSpectrum::SimpleSpectrum(AudioUnit component) : AUEffectBase(component)
 {
 	// all the parameters must be set to their initial values here
 	//
@@ -44,7 +47,7 @@ SimpleSpectrum::SimpleSpectrum(AudioUnit component) : AUEffectBase(component)
     SetParameter(kSpectrumParam_BlockSize, kBlockSize_Default);
     SetParameter(kSpectrumParam_SelectChannel, kSelectChannel_Default);
     SetParameter(kSpectrumParam_Window, kWindow_Hann);
-
+    
 	SetParamHasSampleRateDependency(false);
 }
 
@@ -53,17 +56,86 @@ OSStatus SimpleSpectrum::Initialize()
 	OSStatus result = AUEffectBase::Initialize();
 	
 	if(result == noErr ) {
-		// update UI given audio channel layout
-        PropertyChanged(kAudioUnitProperty_AudioChannelLayout, kAudioUnitScope_Global, 0);
+        mProcessor.Allocate(GetNumberOfChannels(), kMaxBlockSize);
+        
+		// update UI by sending audio channel layout
+        //PropertyChanged(kAudioUnitProperty_AudioChannelLayout, kAudioUnitScope_Global, 0);
 	}
 	
 	return result;
 }
 
+SimpleSpectrum::~SimpleSpectrum()
+{
+	Cleanup();
+}
+
+void SimpleSpectrum::Cleanup() 
+{
+    
+}
+
 OSStatus SimpleSpectrum::Render(AudioUnitRenderActionFlags & ioActionFlags,
                           AudioTimeStamp const&	inTimeStamp,
                         UInt32 inFramesToProcess ) 
-{
+{	
+    UInt32 actionFlags = 0;
+	OSStatus err = PullInput(0, actionFlags, inTimeStamp, inFramesToProcess);
+	if (err) return err;
+	
+	AUInputElement* inputBus = GetInput(0);
+	AUOutputElement* outputBus = GetOutput(0);
+    
+	outputBus->PrepareBuffer(inFramesToProcess); // prepare the output buffer list	
+	AudioBufferList& inputBufList = inputBus->GetBufferList();
+    
+    mProcessor.CopyInputToRingBuffer(inFramesToProcess, &inputBufList);
+   
+    UInt32 currentBlockSize;
+    switch ((UInt32) GetParameter(kSpectrumParam_BlockSize)) {
+        case kBlockSize_Option5:
+            currentBlockSize = 16384;
+            break;
+        case kBlockSize_Option4:
+            currentBlockSize = 8192;
+            break;
+        case kBlockSize_Option3:
+            currentBlockSize = 4096;
+            break;
+        case kBlockSize_Option2:
+            currentBlockSize = 2048;
+            break;
+        case kBlockSize_Option1:
+        default:
+            currentBlockSize = 1024;
+            break;
+    }
+    
+    SimpleSpectrumProcessor::Window currentWindow;
+    switch ((UInt32) GetParameter(kSpectrumParam_Window)) {
+        case kWindow_Rectangular:
+            currentWindow = SimpleSpectrumProcessor::Window::Rectangular;
+            break;
+        case kWindow_Hamming:
+            currentWindow = SimpleSpectrumProcessor::Window::Hamming;
+            break;
+        case kWindow_Blackman:
+            currentWindow = SimpleSpectrumProcessor::Window::Blackman;
+            break;
+        case kWindow_Hann:
+        default:
+            currentWindow = SimpleSpectrumProcessor::Window::Hann;
+            break;
+    }
+    
+    if(mProcessor.TryFFT(currentBlockSize, currentWindow)) {
+        UInt32 mBins = currentBlockSize>>1;
+        Float32 leftChannelMagnitudes[mBins], min, max;
+        for(UInt32 i = 0; i < mBins; ++i)
+            leftChannelMagnitudes[i] = 0.;
+                    
+    }
+
 	return AUEffectBase::Render(ioActionFlags, inTimeStamp, inFramesToProcess);
 }
 
@@ -173,7 +245,8 @@ OSStatus SimpleSpectrum::GetParameterValueStrings(AudioUnitScope inScope,
                 CFStringRef options [] = {
                     kWindow_Rectangular_Name,
                     kWindow_Hann_Name,
-                    kWindow_KeyserBessel_Name
+                    kWindow_Hamming_Name,
+                    kWindow_Blackman_Name
                 };
                 
                 *outStrings = CFArrayCreate (NULL,
@@ -223,7 +296,7 @@ OSStatus SimpleSpectrum::GetParameterInfo(AudioUnitScope inScope,
 				AUBase::FillInParameterName (outParameterInfo, kWindow_Name, false);
 				outParameterInfo.unit = kAudioUnitParameterUnit_Indexed;
 				outParameterInfo.minValue = kWindow_Rectangular;
-				outParameterInfo.maxValue = kWindow_KayserBessel;
+				outParameterInfo.maxValue = kWindow_Blackman;
 				outParameterInfo.defaultValue = kWindow_Default;
 				break;
 				

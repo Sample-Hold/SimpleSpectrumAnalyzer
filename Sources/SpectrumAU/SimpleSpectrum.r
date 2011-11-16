@@ -10,8 +10,8 @@
 #define COMP_SUBTYPE	'SPCT'
 #define COMP_MANUF		'FRED'
 #define VERSION			kSpectrumAnalyzerVersion
-#define NAME			"Fred G: SimpleSpectrumAnalyzer (carbon)"
-#define DESCRIPTION		"Simple Spectrum Analyzer (carbon)"
+#define NAME			"Fred G: SimpleSpectrumAnalyzer"
+#define DESCRIPTION		"Simple Spectrum Analyzer"
 #define ENTRY_POINT		"SimpleSpectrumEntry"
 
 #include "AUResources.r"

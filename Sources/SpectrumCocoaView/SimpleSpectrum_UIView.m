@@ -14,7 +14,8 @@
 -(void)dealloc 
 {
     [self performSelector:@selector(unregisterEventListener:) withObject:self];
-    
+
+    graphView = nil;
     [super dealloc];
 }
 

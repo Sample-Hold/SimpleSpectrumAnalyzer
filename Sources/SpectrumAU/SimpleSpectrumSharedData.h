@@ -16,10 +16,30 @@ enum
     kSpectrumParam_Window = 2
 };
 
-struct SpectrumOverview
+typedef UInt64 SampleTime;
+
+struct SpectrumGraphData
 {
+    AudioTimeStamp	mFetchStamp;	// the view writes
+	
+	UInt32			mNumBins;		// the au writes
+	
+	Float32			mMaxAmp;		// the au writes
+	Float32			mMinAmp;		// the au writes
     
+    Float32			mData[1];	// the au writes  
 };
-typedef struct SpectrumOverview SpectrumOverview;
+typedef struct SpectrumGraphData SpectrumGraphData;
+
+
+
+struct FrequencyResponse
+{
+	Float64		mFrequency;
+	Float64		mMagnitude;
+};
+typedef struct FrequencyResponse FrequencyResponse;
+
+
 
 #endif
