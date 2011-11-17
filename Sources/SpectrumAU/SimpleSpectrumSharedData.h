@@ -34,15 +34,4 @@ struct SpectrumGraphData
 };
 typedef struct SpectrumGraphData SpectrumGraphData;
 
-
-// TODO remove once UI is done
-struct FrequencyResponse
-{
-	Float64		mFrequency;
-	Float64		mMagnitude;
-};
-typedef struct FrequencyResponse FrequencyResponse;
-
-
-
 #endif

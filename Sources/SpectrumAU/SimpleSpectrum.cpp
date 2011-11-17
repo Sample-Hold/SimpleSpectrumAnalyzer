@@ -72,7 +72,8 @@ SimpleSpectrum::~SimpleSpectrum()
 
 void SimpleSpectrum::Cleanup() 
 {
-    
+    if(mGraphData.mNumBins > 0)
+        free(mGraphData.mMagnitudes);
 }
 
 OSStatus SimpleSpectrum::Render(AudioUnitRenderActionFlags & ioActionFlags,

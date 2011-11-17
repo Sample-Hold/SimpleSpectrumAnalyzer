@@ -2,7 +2,7 @@
 //  SimpleSpectrumProcessor.h
 //  SimpleSprectrumAnalyzer
 //
-//  Created by Fred G on 14/11/11.
+//  Created by Fred G on 07/11/11.
 //  Copyright (c) 2011 __MyCompanyName__. All rights reserved.
 //
 
