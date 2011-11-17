@@ -9,6 +9,7 @@
 #ifndef SimpleSprectrumAnalyzer_SpectrumSharedData_h
 #define SimpleSprectrumAnalyzer_SpectrumSharedData_h
 
+#pragma mark ___SimpleSpectrum Parameters
 enum
 {
 	kSpectrumParam_BlockSize = 0,
@@ -16,23 +17,25 @@ enum
     kSpectrumParam_Window = 2
 };
 
-typedef UInt64 SampleTime;
+#pragma mark ___SimpleSpectrum Properties
+enum
+{
+	kAudioUnitProperty_SpectrumGraphData = 65536
+};
 
 struct SpectrumGraphData
-{
-    AudioTimeStamp	mFetchStamp;	// the view writes
-	
-	UInt32			mNumBins;		// the au writes
-	
-	Float32			mMaxAmp;		// the au writes
-	Float32			mMinAmp;		// the au writes
+{		
+    Float64     mSamplingRate;
+    Float32		mMax;
+    Float32		mMin;
     
-    Float32			mData[1];	// the au writes  
+    SInt32		mNumBins;
+    Float32*     mMagnitudes;
 };
 typedef struct SpectrumGraphData SpectrumGraphData;
 
 
-
+// TODO remove once UI is done
 struct FrequencyResponse
 {
 	Float64		mFrequency;

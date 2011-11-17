@@ -16,7 +16,29 @@
     [self performSelector:@selector(unregisterEventListener:) withObject:self];
 
     graphView = nil;
+    
+    if (mGraphData) {
+        if(mGraphData->mNumBins > 0)
+            free(mGraphData->mMagnitudes);
+        
+        free(mGraphData);
+		mGraphData = NULL;
+	}
+    
     [super dealloc];
+}
+
+-(void)setTimer: (NSTimer *) value {
+	if ( mFetchTimer != value ) {
+		[mFetchTimer release];
+		mFetchTimer = [value retain];
+	}
+}
+
+-(void)removeFromSuperview
+{
+    [mFetchTimer invalidate];
+    [super removeFromSuperview];
 }
 
 #pragma mark ____ INTERFACE ACTIONS ____
@@ -70,32 +92,63 @@
 	
 	mAU = inAU;
     
+    // init buffers
+    [self performSelector:@selector(initBuffers:) withObject:self];
+    
 	// add new listeners
 	[self performSelector:@selector(registerEventListener:) withObject:self];
     
     [self synchronizeUIWithParameterValues];
+    
+    [self setTimer: [NSTimer scheduledTimerWithTimeInterval: (1.0/60.0)
+                                                     target: self
+                                                   selector: @selector(drawSpectrumGraph:)
+                                                   userInfo: nil
+                                                    repeats: YES]];
 }
 
 - (void)synchronizeUIWithParameterValues {
     Float32 inValue;
     
-	AudioUnitParameter parameter = {mAU, kSpectrumParam_BlockSize, kAudioUnitScope_Global, 0};
+	//AudioUnitParameter parameter = {mAU, kSpectrumParam_BlockSize, kAudioUnitScope_Global, 0};
 	NSAssert (	AudioUnitGetParameter(mAU, kSpectrumParam_BlockSize, kAudioUnitScope_Global, 0, &inValue) == noErr,
               @"[SimpleSpectrum_UIView synchronizeUIWithParameterValues]");
     
     [self activateMenuItemByTag:(NSInteger)inValue onMenu:blockSizeMenu];
     
-	parameter.mParameterID = kSpectrumParam_SelectChannel;
+	//parameter.mParameterID = kSpectrumParam_SelectChannel;
 	NSAssert (	AudioUnitGetParameter(mAU, kSpectrumParam_SelectChannel, kAudioUnitScope_Global, 0, &inValue) == noErr,
               @"[SimpleSpectrum_UIView synchronizeUIWithParameterValues]");
     
     [self activateMenuItemByTag:(NSInteger)inValue onMenu:channelSelectMenu];
 	
-	parameter.mParameterID = kSpectrumParam_Window;
+	//parameter.mParameterID = kSpectrumParam_Window;
 	NSAssert (	AudioUnitGetParameter(mAU, kSpectrumParam_Window, kAudioUnitScope_Global, 0, &inValue) == noErr,
               @"[SimpleSpectrum_UIView synchronizeUIWithParameterValues]");
     
     [self activateMenuItemByTag:(NSInteger)inValue onMenu:windowMenu];
+}
+
+-(void)drawSpectrumGraph:(NSTimer*) t
+{
+    Float32 blockSize;
+	NSAssert (AudioUnitGetParameter(mAU, kSpectrumParam_BlockSize, kAudioUnitScope_Global, 0, &blockSize) == noErr,
+              @"[SimpleSpectrum_UIView drawSpectrumGraph]");
+    
+    blockSize = pow(2, blockSize+9) / 2;
+    
+    UInt32 size = sizeof(SpectrumGraphData) + blockSize * sizeof(Float32);
+    ComponentResult result = AudioUnitGetProperty(mAU,
+                                  kAudioUnitProperty_SpectrumGraphData,
+                                  kAudioUnitScope_Global,
+                                  0,
+                                  mGraphData,
+                                  &size);
+    
+    if (result == noErr) {
+        //mGraphData = [graphView prepareDataForDrawing:mGraphData];
+        [graphView plotData:mGraphData];
+    }
 }
 
 void dispatchAudioUnitEventProc(void * inUserData, 
@@ -111,7 +164,7 @@ void dispatchAudioUnitEventProc(void * inUserData,
 
 -(void)dispatchAudioUnitEvent:(AudioUnitEvent const *)inAUEvent 
                     hostTime:(UInt64)inHostTime 
-                    value:(Float32)inValue
+                    value:(AudioUnitParameterValue)inValue
 {
     switch (inAUEvent->mEventType) {
 		case kAudioUnitEvent_ParameterValueChange: // Parameter Changes
@@ -134,18 +187,6 @@ void dispatchAudioUnitEventProc(void * inUserData,
                 }
 			}
 			break;
-        }
-        case kAudioUnitEvent_PropertyChange: // Property change
-        {
-            switch (inAUEvent->mArgument.mProperty.mPropertyID) {
-                case kAudioUnitProperty_AudioChannelLayout:
-                {
-                    Float32 val = inValue;
-                    
-                    // todo disable stereo if mono channel layout
-                    break;
-                }
-            }
         }
     }
 }
@@ -177,6 +218,16 @@ void dispatchAudioUnitEventProc(void * inUserData,
 }
 
 #pragma mark ____ INTERNAL METHODS ____
+-(void)initBuffers:(id)sender
+{
+    Float32 blockSize;
+	NSAssert (AudioUnitGetParameter(mAU, kSpectrumParam_BlockSize, kAudioUnitScope_Global, 0, &blockSize) == noErr,
+              @"[SimpleSpectrum_UIView synchronizeUIWithParameterValues]");
+    
+    blockSize = pow(2, blockSize+9) / 2;
+	mGraphData = (SpectrumGraphData*) malloc(sizeof(SpectrumGraphData));
+}
+
 - (void)registerEventListener:(id)sender
 {
     if (!mAU)
@@ -203,7 +254,7 @@ void dispatchAudioUnitEventProc(void * inUserData,
 				
     auEvent.mEventType = kAudioUnitEvent_PropertyChange;
     auEvent.mArgument.mProperty.mAudioUnit = mAU;
-    auEvent.mArgument.mProperty.mPropertyID = kAudioUnitProperty_AudioChannelLayout;
+    auEvent.mArgument.mProperty.mPropertyID = kAudioUnitProperty_SpectrumGraphData;
     auEvent.mArgument.mProperty.mScope = kAudioUnitScope_Global;
     auEvent.mArgument.mProperty.mElement = 0;		
     verify_noerr (AUEventListenerAddEventType (mAUEventListener, self, &auEvent));  

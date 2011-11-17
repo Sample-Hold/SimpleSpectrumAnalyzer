@@ -16,7 +16,9 @@
     IBOutlet NSMenu * windowMenu;
     
     AudioUnit mAU;
-    AUEventListenerRef mAUEventListener;    
+    AUEventListenerRef mAUEventListener;
+    NSTimer * mFetchTimer;
+    SpectrumGraphData * mGraphData;
 }
 
 -(IBAction) blockSizeChanged:(id)sender;
@@ -26,6 +28,8 @@
 -(void)setAU:(AudioUnit)inAU;
 
 -(void)synchronizeUIWithParameterValues;
+
+-(void)drawSpectrumGraph:(NSTimer*) t;
 
 void dispatchAudioUnitEventProc(void * inUserData, 
                                 void * inObject,

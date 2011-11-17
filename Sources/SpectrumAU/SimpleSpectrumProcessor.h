@@ -17,7 +17,7 @@
 class SimpleSpectrumProcessor
 {
 public:
-    enum Window { Rectangular, Hann, Hamming, Blackman };
+    enum Window { Rectangular = 1, Hann = 2, Hamming = 3, Blackman = 4 };
 private:
     UInt32 mNumChannels;
     UInt32 mRingBufferCapacity;
@@ -50,7 +50,7 @@ public:
     void Allocate(UInt32 inNumChannels, UInt32 ringBufferCapacity);
     bool CopyInputToRingBuffer(UInt32 inNumFrames, AudioBufferList* inInput);
     bool TryFFT(UInt32 inFFTSize, Window w = Rectangular);
-    bool GetMagnitudes(Float32 *outMagnitude, Float32 * min, Float32 * max, int channelSelect = -1);
+    bool GetMagnitudes(Float32 *outMagnitude, Float32 * min, Float32 * max, UInt32 channelSelect = 3);
 };
 
 #endif

@@ -13,6 +13,8 @@
 #include "SimpleSpectrumSharedData.h"
 #include "SimpleSpectrumProcessor.h"
 
+#include "CAMutex.h"
+
 #pragma mark SimpleSpectrumKernel
 class SimpleSpectrumKernel : public AUKernelBase
 {
@@ -35,7 +37,8 @@ public:
 class SimpleSpectrum : public AUEffectBase
 { 
     SimpleSpectrumProcessor mProcessor;
-    
+    SpectrumGraphData mGraphData;
+    CAMutex mCAMutex;
 public:
 	SimpleSpectrum(AudioUnit component);
     virtual ~SimpleSpectrum(); 

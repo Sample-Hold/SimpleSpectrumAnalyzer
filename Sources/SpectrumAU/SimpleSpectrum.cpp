@@ -37,7 +37,7 @@ void SimpleSpectrumKernel::Process(const Float32 	*inSourceP,
 }
 
 #pragma mark ____SimpleSpectrum
-SimpleSpectrum::SimpleSpectrum(AudioUnit component) : AUEffectBase(component)
+SimpleSpectrum::SimpleSpectrum(AudioUnit component) : AUEffectBase(component), mCAMutex("mutex")
 {
 	// all the parameters must be set to their initial values here
 	//
@@ -58,8 +58,8 @@ OSStatus SimpleSpectrum::Initialize()
 	if(result == noErr ) {
         mProcessor.Allocate(GetNumberOfChannels(), kMaxBlockSize);
         
-		// update UI by sending audio channel layout
-        //PropertyChanged(kAudioUnitProperty_AudioChannelLayout, kAudioUnitScope_Global, 0);
+        mGraphData.mSamplingRate = GetSampleRate();
+        mGraphData.mNumBins = 0;
 	}
 	
 	return result;
@@ -91,49 +91,22 @@ OSStatus SimpleSpectrum::Render(AudioUnitRenderActionFlags & ioActionFlags,
     
     mProcessor.CopyInputToRingBuffer(inFramesToProcess, &inputBufList);
    
-    UInt32 currentBlockSize;
-    switch ((UInt32) GetParameter(kSpectrumParam_BlockSize)) {
-        case kBlockSize_Option5:
-            currentBlockSize = 16384;
-            break;
-        case kBlockSize_Option4:
-            currentBlockSize = 8192;
-            break;
-        case kBlockSize_Option3:
-            currentBlockSize = 4096;
-            break;
-        case kBlockSize_Option2:
-            currentBlockSize = 2048;
-            break;
-        case kBlockSize_Option1:
-        default:
-            currentBlockSize = 1024;
-            break;
-    }
-    
-    SimpleSpectrumProcessor::Window currentWindow;
-    switch ((UInt32) GetParameter(kSpectrumParam_Window)) {
-        case kWindow_Rectangular:
-            currentWindow = SimpleSpectrumProcessor::Window::Rectangular;
-            break;
-        case kWindow_Hamming:
-            currentWindow = SimpleSpectrumProcessor::Window::Hamming;
-            break;
-        case kWindow_Blackman:
-            currentWindow = SimpleSpectrumProcessor::Window::Blackman;
-            break;
-        case kWindow_Hann:
-        default:
-            currentWindow = SimpleSpectrumProcessor::Window::Hann;
-            break;
-    }
+    UInt32 currentBlockSize = pow(2, GetParameter(kSpectrumParam_BlockSize)+9);
+    SimpleSpectrumProcessor::Window currentWindow = (SimpleSpectrumProcessor::Window) GetParameter(kSpectrumParam_Window);
     
     if(mProcessor.TryFFT(currentBlockSize, currentWindow)) {
         UInt32 mBins = currentBlockSize>>1;
-        Float32 leftChannelMagnitudes[mBins], min, max;
-        for(UInt32 i = 0; i < mBins; ++i)
-            leftChannelMagnitudes[i] = 0.;
-                    
+        UInt32 channelSelect = GetParameter(kSpectrumParam_SelectChannel);
+
+        mCAMutex.Lock();
+        if(mGraphData.mNumBins > 0)
+            free(mGraphData.mMagnitudes);
+        
+        mGraphData.mNumBins = mBins;
+        mGraphData.mSamplingRate = GetSampleRate();
+        mGraphData.mMagnitudes = static_cast<Float32*>(malloc(mBins * sizeof(Float32)));
+        mProcessor.GetMagnitudes(mGraphData.mMagnitudes, &mGraphData.mMin, &mGraphData.mMax);
+        mCAMutex.Unlock();
     }
 
 	return AUEffectBase::Render(ioActionFlags, inTimeStamp, inFramesToProcess);
@@ -168,6 +141,21 @@ OSStatus SimpleSpectrum::GetProperty(AudioUnitPropertyID  inID,
 				
 				return noErr;
 			}
+            case kAudioUnitProperty_SpectrumGraphData:
+            {
+                SpectrumGraphData * g = (SpectrumGraphData *)outData;
+                mCAMutex.Lock();                
+                g->mSamplingRate = mGraphData.mSamplingRate;
+                g->mMax = mGraphData.mMax;
+                g->mMin = mGraphData.mMin;
+                g->mNumBins = mGraphData.mNumBins;
+                g->mMagnitudes = static_cast<Float32 *>(malloc(g->mNumBins * sizeof(Float32)));
+                for(UInt32 i = 0; i<g->mNumBins; ++i)
+                    g->mMagnitudes[i] = mGraphData.mMagnitudes[i];
+                mCAMutex.Unlock();
+
+                return noErr;
+            }
 		}
 	}
 	
@@ -186,6 +174,10 @@ OSStatus SimpleSpectrum::GetPropertyInfo(AudioUnitPropertyID	inID,
 			case kAudioUnitProperty_CocoaUI:
 				outWritable = false;
 				outDataSize = sizeof (AudioUnitCocoaViewInfo);
+				return noErr;
+            case kAudioUnitProperty_SpectrumGraphData:
+				outWritable = false;
+				outDataSize = sizeof (mGraphData);
 				return noErr;
 		}
 	}

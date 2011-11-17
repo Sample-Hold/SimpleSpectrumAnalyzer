@@ -47,7 +47,7 @@ void SimpleSpectrumProcessor::Allocate(UInt32 inNumChannels,
 
 bool SimpleSpectrumProcessor::CopyInputToRingBuffer(UInt32 inNumFrames, AudioBufferList* inInput)
 {
-    printf("SimpleSpectrumProcessor::CopyInputToRingBuffer()->%u\n", (unsigned)inNumFrames);
+    //printf("SimpleSpectrumProcessor::CopyInputToRingBuffer()->%u\n", (unsigned)inNumFrames);
     
     if(inNumFrames > mRingBufferCapacity)
         return false;
@@ -77,7 +77,7 @@ bool SimpleSpectrumProcessor::CopyInputToRingBuffer(UInt32 inNumFrames, AudioBuf
 
 void SimpleSpectrumProcessor::InitFFT(UInt32 FFTSize, UInt32 log2FFTSize, UInt32 bins) 
 {
-    printf("SimpleSpectrumProcessor::InitFFT()->%u\n", (unsigned)FFTSize);
+    //printf("SimpleSpectrumProcessor::InitFFT()->%u\n", (unsigned)FFTSize);
 
     if(mFFTSetupCreated)
         vDSP_destroy_fftsetup(mFFTSetup);
@@ -100,7 +100,7 @@ void SimpleSpectrumProcessor::InitFFT(UInt32 FFTSize, UInt32 log2FFTSize, UInt32
 
 void SimpleSpectrumProcessor::ExtractRingBufferToFFTInput(UInt32 inNumFrames)
 {
-    printf("SimpleSpectrumProcessor::ExtractRingBufferToFFTInput()->%u\n", (unsigned)inNumFrames);
+    //printf("SimpleSpectrumProcessor::ExtractRingBufferToFFTInput()->%u\n", (unsigned)inNumFrames);
     
     UInt32 numBytes = inNumFrames * sizeof(Float32);
     UInt32 firstPart = mRingBufferCapacity - mRingBufferPosRead;
@@ -125,7 +125,7 @@ void SimpleSpectrumProcessor::ExtractRingBufferToFFTInput(UInt32 inNumFrames)
 
 void SimpleSpectrumProcessor::ApplyWindow(Window w)
 {
-    printf("SimpleSpectrumProcessor::ApplyWindow()->%u\n", (unsigned)w);
+    //printf("SimpleSpectrumProcessor::ApplyWindow()->%u\n", (unsigned)w);
     
     if (w == Rectangular)
         return;
@@ -150,7 +150,7 @@ void SimpleSpectrumProcessor::ApplyWindow(Window w)
 
 bool SimpleSpectrumProcessor::TryFFT(UInt32 inNumFrames, Window w) 
 {
-    printf("SimpleSpectrumProcessor::TryFFT()->%u\n", (unsigned)inNumFrames);
+    //printf("SimpleSpectrumProcessor::TryFFT()->%u\n", (unsigned)inNumFrames);
     
     inNumFrames = NextPowerOfTwo(inNumFrames);
     
@@ -176,9 +176,9 @@ bool SimpleSpectrumProcessor::TryFFT(UInt32 inNumFrames, Window w)
     return true;
 }
 
-bool SimpleSpectrumProcessor::GetMagnitudes(Float32 *outMagnitude, Float32 * min, Float32 * max, int channelSelect)
+bool SimpleSpectrumProcessor::GetMagnitudes(Float32 *outMagnitude, Float32 * min, Float32 * max, UInt32 channelSelect)
 {
-    printf("SimpleSpectrumProcessor::GetMagnitudes()->%d\n", channelSelect);
+    //printf("SimpleSpectrumProcessor::GetMagnitudes()->%u\n", (unsigned) channelSelect);
     
     UInt32 bins = mFFTSize>>1;
     Float32 numberOfChannels(mNumChannels);
@@ -194,7 +194,7 @@ bool SimpleSpectrumProcessor::GetMagnitudes(Float32 *outMagnitude, Float32 * min
         vDSP_maxmgv(mChannels[i].mOutputData(), 1, &maxMagnitudesByChannel[i], bins);
     }
     
-    if (channelSelect == -1 && mNumChannels > 1 && mNumChannels < 3) { // we only support up to 2 channels
+    if (channelSelect == 3 && mNumChannels > 1 && mNumChannels < 3) { // we only support up to 2 channels
         vDSP_vsadd(mChannels[0].mOutputData(), 1, mChannels[1].mOutputData(), temp(), 1, bins);
         vDSP_vsdiv(temp(), 1, &numberOfChannels, outMagnitude, 1, bins);
         
@@ -204,7 +204,7 @@ bool SimpleSpectrumProcessor::GetMagnitudes(Float32 *outMagnitude, Float32 * min
         return true;
     }
     
-    if (channelSelect >= 0 && channelSelect < mNumChannels) {
+    if (channelSelect < mNumChannels) {
         memcpy(outMagnitude, mChannels[channelSelect].mOutputData(), bins * sizeof(Float32));
         
         *min = minMagnitudesByChannel[channelSelect];

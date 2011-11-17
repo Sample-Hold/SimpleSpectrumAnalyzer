@@ -52,14 +52,7 @@
 		
 		mActiveWidth = [self locationForFrequencyValue: kDefaultMaxHertz] - mGraphFrame.origin.x - .5;
 
-        mSpectrum = malloc(DEFAULT_HSCALE * sizeof(Float32));
-        mScale.h = DEFAULT_HSCALE;
-        mScale.v = DEFAULT_VSCALE;
-
         [self setPostsFrameChangedNotifications:YES];
-        
-        // for testing purpose
-        [self fillSpectrumWithTestCoordinates];
     }
     
     return self;
@@ -67,8 +60,6 @@
 
 -(void)dealloc
 {
-    free(mSpectrum);
-    
     [mDBAxisStringAttributes release];
 	[mFreqAxisStringAttributes release];
 	[mCurvePath release];
@@ -80,15 +71,6 @@
 }
 
 #pragma mark ____ PUBLIC METHODS ____
--(void)resetScale:(Point)scale
-{
-    assert(scale.h > 0);
-    mScale = scale;
-    if(mSpectrum)
-        free(mSpectrum);
-    mSpectrum = malloc(scale.h * sizeof(Float32));
-}
-
 /* Compute the pixel location on the y axis within the graph frame for the decibel value argument */
 - (double) locationForDBValue: (double) value {
 	double step		= mGraphFrame.size.height / (kDefaultGain * 2);
@@ -290,13 +272,13 @@ double valueAtGridIndex(double index) {
  The data argument is an array of FrequencyResponse structures. The number of items in this array is a fixed size, so we have a finite amount
  of resolution. We compute a pixelRatio which specifies how many pixels separate each frequency value
  */
--(FrequencyResponse *) prepareDataForDrawing: (FrequencyResponse *) data {
+-(SpectrumGraphData *) prepareDataForDrawing: (SpectrumGraphData *) data {
 	float width = mActiveWidth;
 	float rightEdge = width + mGraphFrame.origin.x;
-	int	i, pixelRatio = (int) ceil(width/mScale.h);
+	int	i, pixelRatio = (int) ceil(width/data->mNumBins);
 	float location = mGraphFrame.origin.x;	// location is the x coordinate in the graph
 	
-	for (i = 0; i < mScale.h; i++) {
+	/*for (i = 0; i < data->mNumBins; i++) {
 		if (location > rightEdge)	// if we have exceeded the right edge of our graph, just store the max hertz value
 			data[i].mFrequency = kDefaultMaxHertz;
 		else {
@@ -306,17 +288,17 @@ double valueAtGridIndex(double index) {
 			data[i].mFrequency = freq;
 		}
 		location += pixelRatio;									// increment our location counter
-	}
+	}*/
 	return data;
 }
 
 /* Draw the curve from the data */
--(void) plotData: (FrequencyResponse *) data {
+-(void) plotData: (SpectrumGraphData *) data {
 	// NOTE that much of this data could be cached since it will be the same every time we draw as long as our frame size has not changed
 	// We do not do this optimization in the interest of simplicity.
 	float width = mActiveWidth;
 	float rightEdge = width + mGraphFrame.origin.x;
-	int	i, pixelRatio = (int) ceil(width/kNumberOfResponseFrequencies);	// compute how many pixels separate each db value
+	int	i, pixelRatio = (int) ceil(width/data->mNumBins);	// compute how many pixels separate each db value
 	float location = mGraphFrame.origin.x;
 	
 	if (!curveColor)
@@ -327,8 +309,8 @@ double valueAtGridIndex(double index) {
 	[mCurvePath moveToPoint: mGraphFrame.origin];						// start the bezier path at the bottom left corner of the graph
 	
 	float lastDBPos = 0;												// cache the previous decibel pixel value
-	for (i = 0; i < mScale.h; i++) {				
-		float dbValue = 20.0*log10(mSpectrum[i]);	// compute the current decibel value
+	for (i = 0; i < data->mNumBins; i++) {				
+		float dbValue = 20.0*log10(data->mMagnitudes[i]);	// compute the current decibel value
 		float dbPos = 0;												
 		if (dbValue < -kDefaultGain)							// constrain the current db value to our min and max gain interval
 			dbPos = mGraphFrame.origin.y;
@@ -360,22 +342,6 @@ double valueAtGridIndex(double index) {
 		curveColor = nil;
 	}
 	[self setNeedsDisplay: YES];
-}
-
-#pragma mark ____ INTERNAL METHODS ____
--(void)fillSpectrumWithTestCoordinates
-{
-    srand((UInt)time(NULL));
-    for(UInt i = 0, maxnum = 0; i < 2*mScale.h; ++i) {
-        if(i>=mScale.h) {
-            UInt j = i % mScale.h;
-            mSpectrum[j] /=  maxnum; // normalized over [0,1]
-            continue;
-        }
-        
-        mSpectrum[i] = rand();
-        maxnum = max(mSpectrum[i], maxnum);
-    }
 }
 
 @end
