@@ -11,3 +11,4 @@
 
 #import <AudioUnit/AudioUnit.h>
 #import <AudioToolbox/AudioToolbox.h>
+#include "CAAutoDisposer.h"

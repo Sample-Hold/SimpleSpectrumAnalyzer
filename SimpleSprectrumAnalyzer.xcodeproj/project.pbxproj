@@ -12,13 +12,15 @@
 		B627C747146AE62D00DFE624 /* CAStreamBasicDescription.h in Headers */ = {isa = PBXBuildFile; fileRef = B627C745146AE62D00DFE624 /* CAStreamBasicDescription.h */; };
 		B627C74A146AE64800DFE624 /* CAHostTimeBase.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B627C748146AE64800DFE624 /* CAHostTimeBase.cpp */; };
 		B627C74B146AE64800DFE624 /* CAHostTimeBase.h in Headers */ = {isa = PBXBuildFile; fileRef = B627C749146AE64800DFE624 /* CAHostTimeBase.h */; };
+		B63978BF1479B6EB009EE0F9 /* CAAutoDisposer.h in Headers */ = {isa = PBXBuildFile; fileRef = B63978BE1479B6EB009EE0F9 /* CAAutoDisposer.h */; };
+		B63978C01479B6EB009EE0F9 /* CAAutoDisposer.h in Headers */ = {isa = PBXBuildFile; fileRef = B63978BE1479B6EB009EE0F9 /* CAAutoDisposer.h */; };
 		B63A96F214657837002D8A37 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B63A96F114657837002D8A37 /* Cocoa.framework */; };
 		B63A970214657955002D8A37 /* SimpleSpectrum_ViewFactory.h in Headers */ = {isa = PBXBuildFile; fileRef = B63A96E2146575AA002D8A37 /* SimpleSpectrum_ViewFactory.h */; };
 		B63A970314657955002D8A37 /* SimpleSpectrum_UIView.h in Headers */ = {isa = PBXBuildFile; fileRef = B63A96E614657605002D8A37 /* SimpleSpectrum_UIView.h */; };
 		B63A970414657955002D8A37 /* SimpleSpectrum_GraphView.h in Headers */ = {isa = PBXBuildFile; fileRef = B63A96E814657621002D8A37 /* SimpleSpectrum_GraphView.h */; };
-		B63A97061465799B002D8A37 /* SimpleSpectrum_ViewFactory.m in Sources */ = {isa = PBXBuildFile; fileRef = B63A96E3146575AA002D8A37 /* SimpleSpectrum_ViewFactory.m */; };
-		B63A97071465799B002D8A37 /* SimpleSpectrum_UIView.m in Sources */ = {isa = PBXBuildFile; fileRef = B63A96E714657605002D8A37 /* SimpleSpectrum_UIView.m */; };
-		B63A97081465799B002D8A37 /* SimpleSpectrum_GraphView.m in Sources */ = {isa = PBXBuildFile; fileRef = B63A96E914657621002D8A37 /* SimpleSpectrum_GraphView.m */; };
+		B63A97061465799B002D8A37 /* SimpleSpectrum_ViewFactory.mm in Sources */ = {isa = PBXBuildFile; fileRef = B63A96E3146575AA002D8A37 /* SimpleSpectrum_ViewFactory.mm */; };
+		B63A97071465799B002D8A37 /* SimpleSpectrum_UIView.mm in Sources */ = {isa = PBXBuildFile; fileRef = B63A96E714657605002D8A37 /* SimpleSpectrum_UIView.mm */; };
+		B63A97081465799B002D8A37 /* SimpleSpectrum_GraphView.mm in Sources */ = {isa = PBXBuildFile; fileRef = B63A96E914657621002D8A37 /* SimpleSpectrum_GraphView.mm */; };
 		B63A970B146579B2002D8A37 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B63A9709146579B2002D8A37 /* AudioToolbox.framework */; };
 		B63A970C146579B2002D8A37 /* AudioUnit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B63A970A146579B2002D8A37 /* AudioUnit.framework */; };
 		B63A971214657AE9002D8A37 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B63A96F114657837002D8A37 /* Cocoa.framework */; };
@@ -115,6 +117,7 @@
 		B627C745146AE62D00DFE624 /* CAStreamBasicDescription.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CAStreamBasicDescription.h; sourceTree = "<group>"; };
 		B627C748146AE64800DFE624 /* CAHostTimeBase.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CAHostTimeBase.cpp; sourceTree = "<group>"; };
 		B627C749146AE64800DFE624 /* CAHostTimeBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CAHostTimeBase.h; sourceTree = "<group>"; };
+		B63978BE1479B6EB009EE0F9 /* CAAutoDisposer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CAAutoDisposer.h; sourceTree = "<group>"; };
 		B63A96B51465722B002D8A37 /* AUBase.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = AUBase.cpp; sourceTree = "<group>"; };
 		B63A96B61465722B002D8A37 /* AUBase.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AUBase.h; sourceTree = "<group>"; };
 		B63A96B71465722B002D8A37 /* AUDispatch.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = AUDispatch.cpp; sourceTree = "<group>"; };
@@ -147,11 +150,11 @@
 		B63A96E014657361002D8A37 /* SimpleSpectrumVersion.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SimpleSpectrumVersion.h; sourceTree = "<group>"; };
 		B63A96E11465738D002D8A37 /* SimpleSpectrum.r */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.rez; path = SimpleSpectrum.r; sourceTree = "<group>"; };
 		B63A96E2146575AA002D8A37 /* SimpleSpectrum_ViewFactory.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SimpleSpectrum_ViewFactory.h; sourceTree = "<group>"; };
-		B63A96E3146575AA002D8A37 /* SimpleSpectrum_ViewFactory.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SimpleSpectrum_ViewFactory.m; sourceTree = "<group>"; };
+		B63A96E3146575AA002D8A37 /* SimpleSpectrum_ViewFactory.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = SimpleSpectrum_ViewFactory.mm; sourceTree = "<group>"; };
 		B63A96E614657605002D8A37 /* SimpleSpectrum_UIView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SimpleSpectrum_UIView.h; sourceTree = "<group>"; };
-		B63A96E714657605002D8A37 /* SimpleSpectrum_UIView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SimpleSpectrum_UIView.m; sourceTree = "<group>"; };
+		B63A96E714657605002D8A37 /* SimpleSpectrum_UIView.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = SimpleSpectrum_UIView.mm; sourceTree = "<group>"; };
 		B63A96E814657621002D8A37 /* SimpleSpectrum_GraphView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SimpleSpectrum_GraphView.h; sourceTree = "<group>"; };
-		B63A96E914657621002D8A37 /* SimpleSpectrum_GraphView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SimpleSpectrum_GraphView.m; sourceTree = "<group>"; };
+		B63A96E914657621002D8A37 /* SimpleSpectrum_GraphView.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = SimpleSpectrum_GraphView.mm; sourceTree = "<group>"; };
 		B63A96F114657837002D8A37 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		B63A96F914657837002D8A37 /* SpectrumCocoaView-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "SpectrumCocoaView-Info.plist"; sourceTree = "<group>"; };
 		B63A9709146579B2002D8A37 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = SDKs/MacOSX10.7.sdk/System/Library/Frameworks/AudioToolbox.framework; sourceTree = DEVELOPER_DIR; };
@@ -243,10 +246,10 @@
 			isa = PBXGroup;
 			children = (
 				B63A96E814657621002D8A37 /* SimpleSpectrum_GraphView.h */,
-				B63A96E914657621002D8A37 /* SimpleSpectrum_GraphView.m */,
+				B63A96E914657621002D8A37 /* SimpleSpectrum_GraphView.mm */,
 				B63A96E614657605002D8A37 /* SimpleSpectrum_UIView.h */,
-				B63A96E714657605002D8A37 /* SimpleSpectrum_UIView.m */,
-				B63A96E3146575AA002D8A37 /* SimpleSpectrum_ViewFactory.m */,
+				B63A96E714657605002D8A37 /* SimpleSpectrum_UIView.mm */,
+				B63A96E3146575AA002D8A37 /* SimpleSpectrum_ViewFactory.mm */,
 				B63A96E2146575AA002D8A37 /* SimpleSpectrum_ViewFactory.h */,
 			);
 			path = SpectrumCocoaView;
@@ -360,6 +363,7 @@
 		B63A9758146588D4002D8A37 /* PublicUtility */ = {
 			isa = PBXGroup;
 			children = (
+				B63978BE1479B6EB009EE0F9 /* CAAutoDisposer.h */,
 				B6E752BB1474A5A900202AF0 /* CAVectorUnit.cpp */,
 				B6E752BC1474A5A900202AF0 /* CAVectorUnit.h */,
 				B6078C1D1474769300C7A1DF /* CAMutex.cpp */,
@@ -397,6 +401,7 @@
 				B63A970414657955002D8A37 /* SimpleSpectrum_GraphView.h in Headers */,
 				B63A975414658417002D8A37 /* SpectrumCocoaView-Prefix.pch in Headers */,
 				B6E7515F146759DA00287728 /* SimpleSpectrumSharedData.h in Headers */,
+				B63978BF1479B6EB009EE0F9 /* CAAutoDisposer.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -429,6 +434,7 @@
 				B6EAFCE81471CF47008C6D73 /* CAAudioChannelLayout.h in Headers */,
 				B6E752BA1474907800202AF0 /* CAMutex.h in Headers */,
 				B6E752BE1474A5A900202AF0 /* CAVectorUnit.h in Headers */,
+				B63978C01479B6EB009EE0F9 /* CAAutoDisposer.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -537,9 +543,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B63A97061465799B002D8A37 /* SimpleSpectrum_ViewFactory.m in Sources */,
-				B63A97071465799B002D8A37 /* SimpleSpectrum_UIView.m in Sources */,
-				B63A97081465799B002D8A37 /* SimpleSpectrum_GraphView.m in Sources */,
+				B63A97061465799B002D8A37 /* SimpleSpectrum_ViewFactory.mm in Sources */,
+				B63A97071465799B002D8A37 /* SimpleSpectrum_UIView.mm in Sources */,
+				B63A97081465799B002D8A37 /* SimpleSpectrum_GraphView.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

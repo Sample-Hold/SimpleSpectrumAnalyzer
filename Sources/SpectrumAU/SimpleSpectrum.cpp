@@ -11,29 +11,20 @@
 #define kMaxBlockSize 16384
 
 #pragma mark ____SimpleSpectrumKernel
-SimpleSpectrumKernel::SimpleSpectrumKernel(AUEffectBase *inAudioUnit ) : AUKernelBase(inAudioUnit) 
-{
-	Reset();
-}
-
-SimpleSpectrumKernel::~SimpleSpectrumKernel() 
+SimpleSpectrumKernel::SimpleSpectrumKernel(AUEffectBase * inAudioUnit ) : AUKernelBase(inAudioUnit)
 {
     
 }
 
-void SimpleSpectrumKernel::Reset() 
+void SimpleSpectrumKernel::Process(Float32 const* inSourceP,
+                                     Float32 * inDestP,
+                                     UInt32 inFramesToProcess,
+                                     UInt32 inNumChannels,
+                                     bool & ioSilence)
 {
-	// TODO : Reset stuffs here
-}
-
-void SimpleSpectrumKernel::Process(const Float32 	*inSourceP,
-                             Float32 		*inDestP,
-                             UInt32 	    inFramesToProcess,
-                             UInt32			inNumChannels,
-                             bool &			ioSilence) 
-{
-	// input buses passthrough are done in SimpleSpectrum::Render
-	//memcpy((void*)inSourceP, (void*)inDestP, inFramesToProcess*sizeof(Float32));
+	//This code will pass-thru the audio data.
+	//This is where you want to process data to produce an effect.
+    
 }
 
 #pragma mark ____SimpleSpectrum
@@ -46,7 +37,7 @@ SimpleSpectrum::SimpleSpectrum(AudioUnit component) : AUEffectBase(component), m
 	//
     SetParameter(kSpectrumParam_BlockSize, kBlockSize_Default);
     SetParameter(kSpectrumParam_SelectChannel, kSelectChannel_Default);
-    SetParameter(kSpectrumParam_Window, kWindow_Hann);
+    SetParameter(kSpectrumParam_Window, kWindow_Default);
     
 	SetParamHasSampleRateDependency(false);
 }
@@ -56,24 +47,13 @@ OSStatus SimpleSpectrum::Initialize()
 	OSStatus result = AUEffectBase::Initialize();
 	
 	if(result == noErr ) {
+        // allocate ring buffer
         mProcessor.Allocate(GetNumberOfChannels(), kMaxBlockSize);
-        
-        mGraphData.mSamplingRate = GetSampleRate();
-        mGraphData.mNumBins = 0;
+        mInfos.mNumBins = 0;
+        mInfos.mSamplingRate = GetSampleRate();
 	}
 	
 	return result;
-}
-
-SimpleSpectrum::~SimpleSpectrum()
-{
-	Cleanup();
-}
-
-void SimpleSpectrum::Cleanup() 
-{
-    if(mGraphData.mNumBins > 0)
-        free(mGraphData.mMagnitudes);
 }
 
 OSStatus SimpleSpectrum::Render(AudioUnitRenderActionFlags & ioActionFlags,
@@ -83,30 +63,25 @@ OSStatus SimpleSpectrum::Render(AudioUnitRenderActionFlags & ioActionFlags,
     UInt32 actionFlags = 0;
 	OSStatus err = PullInput(0, actionFlags, inTimeStamp, inFramesToProcess);
 	if (err) return err;
+    
+    GetOutput(0)->PrepareBuffer(inFramesToProcess); // prepare the output buffer list	
 	
-	AUInputElement* inputBus = GetInput(0);
-	AUOutputElement* outputBus = GetOutput(0);
-    
-	outputBus->PrepareBuffer(inFramesToProcess); // prepare the output buffer list	
-	AudioBufferList& inputBufList = inputBus->GetBufferList();
-    
+	AudioBufferList& inputBufList = GetInput(0)->GetBufferList();
+
     mProcessor.CopyInputToRingBuffer(inFramesToProcess, &inputBufList);
    
     UInt32 currentBlockSize = pow(2, GetParameter(kSpectrumParam_BlockSize)+9);
     SimpleSpectrumProcessor::Window currentWindow = (SimpleSpectrumProcessor::Window) GetParameter(kSpectrumParam_Window);
     
     if(mProcessor.TryFFT(currentBlockSize, currentWindow)) {
-        UInt32 mBins = currentBlockSize>>1;
+        mInfos.mNumBins = currentBlockSize>>1;
         UInt32 channelSelect = GetParameter(kSpectrumParam_SelectChannel);
+        
+        // hard work outside of the mutex block
+        CAAutoFree<Float32> magnitudes = mProcessor.GetMagnitudes(channelSelect);
 
         mCAMutex.Lock();
-        if(mGraphData.mNumBins > 0)
-            free(mGraphData.mMagnitudes);
-        
-        mGraphData.mNumBins = mBins;
-        mGraphData.mSamplingRate = GetSampleRate();
-        mGraphData.mMagnitudes = static_cast<Float32*>(malloc(mBins * sizeof(Float32)));
-        mProcessor.GetMagnitudes(mGraphData.mMagnitudes, &mGraphData.mMin, &mGraphData.mMax);
+        mComputedMagnitudes = magnitudes;
         mCAMutex.Unlock();
     }
 
@@ -142,20 +117,24 @@ OSStatus SimpleSpectrum::GetProperty(AudioUnitPropertyID  inID,
 				
 				return noErr;
 			}
-            case kAudioUnitProperty_SpectrumGraphData:
+            case kAudioUnitProperty_SpectrumGraphInfo:
             {
-                SpectrumGraphData * g = (SpectrumGraphData *)outData;
-                mCAMutex.Lock();                
-                g->mSamplingRate = mGraphData.mSamplingRate;
-                g->mMax = mGraphData.mMax;
-                g->mMin = mGraphData.mMin;
-                g->mNumBins = mGraphData.mNumBins;
-                g->mMagnitudes = static_cast<Float32 *>(malloc(g->mNumBins * sizeof(Float32)));
-                for(UInt32 i = 0; i<g->mNumBins; ++i)
-                    g->mMagnitudes[i] = mGraphData.mMagnitudes[i];
-                mCAMutex.Unlock();
+                SpectrumGraphInfo* g = (SpectrumGraphInfo*) outData;
+
+                g->mNumBins = mInfos.mNumBins;
+                g->mSamplingRate = mInfos.mSamplingRate;
 
                 return noErr;
+            }
+            case kAudioUnitProperty_SpectrumGraphData:
+            {
+                Float32* mData = (Float32*) outData;
+                
+                if(mInfos.mNumBins > 0) {
+                    mCAMutex.Lock();
+                    memcpy(mData, mComputedMagnitudes(), mInfos.mNumBins * sizeof(Float32));
+                    mCAMutex.Unlock();
+                }
             }
 		}
 	}
@@ -176,10 +155,14 @@ OSStatus SimpleSpectrum::GetPropertyInfo(AudioUnitPropertyID	inID,
 				outWritable = false;
 				outDataSize = sizeof (AudioUnitCocoaViewInfo);
 				return noErr;
-            case kAudioUnitProperty_SpectrumGraphData:
+            case kAudioUnitProperty_SpectrumGraphInfo:
 				outWritable = false;
-				outDataSize = sizeof (mGraphData);
+				outDataSize = sizeof (SpectrumGraphInfo);
 				return noErr;
+            case kAudioUnitProperty_SpectrumGraphData:
+                outWritable = false;
+                outDataSize = mInfos.mNumBins * sizeof(Float32);
+                return noErr;
 		}
 	}
 	

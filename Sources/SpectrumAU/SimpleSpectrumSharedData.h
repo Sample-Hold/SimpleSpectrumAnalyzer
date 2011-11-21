@@ -20,18 +20,14 @@ enum
 #pragma mark ___SimpleSpectrum Properties
 enum
 {
-	kAudioUnitProperty_SpectrumGraphData = 65536
+	kAudioUnitProperty_SpectrumGraphInfo = 65536,
+    kAudioUnitProperty_SpectrumGraphData = 65537
 };
 
-struct SpectrumGraphData
+struct SpectrumGraphInfo
 {		
-    Float64     mSamplingRate;
-    Float32		mMax;
-    Float32		mMin;
-    
-    SInt32		mNumBins;
-    Float32*     mMagnitudes;
+    Float64 mSamplingRate;
+    SInt32 mNumBins;
 };
-typedef struct SpectrumGraphData SpectrumGraphData;
 
 #endif

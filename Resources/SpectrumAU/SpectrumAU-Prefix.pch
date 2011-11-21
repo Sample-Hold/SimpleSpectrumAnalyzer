@@ -12,3 +12,4 @@
 
 #include "AUEffectBase.h"
 #include <AudioToolbox/AudioUnitUtilities.h>
+#include "CAAutoDisposer.h"

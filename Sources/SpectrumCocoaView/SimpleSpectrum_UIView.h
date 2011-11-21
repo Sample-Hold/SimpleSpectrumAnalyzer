@@ -18,7 +18,6 @@
     AudioUnit mAU;
     AUEventListenerRef mAUEventListener;
     NSTimer * mFetchTimer;
-    SpectrumGraphData * mGraphData;
 }
 
 -(IBAction) blockSizeChanged:(id)sender;

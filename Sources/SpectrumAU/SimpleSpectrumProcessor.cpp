@@ -17,20 +17,12 @@ SimpleSpectrumProcessor::SimpleSpectrumProcessor(): mNumChannels(0),
     mRingBufferPosRead(0), mRingBufferPosWrite(0), mRingBufferCount(0), mFFTSize(0),
     mFFTSetupCreated(false)
 {
-    
 }
 
 SimpleSpectrumProcessor::~SimpleSpectrumProcessor()
 {
     if(mFFTSetupCreated)
         vDSP_destroy_fftsetup(mFFTSetup);
-}
-
-void SimpleSpectrumProcessor::debugData(char const* message, Float32 * f, size_t s) 
-{
-    printf(message, "");
-    for(int i = 0; i < s; ++i)
-        printf("%i: %f\n", i, *(f+i));
 }
 
 void SimpleSpectrumProcessor::Allocate(UInt32 inNumChannels, 
@@ -47,20 +39,19 @@ void SimpleSpectrumProcessor::Allocate(UInt32 inNumChannels,
 
 bool SimpleSpectrumProcessor::CopyInputToRingBuffer(UInt32 inNumFrames, AudioBufferList* inInput)
 {
-    //printf("SimpleSpectrumProcessor::CopyInputToRingBuffer()->%u\n", (unsigned)inNumFrames);
-    
     if(inNumFrames > mRingBufferCapacity)
         return false;
     
     UInt32 numBytes = inNumFrames * sizeof(Float32);
     UInt32 firstPart = mRingBufferCapacity - mRingBufferPosWrite;
+    
     // Overlap-Add to RingBuffer
     if (firstPart < inNumFrames) {
         UInt32 firstPartBytes = firstPart * sizeof(Float32);
         UInt32 secondPartBytes = numBytes - firstPartBytes;
         for(UInt32 i = 0; i < mNumChannels; ++i){
             memcpy(mChannels[i].mRingBufferData() + mRingBufferPosWrite, inInput->mBuffers[i].mData, firstPartBytes);
-            memcpy(mChannels[i].mRingBufferData, (UInt8*)inInput->mBuffers[i].mData + firstPartBytes, secondPartBytes);
+            memcpy(mChannels[i].mRingBufferData(), (Float32*)inInput->mBuffers[i].mData + firstPart, secondPartBytes);
         }
     }
     else {
@@ -77,8 +68,6 @@ bool SimpleSpectrumProcessor::CopyInputToRingBuffer(UInt32 inNumFrames, AudioBuf
 
 void SimpleSpectrumProcessor::InitFFT(UInt32 FFTSize, UInt32 log2FFTSize, UInt32 bins) 
 {
-    //printf("SimpleSpectrumProcessor::InitFFT()->%u\n", (unsigned)FFTSize);
-
     if(mFFTSetupCreated)
         vDSP_destroy_fftsetup(mFFTSetup);
     
@@ -91,8 +80,9 @@ void SimpleSpectrumProcessor::InitFFT(UInt32 FFTSize, UInt32 log2FFTSize, UInt32
 		mChannels[i].mInputData.alloc(FFTSize, true);
 		mChannels[i].mOutputData.alloc(FFTSize, true);
 		mChannels[i].mSplitData.alloc(FFTSize, true);
-        mChannels[i].mDSPSplitComplex.realp = mChannels[i].mSplitData();
-        mChannels[i].mDSPSplitComplex.imagp = mChannels[i].mSplitData() + bins;
+        mChannels[i].mDSPSplitComplex.alloc(1);
+        mChannels[i].mDSPSplitComplex->realp = mChannels[i].mSplitData();
+        mChannels[i].mDSPSplitComplex->imagp = mChannels[i].mSplitData() + bins;
 	}
     
     mWindowData.alloc(FFTSize);
@@ -100,22 +90,21 @@ void SimpleSpectrumProcessor::InitFFT(UInt32 FFTSize, UInt32 log2FFTSize, UInt32
 
 void SimpleSpectrumProcessor::ExtractRingBufferToFFTInput(UInt32 inNumFrames)
 {
-    //printf("SimpleSpectrumProcessor::ExtractRingBufferToFFTInput()->%u\n", (unsigned)inNumFrames);
-    
     UInt32 numBytes = inNumFrames * sizeof(Float32);
     UInt32 firstPart = mRingBufferCapacity - mRingBufferPosRead;
+    
     // Overlap-Add to FFT Buffer
     if (firstPart < inNumFrames) {
         UInt32 firstPartBytes = firstPart * sizeof(Float32);
         UInt32 secondPartBytes = numBytes - firstPartBytes;
         for(UInt32 i = 0; i < mNumChannels; ++i){
-            memcpy(mChannels[i].mInputData, mChannels[i].mRingBufferData() + mRingBufferPosRead, firstPartBytes);
-            memcpy(mChannels[i].mInputData() + firstPart, mChannels[i].mRingBufferData, secondPartBytes);
+            memcpy(mChannels[i].mInputData(), mChannels[i].mRingBufferData() + mRingBufferPosRead, firstPartBytes);
+            memcpy(mChannels[i].mInputData() + firstPart, mChannels[i].mRingBufferData(), secondPartBytes);
         }
     }
     else {
 		for (UInt32 i=0; i<mNumChannels; ++i) {
-			memcpy(mChannels[i].mInputData, mChannels[i].mRingBufferData() + mRingBufferPosRead, numBytes);
+			memcpy(mChannels[i].mInputData(), mChannels[i].mRingBufferData() + mRingBufferPosRead, numBytes);
         }
     }
     
@@ -125,8 +114,6 @@ void SimpleSpectrumProcessor::ExtractRingBufferToFFTInput(UInt32 inNumFrames)
 
 void SimpleSpectrumProcessor::ApplyWindow(Window w)
 {
-    //printf("SimpleSpectrumProcessor::ApplyWindow()->%u\n", (unsigned)w);
-    
     if (w == Rectangular)
         return;
     
@@ -145,16 +132,14 @@ void SimpleSpectrumProcessor::ApplyWindow(Window w)
     }
     
     for (UInt32 i=0; i<mNumChannels; ++i)
-        vDSP_vmul(mChannels[i].mInputData(), 1, mWindowData(), 1, mChannels[i].mOutputData(), 1, mFFTSize);
+        vDSP_vmul(mChannels[i].mInputData(), 1, mWindowData(), 1, mChannels[i].mInputData(), 1, mFFTSize);
 }
 
 bool SimpleSpectrumProcessor::TryFFT(UInt32 inNumFrames, Window w) 
 {
-    //printf("SimpleSpectrumProcessor::TryFFT()->%u\n", (unsigned)inNumFrames);
-    
     inNumFrames = NextPowerOfTwo(inNumFrames);
     
-    if(inNumFrames > mRingBufferCount - mRingBufferPosRead) // not enough data
+    if(inNumFrames > mRingBufferCount) // not enough data
         return false;
     
     UInt32 log2FFTSize = Log2Ceil(inNumFrames);
@@ -168,50 +153,64 @@ bool SimpleSpectrumProcessor::TryFFT(UInt32 inNumFrames, Window w)
     ApplyWindow(w);
     
     for (UInt32 i=0; i<mNumChannels; ++i) 
-	{
-		vDSP_ctoz((DSPComplex*)mChannels[i].mOutputData(), 2, &mChannels[i].mDSPSplitComplex, 1, bins);
-		vDSP_fft_zrip(mFFTSetup, &mChannels[i].mDSPSplitComplex, 1, log2FFTSize, FFT_FORWARD);
+	{                
+		vDSP_ctoz((DSPComplex*)mChannels[i].mInputData(), 2, mChannels[i].mDSPSplitComplex(), 1, bins);        
+		vDSP_fft_zrip(mFFTSetup, mChannels[i].mDSPSplitComplex(), 1, log2FFTSize, FFT_FORWARD);
+        
+        // zero DC 
+        *(mChannels[i].mDSPSplitComplex->realp) = 0;
+        *(mChannels[i].mDSPSplitComplex->imagp) = 0;
     }
 
     return true;
 }
 
-bool SimpleSpectrumProcessor::GetMagnitudes(Float32 *outMagnitude, Float32 * min, Float32 * max, UInt32 channelSelect)
+CAAutoFree<Float32> SimpleSpectrumProcessor::GetMagnitudes(UInt32 channelSelect)
 {
-    //printf("SimpleSpectrumProcessor::GetMagnitudes()->%u\n", (unsigned) channelSelect);
-    
     UInt32 bins = mFFTSize>>1;
-    Float32 numberOfChannels(mNumChannels);
+    Float32 two(2), fFFTSize(mFFTSize), ref(144);
     CAAutoArrayDelete<Float32> minMagnitudesByChannel,  maxMagnitudesByChannel; 
-    CAAutoFree<Float32> temp;
+    CAAutoFree<Float32> result;
     minMagnitudesByChannel.alloc(mNumChannels);
     maxMagnitudesByChannel.alloc(mNumChannels);
-    temp.alloc(bins);
+    result.alloc(bins);
     
-    for (UInt32 i=0; i<mNumChannels; ++i) {
-        vDSP_zvabs(&mChannels[i].mDSPSplitComplex, 1, mChannels[i].mOutputData(), 1, bins);
-        vDSP_minmgv(mChannels[i].mOutputData(), 1, &minMagnitudesByChannel[i], bins);
-        vDSP_maxmgv(mChannels[i].mOutputData(), 1, &maxMagnitudesByChannel[i], bins);
+    for (UInt32 i=0; i<mNumChannels; ++i) {        
+        // compute Z magnitude by saving sqrt operation
+        vDSP_zvmags(mChannels[i].mDSPSplitComplex(), 1, mChannels[i].mOutputData(), 1, bins);
+
+        // adjust magnitude
+        vDSP_vsmul(mChannels[i].mOutputData(), 1, &two, mChannels[i].mOutputData(), 1, bins);
+        vDSP_vsdiv(mChannels[i].mOutputData(), 1, &fFFTSize, mChannels[i].mOutputData(), 1, bins);
+        
+        // convert to Db
+        vDSP_vdbcon(mChannels[i].mOutputData(), 1, &ref, mChannels[i].mOutputData(), 1, bins, 1);
+        
+        // find min max
+        vDSP_minv(mChannels[i].mOutputData(), 1, &minMagnitudesByChannel[i], bins);
+        vDSP_maxv(mChannels[i].mOutputData(), 1, &maxMagnitudesByChannel[i], bins);
     }
     
-    if (channelSelect == 3 && mNumChannels > 1 && mNumChannels < 3) { // we only support up to 2 channels
-        vDSP_vsadd(mChannels[0].mOutputData(), 1, mChannels[1].mOutputData(), temp(), 1, bins);
-        vDSP_vsdiv(temp(), 1, &numberOfChannels, outMagnitude, 1, bins);
+    // stereo analysis ; for this demo, we only support up to 2 channels
+    if (channelSelect == 3 && mNumChannels > 1 && mNumChannels < 3) { 
+        vDSP_vadd(mChannels[0].mOutputData(), 1, mChannels[1].mOutputData(), 1, result(), 1, bins);
+        vDSP_vsdiv(result(), 1, &two, result(), 1, bins);
         
-        *min = (minMagnitudesByChannel[0] + minMagnitudesByChannel[1]) / 2;
-        *max = (maxMagnitudesByChannel[0] + maxMagnitudesByChannel[1]) / 2;
+        //*outMin = (minMagnitudesByChannel[0] + minMagnitudesByChannel[1]) / 2;
+        //*outMax = (maxMagnitudesByChannel[0] + maxMagnitudesByChannel[1]) / 2;
         
-        return true;
+        return result;
     }
     
+    // mono analysis
     if (channelSelect < mNumChannels) {
-        memcpy(outMagnitude, mChannels[channelSelect].mOutputData(), bins * sizeof(Float32));
+        memcpy(result(), mChannels[channelSelect].mOutputData(), bins * sizeof(Float32));
         
-        *min = minMagnitudesByChannel[channelSelect];
-        *max = maxMagnitudesByChannel[channelSelect];
+        //*outMin = minMagnitudesByChannel[channelSelect];
+        //*outMax = maxMagnitudesByChannel[channelSelect];
         
-        return true;
+        return result;
     }
     
-    return false;
+    return result;
 }
