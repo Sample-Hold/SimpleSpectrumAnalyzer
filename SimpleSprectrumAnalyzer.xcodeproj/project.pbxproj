@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		B627AEA5147A5E31005062FC /* CABitOperations.h in Headers */ = {isa = PBXBuildFile; fileRef = B627C73A146AE5FB00DFE624 /* CABitOperations.h */; };
 		B627C73F146AE5FB00DFE624 /* CABitOperations.h in Headers */ = {isa = PBXBuildFile; fileRef = B627C73A146AE5FB00DFE624 /* CABitOperations.h */; };
 		B627C746146AE62D00DFE624 /* CAStreamBasicDescription.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B627C744146AE62D00DFE624 /* CAStreamBasicDescription.cpp */; };
 		B627C747146AE62D00DFE624 /* CAStreamBasicDescription.h in Headers */ = {isa = PBXBuildFile; fileRef = B627C745146AE62D00DFE624 /* CAStreamBasicDescription.h */; };
@@ -402,6 +403,7 @@
 				B63A975414658417002D8A37 /* SpectrumCocoaView-Prefix.pch in Headers */,
 				B6E7515F146759DA00287728 /* SimpleSpectrumSharedData.h in Headers */,
 				B63978BF1479B6EB009EE0F9 /* CAAutoDisposer.h in Headers */,
+				B627AEA5147A5E31005062FC /* CABitOperations.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

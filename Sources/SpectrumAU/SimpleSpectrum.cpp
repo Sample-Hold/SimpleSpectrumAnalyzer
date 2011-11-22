@@ -23,7 +23,7 @@ void SimpleSpectrumKernel::Process(Float32 const* inSourceP,
                                      bool & ioSilence)
 {
 	//This code will pass-thru the audio data.
-	//This is where you want to process data to produce an effect.
+	//This is usually where you want to process data to produce an effect.
     
 }
 
@@ -47,7 +47,7 @@ OSStatus SimpleSpectrum::Initialize()
 	OSStatus result = AUEffectBase::Initialize();
 	
 	if(result == noErr ) {
-        // allocate ring buffer
+        // allocate our ring buffer
         mProcessor.Allocate(GetNumberOfChannels(), kMaxBlockSize);
         mInfos.mNumBins = 0;
         mInfos.mSamplingRate = GetSampleRate();
@@ -77,12 +77,15 @@ OSStatus SimpleSpectrum::Render(AudioUnitRenderActionFlags & ioActionFlags,
         mInfos.mNumBins = currentBlockSize>>1;
         UInt32 channelSelect = GetParameter(kSpectrumParam_SelectChannel);
         
-        // hard work outside of the mutex block
+        // hard work outside the mutex block
         CAAutoFree<Float32> magnitudes = mProcessor.GetMagnitudes(channelSelect);
 
         mCAMutex.Lock();
         mComputedMagnitudes = magnitudes;
         mCAMutex.Unlock();
+        
+        // notify UI
+        PropertyChanged(kAudioUnitProperty_SpectrumGraphData, kAudioUnitScope_Global, 0);
     }
 
 	return AUEffectBase::Render(ioActionFlags, inTimeStamp, inFramesToProcess);
@@ -117,6 +120,7 @@ OSStatus SimpleSpectrum::GetProperty(AudioUnitPropertyID  inID,
 				
 				return noErr;
 			}
+            // This property gives infos about the computed magnitudes
             case kAudioUnitProperty_SpectrumGraphInfo:
             {
                 SpectrumGraphInfo* g = (SpectrumGraphInfo*) outData;
@@ -126,6 +130,7 @@ OSStatus SimpleSpectrum::GetProperty(AudioUnitPropertyID  inID,
 
                 return noErr;
             }
+            // This property sends magnitudes data as Float32
             case kAudioUnitProperty_SpectrumGraphData:
             {
                 Float32* mData = (Float32*) outData;
@@ -138,8 +143,7 @@ OSStatus SimpleSpectrum::GetProperty(AudioUnitPropertyID  inID,
             }
 		}
 	}
-	
-	// if we've gotten this far, handles the standard properties
+
 	return AUEffectBase::GetProperty (inID, inScope, inElement, outData);
 }
 

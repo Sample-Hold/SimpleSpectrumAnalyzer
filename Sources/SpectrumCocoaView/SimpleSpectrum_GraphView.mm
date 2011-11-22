@@ -8,20 +8,21 @@
 
 #import "SimpleSpectrum_GraphView.h"
 
-@implementation SimpleSpectrum_GraphView
+#import "CABitOperations.h"
 
-#define kDefaultMinHertz	12.
-#define kDefaultMaxHertz	22050.
-#define kDefaultMinDbFS     -72.
-#define kLogBase            2
-#define kLogBaseDb          10
+#define kDefaultMinHertz	11
+#define kDefaultMaxHertz	22050
 #define kNumFreqLines		11
+
+#define kDefaultMinDbFS     -72
 #define kNumDBLines         4
-#define kDBAxisGap			35
+
+#define kDBAxisGap			40
 #define kFreqAxisGap		17
 #define kRightMargin		10
 #define kTopMargin			8
 
+@implementation SimpleSpectrum_GraphView
 #pragma mark ____ (INIT /) DEALLOC ____
 -(id)initWithFrame:(NSRect)frameRect
 {
@@ -68,55 +69,60 @@
     [super dealloc];
 }
 
-#pragma mark ____ INTERNAL METHODS ____
-double logValueForNumber(double number, double base) 
-{
-	return log (number) / log(base);
-}
-
-- (double) locationForFrequencyValue: (double) value 
+#pragma mark ____ PUBLIC METHODS ____
+-(CGFloat) locationForFrequencyValue: (double) value 
 {
 	if(value >= kDefaultMaxHertz)
-        return mActiveWidth;
+        return mActiveWidth - 5;
     if(value <= kDefaultMinHertz)
-        return 0;
+        return .5;
     
-    return floor(value * mActiveWidth / (kDefaultMaxHertz - kDefaultMinHertz)) + .5;
+    double pixelIncrement = mActiveWidth / (double) kNumFreqLines;
+    double normalizedValue = value / kDefaultMinHertz;
+	double location = log2(normalizedValue) * pixelIncrement;
+
+	return floor(location) + .5;
 }
 
-- (double) freqValueForLocation: (double) location 
-{
-	return kDefaultMinHertz + (location * (kDefaultMaxHertz - kDefaultMinHertz) / mActiveWidth);
-}
-
-- (double) freqValueAtGridIndex: (UInt32) index 
-{
-    double location = index * mActiveWidth / kNumFreqLines;
-    
-    return [self freqValueForLocation:location];
-}
-
-- (double) locationForDBValue: (double) value 
+-(CGFloat) locationForDBValue: (Float32) value 
 {
 	if(value <= kDefaultMinDbFS)
-        return mActiveHeight;
+        return mActiveHeight - .5;
+    if(value >= 0)
+        return .5;
     
-    return floor(value * mActiveHeight / kDefaultMinDbFS) + .5;
-}
-
-- (double) dbValueForLocation: (double) location 
-{
-	return location * kDefaultMinDbFS / mActiveHeight;
-}
-
-- (double) dbValueAtGridIndex: (UInt32) index 
-{
-    double location = index * mActiveHeight / kNumDBLines;
+    double normalizedValue = value / (double) kDefaultMinDbFS;
+    normalizedValue = -1 * cos(M_PI_2 * normalizedValue)  + 1;
     
-    return [self dbValueForLocation:location];
+    return floor(normalizedValue * mActiveHeight) + .5;
 }
 
-- (NSString *) stringForValue:(double) value 
+-(CGFloat) locationForDBGridIndex: (UInt32) index 
+{
+    double normalizedIndex = index / (double) kNumDBLines;
+    
+    return floor(normalizedIndex * mActiveHeight) + .5;
+}
+
+-(double) freqValueAtGridIndex: (UInt32) index 
+{    
+    double freq = kDefaultMinHertz * pow(2, index);
+    
+    if(freq > kDefaultMaxHertz)
+        return kDefaultMaxHertz;
+
+    return floor(freq/10) *10;
+}
+
+-(Float32) dbValueAtGridIndex: (UInt32) index 
+{
+    Float32 normalizedIndex = index / (Float32) kNumDBLines;
+    normalizedIndex = -1 * cos(M_PI_2 * normalizedIndex)  + 1;
+    
+    return normalizedIndex * kDefaultMinDbFS;
+}
+
+-(NSString *) stringForValue:(double) value withDecimal:(BOOL)setDecimal
 {		
 	NSString * theString;
 	double temp = value;
@@ -126,81 +132,15 @@ double logValueForNumber(double number, double base)
 	
 	temp = (floor(temp *10))/10;	// chop everything after 1 decimal place
 
-	//if we do not have trailing zeros
-	if (floor(temp) == temp)
+	//if we do not have trailing zeros or don't want decimal
+	if (setDecimal == NO || floor(temp) == temp)
 		theString = [NSString localizedStringWithFormat: @"%1.0f", temp];
-	else 	// if we have only one digit
+	else 
 		theString = [NSString localizedStringWithFormat: @"%1.1f", temp];
 	
 	return theString;
 }
 
-- (void)drawDBGridLines {
-	[[NSColor whiteColor] set];
-    
-	for (UInt32 index = 0; index <= kNumDBLines; ++index) {
-        double value = [self dbValueAtGridIndex:index];
-        double location = [self locationForDBValue:value];
-        
-        [NSBezierPath strokeLineFromPoint:NSMakePoint(0, location) toPoint: NSMakePoint(mActiveWidth, location)];
-	}
-}
-
-- (void)drawDBLabels {
-    float labelWidth = kDBAxisGap - 4;
-
-	for (UInt32 index = 1; index <= kNumDBLines; ++index) {
-        double value = [self dbValueAtGridIndex:index];
-        double location = [self locationForDBValue:value];
-
-        [[[self stringForValue: value] stringByAppendingString: @"db"] 
-         drawInRect: NSMakeRect(0, -location - 3, labelWidth, 11) 
-         withAttributes: mDBAxisStringAttributes];
-	}
-}
-
-- (void) drawFreqGridLines {
-	[[[NSColor redColor] colorWithAlphaComponent: .15] set];
-    
-	for (UInt32 index = 0; index <= kNumFreqLines; ++index) {
-        double value = [self freqValueAtGridIndex:index];
-		double location = [self locationForFrequencyValue: value];
-		
-        [NSBezierPath strokeLineFromPoint:NSMakePoint(location, 2) toPoint:NSMakePoint(location, mActiveHeight - 2)];
-	}
-}
-
-- (void) drawFreqLabels {
-    UInt32 labelWidth = 30;
-	BOOL firstK = YES;	// we only want a 'K' label the first time a value is over 1000
-    
-	for (UInt32 index = 0; index <= kNumFreqLines; ++index) {
-        double value = [self freqValueAtGridIndex:index];
-		double location = [self locationForFrequencyValue: value];
-		
-		if (index > 0 && index < kNumFreqLines) {	
-			NSString *s = [self stringForValue: value];
-            
-			if (value >= 1000 && firstK) {
-				s = [s stringByAppendingString: @"K"];
-				firstK = NO;
-			}
-
-			[s drawInRect: NSMakeRect(location - labelWidth/5, 0, labelWidth, 11) 
-                withAttributes: mFreqAxisStringAttributes];
-		} else if (index == 0) {	// append hertz label to first frequency
-			[[[self stringForValue: value] stringByAppendingString: @"Hz"] 
-                drawInRect: NSMakeRect(location, 0, labelWidth, 11) 
-                withAttributes: mFreqAxisStringAttributes];
-		} else {	// always label the last grid marker the maximum hertz value
-			[[[self stringForValue: kDefaultMaxHertz] stringByAppendingString: @"K"] 
-                drawInRect: NSMakeRect(location-labelWidth/2, 0, labelWidth, 11) 
-                withAttributes: mFreqAxisStringAttributes];
-		}
-	}
-}
-
-#pragma mark ____ PUBLIC METHODS ____
 -(BOOL)isOpaque
 {
     return YES;
@@ -236,21 +176,23 @@ double logValueForNumber(double number, double base)
 		lineRect.origin.y += 1;
 		NSRectFill(NSIntersectionRect(rect, lineRect));
         
-		[self drawDBGridLines];
-		[self drawFreqGridLines];
+        // draw grid
+        [self performSelector:@selector(drawDBGridLines:)];
+        [self performSelector:@selector(drawFreqGridLines:)];
         
         [transform invert];
         [transform translateXBy: kDBAxisGap - kRightMargin yBy: mActiveHeight + kTopMargin];
         [transform concat];
         
-        [self drawFreqLabels];
+        // draw labels
+        [self performSelector:@selector(drawFreqLabels:)];
 
         [transform invert];
         [transform scaleXBy:1.0 yBy:-1.0];
         [transform translateXBy:-kDBAxisGap yBy:0.0];
         [transform concat];
         
-        [self drawDBLabels];
+        [self performSelector:@selector(drawDBLabels:)];
         
         [transform invert];
         [transform translateXBy:-kDBAxisGap + kRightMargin yBy: -mActiveHeight-kTopMargin];
@@ -265,13 +207,12 @@ double logValueForNumber(double number, double base)
     [mBackgroundCache drawInRect: rect fromRect: rect operation: NSCompositeSourceOver fraction: 1.0];
     
 	if (curveColor) {
-		[curveColor set]; 
-        
         NSAffineTransform * transform = [NSAffineTransform transform];
         [transform translateXBy: kDBAxisGap + 1 yBy: mActiveHeight + kTopMargin + 1];
         [transform scaleXBy:1.0 yBy:-1.0];
         [transform concat];
         
+        [curveColor set];
 		[mCurvePath fill];
 	}
 }
@@ -294,32 +235,57 @@ double logValueForNumber(double number, double base)
 {	
 	if (!curveColor)
 		curveColor = [[NSColor colorWithDeviceRed: .31 green: .37 blue: .73 alpha: .8] retain];
-    
+
 	[mCurvePath release];
-	mCurvePath = [[NSBezierPath bezierPath] retain];
+    mCurvePath = [[NSBezierPath bezierPath] retain];
     
-    Float32 lastDBPos = [self locationForDBValue: kDefaultMinDbFS];
-	[mCurvePath moveToPoint:NSMakePoint(0, lastDBPos)];
+    CGFloat lastDBPos = [self locationForDBValue: kDefaultMinDbFS], dbPos, distanceX, distanceY;
+    NSPoint lastPoint = NSMakePoint(.5, lastDBPos), dest, controlPoint;
+	[mCurvePath moveToPoint:lastPoint];
     
-	for (UInt32 i = 0; i < infos.mNumBins; ++i) {		
-		Float32 freq = (Float32)i * infos.mSamplingRate / (Float32)(infos.mNumBins * 2);
-        Float32 dbValue = data[i];
-		Float32 dbPos = 0;												
-		if (dbValue < kDefaultMinDbFS)
-			dbPos = [self locationForDBValue: kDefaultMinDbFS];
-		else if (dbValue > 0)
-			dbPos = 0;
-		else 
-			dbPos = [self locationForDBValue: dbValue];	
-		
-        // only create a new point in our bezier path if the current db pixel value
-		if (fabsf(lastDBPos - dbPos) >= .1)								 
-			[mCurvePath lineToPoint: NSMakePoint([self locationForFrequencyValue:freq], dbPos)];	
-                                                 
+	for (UInt32 i = 1; i < infos.mNumBins; ++i) {		
+		double freq = i * (double) infos.mSamplingRate / (double)(infos.mNumBins * 2);
+        dbPos = [self locationForDBValue: data[i]];												
+        
+        // only create a new point in our bezier path if db moves by 1 point
+        if (lastDBPos - dbPos > 0) {
+            dest = NSMakePoint([self locationForFrequencyValue:freq], dbPos);
+            
+            distanceX = dest.x - lastPoint.x;
+            distanceY = dest.y - lastPoint.y;
+            
+            // smooth curve if distanceX >= 10
+            if (distanceX >= 10 && distanceY < 0) // db highering
+            {
+                controlPoint = NSMakePoint(dest.x, lastPoint.y);
+                [mCurvePath curveToPoint: dest controlPoint1: controlPoint controlPoint2: controlPoint];
+            }
+            else if (distanceX >= 10 && distanceY > 0) // db lowering
+            {
+                controlPoint = NSMakePoint(lastPoint.x, dest.y);
+                [mCurvePath curveToPoint: dest controlPoint1: controlPoint controlPoint2: controlPoint];
+            }
+            else 
+            {
+                [mCurvePath lineToPoint:dest];	
+            }
+            
+            lastPoint = dest;
+        }
+            
 		lastDBPos = dbPos;
     }
-
-	[mCurvePath closePath];
+    
+    dest = NSMakePoint(mActiveWidth - .5, [self locationForDBValue: kDefaultMinDbFS]);
+    if(dest.x - lastPoint.x >= 10) 
+    {
+        controlPoint = NSMakePoint(lastPoint.x, dest.y);
+        [mCurvePath curveToPoint: dest controlPoint1: controlPoint controlPoint2: controlPoint];    
+    }
+    else
+        [mCurvePath lineToPoint: dest];
+	
+    [mCurvePath closePath];
 	
 	[self setNeedsDisplay: YES];	
 }
@@ -331,6 +297,71 @@ double logValueForNumber(double number, double base)
 		curveColor = nil;
 	}
 	[self setNeedsDisplay: YES];
+}
+
+#pragma mark ____ INTERNAL METHODS ____
+-(void)drawDBGridLines:(id)sender {
+	[[NSColor whiteColor] set];
+    
+	for (UInt32 index = 0; index <= kNumDBLines; ++index) {
+        CGFloat location = [self locationForDBGridIndex:index];
+        
+        [NSBezierPath strokeLineFromPoint:NSMakePoint(0, location) toPoint: NSMakePoint(mActiveWidth, location)];
+	}
+}
+
+- (void)drawDBLabels:(id)sender {
+    float labelWidth = kDBAxisGap - 4;
+    
+	for (UInt32 index = 1; index <= kNumDBLines; ++index) {
+        Float32 value = [self dbValueAtGridIndex:index];
+        CGFloat location = [self locationForDBGridIndex:index];
+        
+        [[[self stringForValue: value withDecimal:NO] stringByAppendingString: @"db"] 
+         drawInRect: NSMakeRect(0, -location - 3, labelWidth, 11) 
+         withAttributes: mDBAxisStringAttributes];
+	}
+}
+
+- (void) drawFreqGridLines:(id)sender {
+	[[[NSColor redColor] colorWithAlphaComponent: .15] set];
+    
+	for (UInt32 index = 0; index <= kNumFreqLines; ++index) {
+        double value = [self freqValueAtGridIndex:index];
+		CGFloat location = [self locationForFrequencyValue: value];
+		
+        [NSBezierPath strokeLineFromPoint:NSMakePoint(location, 2) toPoint:NSMakePoint(location, mActiveHeight - 2)];
+	}
+}
+
+- (void) drawFreqLabels:(id)sender {
+    UInt32 labelWidth = kDBAxisGap - 4;
+	BOOL firstK = YES;	// we only want a 'K' label the first time a value is over 1000
+    
+	for (UInt32 index = 0; index <= kNumFreqLines; ++index) {
+        double value = [self freqValueAtGridIndex:index];
+		CGFloat location = [self locationForFrequencyValue: value];
+		
+		if (index > 0 && index < kNumFreqLines) {	
+			NSString *s = [self stringForValue: value withDecimal: YES];
+            
+			if (value >= 1000 && firstK) {
+				s = [s stringByAppendingString: @"K"];
+				firstK = NO;
+			}
+            
+			[s drawInRect: NSMakeRect(location - labelWidth/5, 0, labelWidth, 11) 
+           withAttributes: mFreqAxisStringAttributes];
+		} else if (index == 0) {	// append hertz label to first frequency
+			[[[self stringForValue: value withDecimal: NO] stringByAppendingString: @"Hz"] 
+             drawInRect: NSMakeRect(location, 0, labelWidth, 11) 
+             withAttributes: mFreqAxisStringAttributes];
+		} else {	// always label the last grid marker the maximum hertz value
+			[[[self stringForValue: kDefaultMaxHertz withDecimal:NO] stringByAppendingString: @"K"] 
+             drawInRect: NSMakeRect(location-labelWidth/2, 0, labelWidth, 11) 
+             withAttributes: mFreqAxisStringAttributes];
+		}
+	}
 }
 
 @end

@@ -15,22 +15,8 @@
 {
     [self performSelector:@selector(unregisterEventListener:) withObject:self];
     mAU = nil;
-    [mFetchTimer release];
-
+    
     [super dealloc];
-}
-
--(void)setTimer: (NSTimer *) value {
-	if ( mFetchTimer != value ) {
-		[mFetchTimer release];
-		mFetchTimer = [value retain];
-	}
-}
-
--(void)removeFromSuperview
-{
-    [mFetchTimer invalidate];
-    [super removeFromSuperview];
 }
 
 #pragma mark ____ INTERFACE ACTIONS ____
@@ -90,12 +76,6 @@
     
     // synchronize UI parameters
     [self synchronizeUIWithParameterValues];
-
-    [self setTimer: [NSTimer scheduledTimerWithTimeInterval: (1.0/60.0)
-                                                     target: self
-                                                   selector: @selector(drawSpectrumGraph:)
-                                                   userInfo: nil
-                                                    repeats: YES]];
 }
 
 - (void)synchronizeUIWithParameterValues {
@@ -115,35 +95,6 @@
               @"[SimpleSpectrum_UIView synchronizeUIWithParameterValues]");
     
     [self activateMenuItemByTag:(NSInteger)inValue onMenu:windowMenu];
-}
-
--(void)drawSpectrumGraph:(NSTimer*) t
-{    
-    SpectrumGraphInfo graphInfo;
-    graphInfo.mNumBins = 0;
-
-    UInt32 sizeOfResult = sizeof(graphInfo);
-    
-    ComponentResult result = AudioUnitGetProperty(mAU,
-                                                  kAudioUnitProperty_SpectrumGraphInfo,
-                                                  kAudioUnitScope_Global,
-                                                  0,
-                                                  &graphInfo,
-                                                  &sizeOfResult);
-    
-    if(result == noErr && graphInfo.mNumBins > 0) {
-        CAAutoFree<Float32> graphData;
-        graphData.allocBytes(sizeOfResult = graphInfo.mNumBins * sizeof(Float32));
-        
-        result = AudioUnitGetProperty(mAU,
-                                      kAudioUnitProperty_SpectrumGraphData,
-                                      kAudioUnitScope_Global,
-                                      0,
-                                      graphData(),
-                                      &sizeOfResult);
-        
-        [graphView plotData: graphData givenInfos: graphInfo];
-    }
 }
 
 void dispatchAudioUnitEventProc(void * inUserData, 
@@ -184,6 +135,14 @@ void dispatchAudioUnitEventProc(void * inUserData,
 			}
 			break;
         }
+        case kAudioUnitEvent_PropertyChange:
+        {
+            switch (inAUEvent->mArgument.mProperty.mPropertyID) {
+                case kAudioUnitProperty_SpectrumGraphData:
+                    [self performSelector:@selector(drawSpectrumGraph:) withObject:self];
+                    break;
+            }
+        }
     }
 }
 
@@ -200,7 +159,6 @@ void dispatchAudioUnitEventProc(void * inUserData,
                       onMenu:(const NSMenu *)menu
 {
     NSMenuItem * item = [menu itemWithTag:tag];
-    
     [self activateMenuItem:item];
 }
 
@@ -238,18 +196,47 @@ void dispatchAudioUnitEventProc(void * inUserData,
     auEvent.mArgument.mParameter.mParameterID = kSpectrumParam_Window;
     verify_noerr (AUEventListenerAddEventType(mAUEventListener, self, &auEvent));
 				
-    /*auEvent.mEventType = kAudioUnitEvent_PropertyChange;
+    auEvent.mEventType = kAudioUnitEvent_PropertyChange;
     auEvent.mArgument.mProperty.mAudioUnit = mAU;
     auEvent.mArgument.mProperty.mPropertyID = kAudioUnitProperty_SpectrumGraphData;
     auEvent.mArgument.mProperty.mScope = kAudioUnitScope_Global;
     auEvent.mArgument.mProperty.mElement = 0;		
-    verify_noerr (AUEventListenerAddEventType (mAUEventListener, self, &auEvent));*/  
+    verify_noerr (AUEventListenerAddEventType (mAUEventListener, self, &auEvent)); 
 }
 
 - (void)unregisterEventListener:(id)sender
 {
 	if (mAUEventListener) verify_noerr (AUListenerDispose(mAUEventListener));
 	mAUEventListener = nil;
+}
+
+-(void)drawSpectrumGraph:(id)sender
+{    
+    SpectrumGraphInfo graphInfo;
+    graphInfo.mNumBins = 0;
+    
+    UInt32 sizeOfResult = sizeof(graphInfo);
+    
+    ComponentResult result = AudioUnitGetProperty(mAU,
+                                                  kAudioUnitProperty_SpectrumGraphInfo,
+                                                  kAudioUnitScope_Global,
+                                                  0,
+                                                  &graphInfo,
+                                                  &sizeOfResult);
+    
+    if(result == noErr && graphInfo.mNumBins > 0) {
+        CAAutoFree<Float32> graphData;
+        graphData.allocBytes(sizeOfResult = graphInfo.mNumBins * sizeof(Float32));
+        
+        result = AudioUnitGetProperty(mAU,
+                                      kAudioUnitProperty_SpectrumGraphData,
+                                      kAudioUnitScope_Global,
+                                      0,
+                                      graphData(),
+                                      &sizeOfResult);
+        
+        [graphView plotData: graphData givenInfos: graphInfo];
+    }
 }
 
 @end

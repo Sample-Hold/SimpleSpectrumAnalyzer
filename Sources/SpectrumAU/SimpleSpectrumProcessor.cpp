@@ -10,7 +10,6 @@
 
 #define MIN(a,b) a<b?a:b
 #define MAX(a,b) a>b?a:b
-#define OFFSETOF(class, field)((size_t)&((class*)0)->field)
 
 #pragma mark ____SimpleSpectrumProcessor
 SimpleSpectrumProcessor::SimpleSpectrumProcessor(): mNumChannels(0), 
@@ -196,19 +195,13 @@ CAAutoFree<Float32> SimpleSpectrumProcessor::GetMagnitudes(UInt32 channelSelect)
         vDSP_vadd(mChannels[0].mOutputData(), 1, mChannels[1].mOutputData(), 1, result(), 1, bins);
         vDSP_vsdiv(result(), 1, &two, result(), 1, bins);
         
-        //*outMin = (minMagnitudesByChannel[0] + minMagnitudesByChannel[1]) / 2;
-        //*outMax = (maxMagnitudesByChannel[0] + maxMagnitudesByChannel[1]) / 2;
-        
         return result;
     }
     
     // mono analysis
-    if (channelSelect < mNumChannels) {
-        memcpy(result(), mChannels[channelSelect].mOutputData(), bins * sizeof(Float32));
-        
-        //*outMin = minMagnitudesByChannel[channelSelect];
-        //*outMax = maxMagnitudesByChannel[channelSelect];
-        
+    if (channelSelect <= mNumChannels) {
+        memcpy(result(), mChannels[channelSelect-1].mOutputData(), bins * sizeof(Float32));
+
         return result;
     }
     

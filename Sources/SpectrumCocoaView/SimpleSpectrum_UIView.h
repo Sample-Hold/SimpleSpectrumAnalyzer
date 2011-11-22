@@ -17,7 +17,6 @@
     
     AudioUnit mAU;
     AUEventListenerRef mAUEventListener;
-    NSTimer * mFetchTimer;
 }
 
 -(IBAction) blockSizeChanged:(id)sender;
@@ -27,8 +26,6 @@
 -(void)setAU:(AudioUnit)inAU;
 
 -(void)synchronizeUIWithParameterValues;
-
--(void)drawSpectrumGraph:(NSTimer*) t;
 
 void dispatchAudioUnitEventProc(void * inUserData, 
                                 void * inObject,
@@ -44,6 +41,9 @@ void dispatchAudioUnitEventProc(void * inUserData,
 
 -(void)activateMenuItemByTag:(NSInteger)tag
                       onMenu:(NSMenu const *)menu;
+
+-(void)disableMenu:(NSMenu const *)menu
+                    andFlagMenuItemWithTag:(NSInteger)tag;
 
 @end
 
