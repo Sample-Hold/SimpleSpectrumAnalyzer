@@ -50,6 +50,7 @@ OSStatus SimpleSpectrum::Initialize()
         // allocate our ring buffer
         mProcessor.Allocate(GetNumberOfChannels(), kMaxBlockSize);
         mInfos.mNumBins = 0;
+        mInfos.mNumChannels = GetNumberOfChannels();
         mInfos.mSamplingRate = GetSampleRate();
 	}
 	
@@ -78,7 +79,7 @@ OSStatus SimpleSpectrum::Render(AudioUnitRenderActionFlags & ioActionFlags,
         UInt32 channelSelect = GetParameter(kSpectrumParam_SelectChannel);
         
         // hard work outside the mutex block
-        CAAutoFree<Float32> magnitudes = mProcessor.GetMagnitudes(channelSelect);
+        CAAutoFree<Float32> magnitudes = mProcessor.GetMagnitudes(currentWindow, channelSelect);
 
         mCAMutex.Lock();
         mComputedMagnitudes = magnitudes;
@@ -127,6 +128,7 @@ OSStatus SimpleSpectrum::GetProperty(AudioUnitPropertyID  inID,
 
                 g->mNumBins = mInfos.mNumBins;
                 g->mSamplingRate = mInfos.mSamplingRate;
+                g->mNumChannels = mInfos.mNumChannels;
 
                 return noErr;
             }

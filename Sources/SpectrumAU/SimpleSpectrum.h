@@ -82,7 +82,7 @@ const ShortFixed kBlockSize_Option3 = 3;
 const ShortFixed kBlockSize_Option4 = 4;
 const ShortFixed kBlockSize_Option5 = 5;
 
-const ShortFixed kBlockSize_Default = kBlockSize_Option1;
+const ShortFixed kBlockSize_Default = kBlockSize_Option2;
 
 static CFStringRef kBlockSize_Option1_Name = CFSTR ("1024");
 static CFStringRef kBlockSize_Option2_Name = CFSTR ("2048");

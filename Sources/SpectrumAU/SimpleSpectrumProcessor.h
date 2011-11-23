@@ -48,7 +48,7 @@ public:
     void Allocate(UInt32 inNumChannels, UInt32 ringBufferCapacity);
     bool CopyInputToRingBuffer(UInt32 inNumFrames, AudioBufferList* inInput);
     bool TryFFT(UInt32 inFFTSize, Window w = Rectangular);
-    CAAutoFree<Float32> GetMagnitudes(UInt32 channelSelect = 3);
+    CAAutoFree<Float32> GetMagnitudes(Window w, UInt32 channelSelect = 3);
 };
 
 #endif

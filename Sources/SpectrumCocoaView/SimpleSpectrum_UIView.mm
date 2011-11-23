@@ -76,6 +76,9 @@
     
     // synchronize UI parameters
     [self synchronizeUIWithParameterValues];
+    
+    // check numbers of channels
+    [self performSelector:@selector(checkNumChannels:) withObject:self];
 }
 
 - (void)synchronizeUIWithParameterValues {
@@ -141,6 +144,10 @@ void dispatchAudioUnitEventProc(void * inUserData,
                 case kAudioUnitProperty_SpectrumGraphData:
                     [self performSelector:@selector(drawSpectrumGraph:) withObject:self];
                     break;
+                case kAudioUnitProperty_SpectrumGraphInfo:
+                    [self performSelector:@selector(checkNumChannels:) withObject:self];
+                    break;
+                    
             }
         }
     }
@@ -166,7 +173,8 @@ void dispatchAudioUnitEventProc(void * inUserData,
                     andFlagMenuItemWithTag:(NSInteger)tag
 {
     for(NSMenuItem * item in [menu itemArray]) {
-        [item setState:([item tag] == tag ? NSMixedState : NSOffState)];
+        [item setState:[item tag] == tag ? NSMixedState : NSOffState];
+        [item setHidden:[item tag] == tag ? NO : YES];
         [item setEnabled:NO];
     }
 }
@@ -202,6 +210,9 @@ void dispatchAudioUnitEventProc(void * inUserData,
     auEvent.mArgument.mProperty.mScope = kAudioUnitScope_Global;
     auEvent.mArgument.mProperty.mElement = 0;		
     verify_noerr (AUEventListenerAddEventType (mAUEventListener, self, &auEvent)); 
+    
+    auEvent.mArgument.mProperty.mPropertyID = kAudioUnitProperty_SpectrumGraphInfo;
+    verify_noerr (AUEventListenerAddEventType (mAUEventListener, self, &auEvent)); 
 }
 
 - (void)unregisterEventListener:(id)sender
@@ -236,6 +247,24 @@ void dispatchAudioUnitEventProc(void * inUserData,
                                       &sizeOfResult);
         
         [graphView plotData: graphData givenInfos: graphInfo];
+    }
+}
+
+-(void)checkNumChannels:(id)sender
+{
+    SpectrumGraphInfo graphInfo;
+    
+    UInt32 sizeOfResult = sizeof(graphInfo);
+    
+    ComponentResult result = AudioUnitGetProperty(mAU,
+                                                  kAudioUnitProperty_SpectrumGraphInfo,
+                                                  kAudioUnitScope_Global,
+                                                  0,
+                                                  &graphInfo,
+                                                  &sizeOfResult);
+    
+    if(result == noErr && graphInfo.mNumChannels == 1) {
+        [self disableMenu:channelSelectMenu andFlagMenuItemWithTag:1];
     }
 }
 

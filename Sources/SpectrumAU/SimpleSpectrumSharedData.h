@@ -28,6 +28,7 @@ struct SpectrumGraphInfo
 {		
     Float64 mSamplingRate;
     SInt32 mNumBins;
+    SInt32 mNumChannels;
 };
 
 #endif

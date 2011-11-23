@@ -51,14 +51,27 @@
           [NSColor colorWithDeviceWhite: .1 alpha: 1], 
           NSForegroundColorAttributeName, nil] retain];
 
+        mDisplayCursorInfos = NO;
+        [cursorInfos setStringValue:[NSString new]];
         [self setPostsFrameChangedNotifications:YES];
     }
     
     return self;
 }
 
+-(void)viewDidMoveToWindow
+{
+    mMouseTrackingRect = 
+    [self addTrackingRect:NSMakeRect(kDBAxisGap, kTopMargin, mActiveWidth, mActiveHeight) 
+                    owner:self 
+                    userData:NULL 
+                    assumeInside:NO];
+}
+
 -(void)dealloc
 {
+    [self removeTrackingRect:mMouseTrackingRect];
+    
     [mDBAxisStringAttributes release];
 	[mFreqAxisStringAttributes release];
 	[mCurvePath release];
@@ -84,6 +97,22 @@
 	return floor(location) + .5;
 }
 
+-(double) freqValueAtGridIndex: (CGFloat) index 
+{    
+    double freq = kDefaultMinHertz * pow(2, index);
+    
+    if(freq > kDefaultMaxHertz)
+        return kDefaultMaxHertz;
+    
+    return floor(freq/10) *10;
+}
+
+-(double) freqValueAtLocation: (CGFloat) location
+{
+    double pixelIncrement = mActiveWidth / kNumFreqLines;
+	return [self freqValueAtGridIndex:(location / pixelIncrement)];
+}
+
 -(CGFloat) locationForDBValue: (Float32) value 
 {
 	if(value <= kDefaultMinDbFS)
@@ -92,29 +121,19 @@
         return .5;
     
     double normalizedValue = value / (double) kDefaultMinDbFS;
-    normalizedValue = -1 * cos(M_PI_2 * normalizedValue)  + 1;
+    normalizedValue = sin(M_PI_2 * normalizedValue);
     
     return floor(normalizedValue * mActiveHeight) + .5;
 }
 
--(CGFloat) locationForDBGridIndex: (UInt32) index 
+-(CGFloat) locationForDBGridIndex: (CGFloat) index 
 {
     double normalizedIndex = index / (double) kNumDBLines;
     
     return floor(normalizedIndex * mActiveHeight) + .5;
 }
 
--(double) freqValueAtGridIndex: (UInt32) index 
-{    
-    double freq = kDefaultMinHertz * pow(2, index);
-    
-    if(freq > kDefaultMaxHertz)
-        return kDefaultMaxHertz;
-
-    return floor(freq/10) *10;
-}
-
--(Float32) dbValueAtGridIndex: (UInt32) index 
+-(Float32) dbValueAtGridIndex: (CGFloat) index 
 {
     Float32 normalizedIndex = index / (Float32) kNumDBLines;
     normalizedIndex = -1 * cos(M_PI_2 * normalizedIndex)  + 1;
@@ -122,18 +141,24 @@
     return normalizedIndex * kDefaultMinDbFS;
 }
 
--(NSString *) stringForValue:(double) value withDecimal:(BOOL)setDecimal
+-(Float32) dbValueAtLocation: (CGFloat) location
+{
+    double pixelIncrement = mActiveHeight / kNumDBLines;
+	return [self dbValueAtGridIndex:(location / pixelIncrement)];
+}
+
+-(NSString *) stringForValue:(double)value divideThousands:(BOOL)divide showDecimals:(BOOL)decimals 
 {		
 	NSString * theString;
 	double temp = value;
 	
-	if (value >= 1000)
+    if(divide && value >= 1000)
 		temp = temp / 1000;
 	
 	temp = (floor(temp *10))/10;	// chop everything after 1 decimal place
 
 	//if we do not have trailing zeros or don't want decimal
-	if (setDecimal == NO || floor(temp) == temp)
+	if (decimals == NO || floor(temp) == temp)
 		theString = [NSString localizedStringWithFormat: @"%1.0f", temp];
 	else 
 		theString = [NSString localizedStringWithFormat: @"%1.1f", temp];
@@ -224,10 +249,16 @@
 	[mBackgroundCache release];
 	mBackgroundCache = nil;
     
+    mMouseTrackingRect = [self addTrackingRect:NSMakeRect(kDBAxisGap, kTopMargin, mActiveWidth, mActiveHeight) 
+                                        owner:self 
+                                        userData:NULL 
+                                        assumeInside:NO];
+    
 	[super setFrameSize: newSize];
 }
 
 -(void) setFrame: (NSRect) frameRect {
+    [self removeTrackingRect:mMouseTrackingRect];
     [self setFrameSize:frameRect.size];	
 }
 
@@ -299,6 +330,48 @@
 	[self setNeedsDisplay: YES];
 }
 
+-(void)mouseEntered:(NSEvent *)theEvent
+{
+    mWasAcceptingMouseEvents = [[self window] acceptsMouseMovedEvents];
+    mDisplayCursorInfos = YES;
+    [[self window] setAcceptsMouseMovedEvents:YES];
+    [[self window] makeFirstResponder:self];
+}
+
+-(void)mouseMoved:(NSEvent *)theEvent
+{
+    NSPoint pointed = [self convertPoint:[theEvent locationInWindow] fromView:nil];
+    
+    NSAffineTransform * transform = [NSAffineTransform transform];
+    [transform translateXBy: -kDBAxisGap yBy: mActiveHeight + kTopMargin];
+    [transform scaleXBy:1.0 yBy:-1.0];
+    [transform concat];
+    
+    pointed = [transform transformPoint:pointed];
+
+    if(mDisplayCursorInfos) {  
+        NSString *freqLabel = 
+            [self stringForValue:[self freqValueAtLocation:pointed.x] divideThousands:NO showDecimals:NO];
+        
+        NSString *dbLabel = 
+            [self stringForValue:[self dbValueAtLocation:pointed.y] divideThousands:NO showDecimals:YES];
+        
+        [cursorInfos setStringValue:
+         [NSString localizedStringWithFormat:@"Freq: %@ Hz Amplitude: %@ DbFS", freqLabel, dbLabel ]];
+
+    }
+    
+    [self setNeedsDisplay: YES];
+}
+
+-(void)mouseExited:(NSEvent *)theEvent
+{
+    mDisplayCursorInfos = NO;
+    [cursorInfos setStringValue:[NSString new]];
+    [[self window] setAcceptsMouseMovedEvents:mWasAcceptingMouseEvents];
+    [self setNeedsDisplay: YES];
+}
+
 #pragma mark ____ INTERNAL METHODS ____
 -(void)drawDBGridLines:(id)sender {
 	[[NSColor whiteColor] set];
@@ -310,20 +383,20 @@
 	}
 }
 
-- (void)drawDBLabels:(id)sender {
+-(void)drawDBLabels:(id)sender {
     float labelWidth = kDBAxisGap - 4;
     
 	for (UInt32 index = 1; index <= kNumDBLines; ++index) {
         Float32 value = [self dbValueAtGridIndex:index];
         CGFloat location = [self locationForDBGridIndex:index];
         
-        [[[self stringForValue: value withDecimal:NO] stringByAppendingString: @"db"] 
+        [[[self stringForValue: value divideThousands:NO showDecimals:NO] stringByAppendingString: @"db"] 
          drawInRect: NSMakeRect(0, -location - 3, labelWidth, 11) 
          withAttributes: mDBAxisStringAttributes];
 	}
 }
 
-- (void) drawFreqGridLines:(id)sender {
+-(void) drawFreqGridLines:(id)sender {
 	[[[NSColor redColor] colorWithAlphaComponent: .15] set];
     
 	for (UInt32 index = 0; index <= kNumFreqLines; ++index) {
@@ -334,7 +407,7 @@
 	}
 }
 
-- (void) drawFreqLabels:(id)sender {
+-(void) drawFreqLabels:(id)sender {
     UInt32 labelWidth = kDBAxisGap - 4;
 	BOOL firstK = YES;	// we only want a 'K' label the first time a value is over 1000
     
@@ -343,7 +416,7 @@
 		CGFloat location = [self locationForFrequencyValue: value];
 		
 		if (index > 0 && index < kNumFreqLines) {	
-			NSString *s = [self stringForValue: value withDecimal: YES];
+			NSString *s = [self stringForValue: value divideThousands:YES showDecimals:YES];
             
 			if (value >= 1000 && firstK) {
 				s = [s stringByAppendingString: @"K"];
@@ -353,15 +426,19 @@
 			[s drawInRect: NSMakeRect(location - labelWidth/5, 0, labelWidth, 11) 
            withAttributes: mFreqAxisStringAttributes];
 		} else if (index == 0) {	// append hertz label to first frequency
-			[[[self stringForValue: value withDecimal: NO] stringByAppendingString: @"Hz"] 
+			[[[self stringForValue: value divideThousands:NO showDecimals:NO] stringByAppendingString: @"Hz"] 
              drawInRect: NSMakeRect(location, 0, labelWidth, 11) 
              withAttributes: mFreqAxisStringAttributes];
 		} else {	// always label the last grid marker the maximum hertz value
-			[[[self stringForValue: kDefaultMaxHertz withDecimal:NO] stringByAppendingString: @"K"] 
+			[[[self stringForValue: kDefaultMaxHertz divideThousands:YES showDecimals:YES] stringByAppendingString: @"K"] 
              drawInRect: NSMakeRect(location-labelWidth/2, 0, labelWidth, 11) 
              withAttributes: mFreqAxisStringAttributes];
 		}
 	}
+}
+
+-(void) drawInfosLabel:()sender{
+    
 }
 
 @end

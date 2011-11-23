@@ -10,21 +10,29 @@
 
 @interface SimpleSpectrum_GraphView : NSView
 {
+    IBOutlet NSTextField * cursorInfos;
+    
 	Float32 mActiveWidth, mActiveHeight;
 	NSColor *curveColor;
 	NSImage *mBackgroundCache;
 	NSBezierPath *mCurvePath;		
 	NSDictionary *mDBAxisStringAttributes, *mFreqAxisStringAttributes;	
+    NSTrackingRectTag mMouseTrackingRect;
+    BOOL mWasAcceptingMouseEvents, mDisplayCursorInfos;
 }
 
 -(CGFloat) locationForFrequencyValue: (double) value;
+-(double) freqValueAtLocation: (CGFloat) location;
+-(double) freqValueAtGridIndex: (CGFloat) index;
+
+-(CGFloat) locationForDBGridIndex: (CGFloat) index;
 -(CGFloat) locationForDBValue: (Float32) value;
--(CGFloat) locationForDBGridIndex: (UInt32) index;
+-(Float32) dbValueAtLocation: (CGFloat) location;
+-(Float32) dbValueAtGridIndex: (CGFloat) index;
 
--(double) freqValueAtGridIndex: (UInt32) index;
--(Float32) dbValueAtGridIndex: (UInt32) index;
-
--(NSString *) stringForValue:(double) value withDecimal:(BOOL) setDecimal;
+-(NSString *) stringForValue:(double)value 
+             divideThousands:(BOOL)divide 
+                showDecimals:(BOOL)decimals;
 
 -(void) plotData:(Float32 *) data givenInfos:(SpectrumGraphInfo) infos;
 -(void) disableGraphCurve;

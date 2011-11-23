@@ -9,7 +9,10 @@
 #include "CABitOperations.h"
 
 #define MIN(a,b) a<b?a:b
-#define MAX(a,b) a>b?a:b
+
+#define kHannFactor -3.2
+#define kHammingFactor 1.0
+#define kBlackmanFactor 2.37
 
 #pragma mark ____SimpleSpectrumProcessor
 SimpleSpectrumProcessor::SimpleSpectrumProcessor(): mNumChannels(0), 
@@ -126,7 +129,7 @@ void SimpleSpectrumProcessor::ApplyWindow(Window w)
         case Blackman:
             vDSP_blkman_window(mWindowData(), mFFTSize, 0);
             break;
-        case Rectangular: // to avoid Xcode annoying warning
+        default:
             break;
     }
     
@@ -148,7 +151,7 @@ bool SimpleSpectrumProcessor::TryFFT(UInt32 inNumFrames, Window w)
         InitFFT(inNumFrames, log2FFTSize, bins);
     
     ExtractRingBufferToFFTInput(inNumFrames);
-    
+
     ApplyWindow(w);
     
     for (UInt32 i=0; i<mNumChannels; ++i) 
@@ -164,44 +167,48 @@ bool SimpleSpectrumProcessor::TryFFT(UInt32 inNumFrames, Window w)
     return true;
 }
 
-CAAutoFree<Float32> SimpleSpectrumProcessor::GetMagnitudes(UInt32 channelSelect)
+CAAutoFree<Float32> SimpleSpectrumProcessor::GetMagnitudes(Window w, UInt32 channelSelect)
 {
     UInt32 bins = mFFTSize>>1;
-    Float32 two(2), fFFTSize(mFFTSize), ref(144);
-    CAAutoArrayDelete<Float32> minMagnitudesByChannel,  maxMagnitudesByChannel; 
+    Float32 one(1), two(2), fBins(bins), fGainOffset;
     CAAutoFree<Float32> result;
-    minMagnitudesByChannel.alloc(mNumChannels);
-    maxMagnitudesByChannel.alloc(mNumChannels);
-    result.alloc(bins);
+    result.alloc(bins, true);
     
     for (UInt32 i=0; i<mNumChannels; ++i) {        
-        // compute Z magnitude by saving sqrt operation
-        vDSP_zvmags(mChannels[i].mDSPSplitComplex(), 1, mChannels[i].mOutputData(), 1, bins);
-
-        // adjust magnitude
-        vDSP_vsmul(mChannels[i].mOutputData(), 1, &two, mChannels[i].mOutputData(), 1, bins);
-        vDSP_vsdiv(mChannels[i].mOutputData(), 1, &fFFTSize, mChannels[i].mOutputData(), 1, bins);
+        // compute Z magnitude
+        vDSP_zvabs(mChannels[i].mDSPSplitComplex(), 1, mChannels[i].mOutputData(), 1, bins);
+        vDSP_vsdiv(mChannels[i].mOutputData(), 1, &fBins, mChannels[i].mOutputData(), 1, bins);
         
         // convert to Db
-        vDSP_vdbcon(mChannels[i].mOutputData(), 1, &ref, mChannels[i].mOutputData(), 1, bins, 1);
-        
-        // find min max
-        vDSP_minv(mChannels[i].mOutputData(), 1, &minMagnitudesByChannel[i], bins);
-        vDSP_maxv(mChannels[i].mOutputData(), 1, &maxMagnitudesByChannel[i], bins);
+        vDSP_vdbcon(mChannels[i].mOutputData(), 1, &one, mChannels[i].mOutputData(), 1, bins, 1);
+
+        // db correction considering window
+        switch (w) {
+            case Hann:
+                fGainOffset = kHannFactor;
+                break;
+            case Hamming:
+                fGainOffset = kHammingFactor;
+                break;
+            case Blackman:
+                fGainOffset = kBlackmanFactor;
+                break;
+            default:
+                break;
+        }
+        vDSP_vsadd(mChannels[i].mOutputData(), 1, &fGainOffset, mChannels[i].mOutputData(), 1, bins);
     }
     
     // stereo analysis ; for this demo, we only support up to 2 channels
     if (channelSelect == 3 && mNumChannels > 1 && mNumChannels < 3) { 
         vDSP_vadd(mChannels[0].mOutputData(), 1, mChannels[1].mOutputData(), 1, result(), 1, bins);
         vDSP_vsdiv(result(), 1, &two, result(), 1, bins);
-        
         return result;
     }
     
     // mono analysis
     if (channelSelect <= mNumChannels) {
         memcpy(result(), mChannels[channelSelect-1].mOutputData(), bins * sizeof(Float32));
-
         return result;
     }
     

@@ -38,7 +38,7 @@
       debugDocumentVersioning = "YES"
       allowLocationSimulation = "YES">
       <PathRunnable
-         FilePath = "/Applications/Live 8.2.6/Live.app">
+         FilePath = "/Developer/Applications/Audio/AU Lab.app">
       </PathRunnable>
       <AdditionalOptions>
       </AdditionalOptions>
