@@ -69,7 +69,6 @@
 		B6E752BA1474907800202AF0 /* CAMutex.h in Headers */ = {isa = PBXBuildFile; fileRef = B6078C1E1474769300C7A1DF /* CAMutex.h */; };
 		B6E752BD1474A5A900202AF0 /* CAVectorUnit.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B6E752BB1474A5A900202AF0 /* CAVectorUnit.cpp */; };
 		B6E752BE1474A5A900202AF0 /* CAVectorUnit.h in Headers */ = {isa = PBXBuildFile; fileRef = B6E752BC1474A5A900202AF0 /* CAVectorUnit.h */; };
-		B6EAFCDB1471C698008C6D73 /* SimpleSpectrumAnalyzer.component in CopyFiles */ = {isa = PBXBuildFile; fileRef = B675E56C146B0DE00011284C /* SimpleSpectrumAnalyzer.component */; };
 		B6EAFCE11471CD7F008C6D73 /* SimpleSpectrumProcessor.h in Headers */ = {isa = PBXBuildFile; fileRef = B6EAFCE01471CD7F008C6D73 /* SimpleSpectrumProcessor.h */; };
 		B6EAFCE31471CD95008C6D73 /* SimpleSpectrumProcessor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B6EAFCE21471CD94008C6D73 /* SimpleSpectrumProcessor.cpp */; };
 		B6EAFCE71471CF47008C6D73 /* CAAudioChannelLayout.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B6EAFCE41471CF47008C6D73 /* CAAudioChannelLayout.cpp */; };
@@ -94,16 +93,6 @@
 			dstSubfolderSpec = 7;
 			files = (
 				B675E593146B1BDE0011284C /* SpectrumCocoaView.bundle in CopyFiles */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		B6EAFCDA1471C683008C6D73 /* CopyFiles */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "$(USER_LIBRARY_DIR)/Audio/Plug-Ins/Components/";
-			dstSubfolderSpec = 0;
-			files = (
-				B6EAFCDB1471C698008C6D73 /* SimpleSpectrumAnalyzer.component in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -469,7 +458,6 @@
 				B63A970E14657AE9002D8A37 /* Frameworks */,
 				B63A974314657D27002D8A37 /* Rez */,
 				B63FD8BB1466F128002C70ED /* CopyFiles */,
-				B6EAFCDA1471C683008C6D73 /* CopyFiles */,
 			);
 			buildRules = (
 			);
