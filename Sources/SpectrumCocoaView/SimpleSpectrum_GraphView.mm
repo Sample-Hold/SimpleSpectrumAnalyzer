@@ -122,7 +122,7 @@
     
     double normalizedValue = value / (double) kDefaultMinDbFS;
     normalizedValue = sin(M_PI_2 * normalizedValue);
-    
+
     return floor(normalizedValue * mActiveHeight) + .5;
 }
 
@@ -357,7 +357,7 @@
             [self stringForValue:[self dbValueAtLocation:pointed.y] divideThousands:NO showDecimals:YES];
         
         [cursorInfos setStringValue:
-         [NSString localizedStringWithFormat:@"Freq: %@ Hz Amplitude: %@ DbFS", freqLabel, dbLabel ]];
+         [NSString localizedStringWithFormat:@"Freq: %@ Hz Amplitude: %@ dBFS", freqLabel, dbLabel ]];
 
     }
     
@@ -390,7 +390,7 @@
         Float32 value = [self dbValueAtGridIndex:index];
         CGFloat location = [self locationForDBGridIndex:index];
         
-        [[[self stringForValue: value divideThousands:NO showDecimals:NO] stringByAppendingString: @"db"] 
+        [[[self stringForValue: value divideThousands:NO showDecimals:NO] stringByAppendingString: @"dB"] 
          drawInRect: NSMakeRect(0, -location - 3, labelWidth, 11) 
          withAttributes: mDBAxisStringAttributes];
 	}

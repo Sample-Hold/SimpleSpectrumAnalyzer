@@ -15,6 +15,8 @@
 		B627C74B146AE64800DFE624 /* CAHostTimeBase.h in Headers */ = {isa = PBXBuildFile; fileRef = B627C749146AE64800DFE624 /* CAHostTimeBase.h */; };
 		B63978BF1479B6EB009EE0F9 /* CAAutoDisposer.h in Headers */ = {isa = PBXBuildFile; fileRef = B63978BE1479B6EB009EE0F9 /* CAAutoDisposer.h */; };
 		B63978C01479B6EB009EE0F9 /* CAAutoDisposer.h in Headers */ = {isa = PBXBuildFile; fileRef = B63978BE1479B6EB009EE0F9 /* CAAutoDisposer.h */; };
+		B63A7AE6147DCA2D00328C30 /* vecLib.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B6E506B21468239F00315DD1 /* vecLib.framework */; };
+		B63A7AE7147DCA3600328C30 /* CoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B63A973F14657C83002D8A37 /* CoreServices.framework */; };
 		B63A96F214657837002D8A37 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B63A96F114657837002D8A37 /* Cocoa.framework */; };
 		B63A970214657955002D8A37 /* SimpleSpectrum_ViewFactory.h in Headers */ = {isa = PBXBuildFile; fileRef = B63A96E2146575AA002D8A37 /* SimpleSpectrum_ViewFactory.h */; };
 		B63A970314657955002D8A37 /* SimpleSpectrum_UIView.h in Headers */ = {isa = PBXBuildFile; fileRef = B63A96E614657605002D8A37 /* SimpleSpectrum_UIView.h */; };
@@ -24,7 +26,6 @@
 		B63A97081465799B002D8A37 /* SimpleSpectrum_GraphView.mm in Sources */ = {isa = PBXBuildFile; fileRef = B63A96E914657621002D8A37 /* SimpleSpectrum_GraphView.mm */; };
 		B63A970B146579B2002D8A37 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B63A9709146579B2002D8A37 /* AudioToolbox.framework */; };
 		B63A970C146579B2002D8A37 /* AudioUnit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B63A970A146579B2002D8A37 /* AudioUnit.framework */; };
-		B63A971214657AE9002D8A37 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B63A96F114657837002D8A37 /* Cocoa.framework */; };
 		B63A972014657BD5002D8A37 /* SimpleSpectrumVersion.h in Headers */ = {isa = PBXBuildFile; fileRef = B63A96E014657361002D8A37 /* SimpleSpectrumVersion.h */; };
 		B63A972114657BE8002D8A37 /* AUBase.h in Headers */ = {isa = PBXBuildFile; fileRef = B63A96B61465722B002D8A37 /* AUBase.h */; };
 		B63A972214657BE8002D8A37 /* AUDispatch.h in Headers */ = {isa = PBXBuildFile; fileRef = B63A96B81465722B002D8A37 /* AUDispatch.h */; };
@@ -54,7 +55,6 @@
 		B63A973A14657C55002D8A37 /* SimpleSpectrum.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B63A96DE14657324002D8A37 /* SimpleSpectrum.cpp */; };
 		B63A973B14657C6F002D8A37 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B63A9709146579B2002D8A37 /* AudioToolbox.framework */; };
 		B63A973C14657C6F002D8A37 /* AudioUnit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B63A970A146579B2002D8A37 /* AudioUnit.framework */; };
-		B63A974014657C83002D8A37 /* CoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B63A973F14657C83002D8A37 /* CoreServices.framework */; };
 		B63A974414657D35002D8A37 /* SimpleSpectrum.r in Rez */ = {isa = PBXBuildFile; fileRef = B63A96E11465738D002D8A37 /* SimpleSpectrum.r */; };
 		B63A974D14658362002D8A37 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = B63A974B14658362002D8A37 /* InfoPlist.strings */; };
 		B63A975014658399002D8A37 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = B63A974E14658399002D8A37 /* InfoPlist.strings */; };
@@ -62,7 +62,6 @@
 		B63A975414658417002D8A37 /* SpectrumCocoaView-Prefix.pch in Headers */ = {isa = PBXBuildFile; fileRef = B63A975314658417002D8A37 /* SpectrumCocoaView-Prefix.pch */; };
 		B63A9755146584D4002D8A37 /* SimpleSpectrum.h in Headers */ = {isa = PBXBuildFile; fileRef = B63A96DD14657318002D8A37 /* SimpleSpectrum.h */; };
 		B675E593146B1BDE0011284C /* SpectrumCocoaView.bundle in CopyFiles */ = {isa = PBXBuildFile; fileRef = B675E56B146B0DE00011284C /* SpectrumCocoaView.bundle */; };
-		B6E506B31468239F00315DD1 /* vecLib.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B6E506B21468239F00315DD1 /* vecLib.framework */; };
 		B6E7515F146759DA00287728 /* SimpleSpectrumSharedData.h in Headers */ = {isa = PBXBuildFile; fileRef = B6E7515E146759DA00287728 /* SimpleSpectrumSharedData.h */; };
 		B6E75160146759DA00287728 /* SimpleSpectrumSharedData.h in Headers */ = {isa = PBXBuildFile; fileRef = B6E7515E146759DA00287728 /* SimpleSpectrumSharedData.h */; };
 		B6E7516214676DAB00287728 /* SpectrumView.xib in Resources */ = {isa = PBXBuildFile; fileRef = B6E7516114676DAB00287728 /* SpectrumView.xib */; };
@@ -196,11 +195,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B6E506B31468239F00315DD1 /* vecLib.framework in Frameworks */,
+				B63A7AE7147DCA3600328C30 /* CoreServices.framework in Frameworks */,
+				B63A7AE6147DCA2D00328C30 /* vecLib.framework in Frameworks */,
 				B63A973B14657C6F002D8A37 /* AudioToolbox.framework in Frameworks */,
 				B63A973C14657C6F002D8A37 /* AudioUnit.framework in Frameworks */,
-				B63A974014657C83002D8A37 /* CoreServices.framework in Frameworks */,
-				B63A971214657AE9002D8A37 /* Cocoa.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
