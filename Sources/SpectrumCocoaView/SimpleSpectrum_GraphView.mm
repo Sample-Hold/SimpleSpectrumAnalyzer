@@ -14,8 +14,9 @@
 #define kDefaultMaxHertz	22050
 #define kNumFreqLines		11
 
-#define kDefaultMinDbFS     -72
-#define kNumDBLines         4
+#define kDefaultMinDbFS     -110
+#define kNumDBLines         5
+#define kDBLogFactor        2.4
 
 #define kDBAxisGap			40
 #define kFreqAxisGap		17
@@ -121,7 +122,7 @@
         return .5;
     
     double normalizedValue = value / (double) kDefaultMinDbFS;
-    normalizedValue = sin(M_PI_2 * normalizedValue);
+    normalizedValue = pow(normalizedValue, 1./kDBLogFactor); 
 
     return floor(normalizedValue * mActiveHeight) + .5;
 }
@@ -136,7 +137,7 @@
 -(Float32) dbValueAtGridIndex: (CGFloat) index 
 {
     Float32 normalizedIndex = index / (Float32) kNumDBLines;
-    normalizedIndex = -1 * cos(M_PI_2 * normalizedIndex)  + 1;
+    normalizedIndex = pow(normalizedIndex, kDBLogFactor);
     
     return normalizedIndex * kDefaultMinDbFS;
 }

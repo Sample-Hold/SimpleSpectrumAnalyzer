@@ -725,7 +725,7 @@
 				CLANG_CXX_LIBRARY = "libc++";
 				COPY_PHASE_STRIP = NO;
 				DEPLOYMENT_LOCATION = NO;
-				DEPLOYMENT_POSTPROCESSING = NO;
+				DEPLOYMENT_POSTPROCESSING = YES;
 				DSTROOT = "/tmp/$(PROJECT_NAME).dst";
 				EXPORTED_SYMBOLS_FILE = Sources/SpectrumAU/SimpleSpectrum.exp;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -759,6 +759,7 @@
 					/System/Library/Frameworks/CoreServices.framework/Frameworks/CarbonCore.framework/Versions/A/Headers,
 				);
 				SDKROOT = macosx10.7;
+				SKIP_INSTALL = YES;
 				WRAPPER_EXTENSION = component;
 			};
 			name = Debug;
@@ -772,9 +773,9 @@
 				CLANG_CXX_LIBRARY = "libc++";
 				COPY_PHASE_STRIP = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				DEPLOYMENT_LOCATION = NO;
-				DEPLOYMENT_POSTPROCESSING = NO;
-				DSTROOT = "/tmp/$(PROJECT_NAME).dst";
+				DEPLOYMENT_LOCATION = YES;
+				DEPLOYMENT_POSTPROCESSING = YES;
+				DSTROOT = /;
 				EXPORTED_SYMBOLS_FILE = Sources/SpectrumAU/SimpleSpectrum.exp;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
