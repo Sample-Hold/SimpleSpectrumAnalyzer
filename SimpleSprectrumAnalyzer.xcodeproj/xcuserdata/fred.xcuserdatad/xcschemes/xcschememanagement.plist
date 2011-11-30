@@ -7,12 +7,7 @@
 		<key>SimpleSpectrumAU.xcscheme</key>
 		<dict>
 			<key>orderHint</key>
-			<integer>4</integer>
-		</dict>
-		<key>SimpleSpectrumUI.xcscheme</key>
-		<dict>
-			<key>orderHint</key>
-			<integer>1</integer>
+			<integer>3</integer>
 		</dict>
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
@@ -68,6 +63,16 @@
 			<true/>
 		</dict>
 		<key>B6E742C2146D8E5400193D74</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>B6EBFB4114853CB700EE53A8</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>B6EBFB5A14853CE200EE53A8</key>
 		<dict>
 			<key>primary</key>
 			<true/>
