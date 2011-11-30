@@ -8,7 +8,7 @@
 
 #import "SimpleSpectrumSharedData.h"
 
-@interface SimpleSpectrum_GraphView : NSView
+@interface SimpleSpectrum_GraphView : NSOpenGLView
 {
     IBOutlet NSTextField * cursorInfos;
     
@@ -19,6 +19,8 @@
 	NSDictionary *mDBAxisStringAttributes, *mFreqAxisStringAttributes;	
     NSTrackingRectTag mMouseTrackingRect;
     BOOL mWasAcceptingMouseEvents, mDisplayCursorInfos;
+    CAAutoFree<Float32> mLocalCopy;
+    SInt32 mLocalCopySize;
 }
 
 -(CGFloat) locationForFrequencyValue: (double) value;

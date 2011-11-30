@@ -62,7 +62,8 @@
 		B63A975414658417002D8A37 /* SpectrumCocoaView-Prefix.pch in Headers */ = {isa = PBXBuildFile; fileRef = B63A975314658417002D8A37 /* SpectrumCocoaView-Prefix.pch */; };
 		B63A9755146584D4002D8A37 /* SimpleSpectrum.h in Headers */ = {isa = PBXBuildFile; fileRef = B63A96DD14657318002D8A37 /* SimpleSpectrum.h */; };
 		B675E593146B1BDE0011284C /* SpectrumCocoaView.bundle in CopyFiles */ = {isa = PBXBuildFile; fileRef = B675E56B146B0DE00011284C /* SpectrumCocoaView.bundle */; };
-		B6E58BA3148657520070AB06 /* SimpleSpectrumAnalyzer.component in CopyFiles */ = {isa = PBXBuildFile; fileRef = B675E56C146B0DE00011284C /* SimpleSpectrumAnalyzer.component */; };
+		B6E58BA514867BE80070AB06 /* SimpleSpectrumAnalyzer.component in CopyFiles */ = {isa = PBXBuildFile; fileRef = B675E56C146B0DE00011284C /* SimpleSpectrumAnalyzer.component */; };
+		B6E58BA71486A64E0070AB06 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B6E58BA61486A64E0070AB06 /* OpenGL.framework */; };
 		B6E7515F146759DA00287728 /* SimpleSpectrumSharedData.h in Headers */ = {isa = PBXBuildFile; fileRef = B6E7515E146759DA00287728 /* SimpleSpectrumSharedData.h */; };
 		B6E75160146759DA00287728 /* SimpleSpectrumSharedData.h in Headers */ = {isa = PBXBuildFile; fileRef = B6E7515E146759DA00287728 /* SimpleSpectrumSharedData.h */; };
 		B6E7516214676DAB00287728 /* SpectrumView.xib in Resources */ = {isa = PBXBuildFile; fileRef = B6E7516114676DAB00287728 /* SpectrumView.xib */; };
@@ -97,13 +98,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		B6E58BA21486572D0070AB06 /* CopyFiles */ = {
+		B6E58BA414867B870070AB06 /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = "$(USER_LIBRARY_DIR)/Audio/Plug-Ins/Components/";
 			dstSubfolderSpec = 0;
 			files = (
-				B6E58BA3148657520070AB06 /* SimpleSpectrumAnalyzer.component in CopyFiles */,
+				B6E58BA514867BE80070AB06 /* SimpleSpectrumAnalyzer.component in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -168,6 +169,7 @@
 		B675E56B146B0DE00011284C /* SpectrumCocoaView.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SpectrumCocoaView.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
 		B675E56C146B0DE00011284C /* SimpleSpectrumAnalyzer.component */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SimpleSpectrumAnalyzer.component; sourceTree = BUILT_PRODUCTS_DIR; };
 		B6E506B21468239F00315DD1 /* vecLib.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = vecLib.framework; path = System/Library/Frameworks/vecLib.framework; sourceTree = SDKROOT; };
+		B6E58BA61486A64E0070AB06 /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = System/Library/Frameworks/OpenGL.framework; sourceTree = SDKROOT; };
 		B6E7427C146D8A2200193D74 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
 		B6E7427E146D8A2200193D74 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		B6E7515E146759DA00287728 /* SimpleSpectrumSharedData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SimpleSpectrumSharedData.h; sourceTree = "<group>"; };
@@ -185,6 +187,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B6E58BA71486A64E0070AB06 /* OpenGL.framework in Frameworks */,
 				B63A96F214657837002D8A37 /* Cocoa.framework in Frameworks */,
 				B63A970C146579B2002D8A37 /* AudioUnit.framework in Frameworks */,
 				B63A970B146579B2002D8A37 /* AudioToolbox.framework in Frameworks */,
@@ -208,6 +211,7 @@
 		B63A969D14656852002D8A37 = {
 			isa = PBXGroup;
 			children = (
+				B6E58BA61486A64E0070AB06 /* OpenGL.framework */,
 				B675E58F146B12CD0011284C /* Products */,
 				B63A96A914656BD7002D8A37 /* Sources */,
 				B63A974714657DFA002D8A37 /* Dependencies */,
@@ -469,7 +473,7 @@
 				B63A970E14657AE9002D8A37 /* Frameworks */,
 				B63A974314657D27002D8A37 /* Rez */,
 				B63FD8BB1466F128002C70ED /* CopyFiles */,
-				B6E58BA21486572D0070AB06 /* CopyFiles */,
+				B6E58BA414867B870070AB06 /* CopyFiles */,
 			);
 			buildRules = (
 			);
@@ -618,9 +622,9 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				GENERATE_PKGINFO_FILE = YES;
-				INSTALL_PATH = "$(USER_LIBRARY_DIR)/Audio/Plug-Ins/Components/";
+				INSTALL_PATH = "";
 				MACH_O_TYPE = mh_bundle;
-				MACOSX_DEPLOYMENT_TARGET = 10.5;
+				MACOSX_DEPLOYMENT_TARGET = "";
 				OTHER_LDFLAGS = "";
 				SDKROOT = macosx10.7;
 			};
@@ -638,9 +642,9 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				GENERATE_PKGINFO_FILE = YES;
-				INSTALL_PATH = "$(USER_LIBRARY_DIR)/Audio/Plug-Ins/Components/";
+				INSTALL_PATH = "";
 				MACH_O_TYPE = mh_bundle;
-				MACOSX_DEPLOYMENT_TARGET = 10.5;
+				MACOSX_DEPLOYMENT_TARGET = "";
 				OTHER_LDFLAGS = "";
 				SDKROOT = macosx10.7;
 			};
@@ -761,7 +765,7 @@
 				GENERATE_PKGINFO_FILE = YES;
 				INFOPLIST_FILE = "Resources/SpectrumAU/SpectrumAU-Info.plist";
 				INSTALL_PATH = "$(USER_LIBRARY_DIR)/Audio/Plug-Ins/Components/";
-				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				MACOSX_DEPLOYMENT_TARGET = "";
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = "-bundle";
 				OTHER_REZFLAGS = "-d i386_$i386 -I /System/Library/Frameworks/CoreServices.framework/Frameworks/CarbonCore.framework/Versions/A/Headers -I /Developer/Extras/CoreAudio/AudioUnits/AUPublic/AUBase";
@@ -771,7 +775,7 @@
 					/System/Library/Frameworks/CoreServices.framework/Frameworks/CarbonCore.framework/Versions/A/Headers,
 				);
 				SDKROOT = macosx10.7;
-				SKIP_INSTALL = YES;
+				SKIP_INSTALL = NO;
 				WRAPPER_EXTENSION = component;
 			};
 			name = Debug;
@@ -803,7 +807,7 @@
 				GENERATE_PKGINFO_FILE = YES;
 				INFOPLIST_FILE = "Resources/SpectrumAU/SpectrumAU-Info.plist";
 				INSTALL_PATH = "$(USER_LIBRARY_DIR)/Audio/Plug-Ins/Components/";
-				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				MACOSX_DEPLOYMENT_TARGET = "";
 				OTHER_LDFLAGS = "-bundle";
 				OTHER_REZFLAGS = "-d i386_$i386 -I /System/Library/Frameworks/CoreServices.framework/Frameworks/CarbonCore.framework/Versions/A/Headers -I /Developer/Extras/CoreAudio/AudioUnits/AUPublic/AUBase";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -812,6 +816,7 @@
 					/System/Library/Frameworks/CoreServices.framework/Frameworks/CarbonCore.framework/Versions/A/Headers,
 				);
 				SDKROOT = macosx10.7;
+				SKIP_INSTALL = NO;
 				WRAPPER_EXTENSION = component;
 			};
 			name = Release;

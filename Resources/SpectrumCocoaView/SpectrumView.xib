@@ -13,8 +13,7 @@
 		<object class="NSArray" key="IBDocument.IntegratedClassDependencies">
 			<bool key="EncodedWithXMLCoder">YES</bool>
 			<string>NSCustomView</string>
-			<string>NSTextField</string>
-			<string>NSTextFieldCell</string>
+			<string>NSOpenGLView</string>
 			<string>NSMenu</string>
 			<string>NSCustomObject</string>
 			<string>NSMenuItem</string>
@@ -43,64 +42,26 @@
 				<int key="NSvFlags">274</int>
 				<object class="NSMutableArray" key="NSSubviews">
 					<bool key="EncodedWithXMLCoder">YES</bool>
-					<object class="NSCustomView" id="187905233">
+					<object class="NSOpenGLView" id="940138596">
 						<reference key="NSNextResponder" ref="1005"/>
-						<int key="NSvFlags">274</int>
-						<object class="NSMutableArray" key="NSSubviews">
-							<bool key="EncodedWithXMLCoder">YES</bool>
-							<object class="NSTextField" id="638740025">
-								<reference key="NSNextResponder" ref="187905233"/>
-								<int key="NSvFlags">258</int>
-								<string key="NSFrame">{{203, 8}, {260, 17}}</string>
-								<reference key="NSSuperview" ref="187905233"/>
-								<reference key="NSWindow"/>
-								<reference key="NSNextKeyView"/>
-								<string key="NSReuseIdentifierKey">_NS:3944</string>
-								<bool key="NSEnabled">YES</bool>
-								<object class="NSTextFieldCell" key="NSCell" id="279109786">
-									<int key="NSCellFlags">68288064</int>
-									<int key="NSCellFlags2">272630784</int>
-									<string key="NSContents">Move mouse cursor to get precise Freq / dB values</string>
-									<object class="NSFont" key="NSSupport">
-										<string key="NSName">LucidaGrande</string>
-										<double key="NSSize">10</double>
-										<int key="NSfFlags">16</int>
-									</object>
-									<string key="NSCellIdentifier">_NS:3944</string>
-									<reference key="NSControlView" ref="638740025"/>
-									<object class="NSColor" key="NSBackgroundColor">
-										<int key="NSColorSpace">6</int>
-										<string key="NSCatalogName">System</string>
-										<string key="NSColorName">controlColor</string>
-										<object class="NSColor" key="NSColor">
-											<int key="NSColorSpace">3</int>
-											<bytes key="NSWhite">MC42NjY2NjY2NjY3AA</bytes>
-										</object>
-									</object>
-									<object class="NSColor" key="NSTextColor">
-										<int key="NSColorSpace">6</int>
-										<string key="NSCatalogName">System</string>
-										<string key="NSColorName">controlTextColor</string>
-										<object class="NSColor" key="NSColor">
-											<int key="NSColorSpace">3</int>
-											<bytes key="NSWhite">MAA</bytes>
-										</object>
-									</object>
-								</object>
-							</object>
-						</object>
+						<int key="NSvFlags">1298</int>
+						<object class="NSPSMatrix" key="NSDrawMatrix"/>
 						<string key="NSFrameSize">{480, 270}</string>
 						<reference key="NSSuperview" ref="1005"/>
 						<reference key="NSWindow"/>
-						<reference key="NSNextKeyView" ref="638740025"/>
-						<string key="NSReuseIdentifierKey">_NS:1192</string>
-						<string key="NSClassName">SimpleSpectrum_GraphView</string>
+						<reference key="NSNextKeyView"/>
+						<string key="NSReuseIdentifierKey">_NS:9</string>
+						<object class="NSOpenGLPixelFormat" key="NSPixelFormat">
+							<object class="NSMutableData" key="NSPixelAttributes">
+								<bytes key="NS.bytes">AAAABQAAAGAAAAAIAAAADwAAAAwAAAAQAAAAOAAAAAQAAAA3AAAAAQAAAAA</bytes>
+							</object>
+						</object>
 					</object>
 				</object>
 				<string key="NSFrameSize">{480, 270}</string>
 				<reference key="NSSuperview"/>
 				<reference key="NSWindow"/>
-				<reference key="NSNextKeyView" ref="187905233"/>
+				<reference key="NSNextKeyView" ref="940138596"/>
 				<string key="NSClassName">SimpleSpectrum_UIView</string>
 			</object>
 			<object class="NSMenu" id="943844645">
@@ -404,14 +365,6 @@
 					<int key="connectionID">100</int>
 				</object>
 				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
-						<string key="label">graphView</string>
-						<reference key="source" ref="1005"/>
-						<reference key="destination" ref="187905233"/>
-					</object>
-					<int key="connectionID">102</int>
-				</object>
-				<object class="IBConnectionRecord">
 					<object class="IBActionConnection" key="connection">
 						<string key="label">windowChanged:</string>
 						<reference key="source" ref="1005"/>
@@ -421,11 +374,11 @@
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
-						<string key="label">cursorInfos</string>
-						<reference key="source" ref="187905233"/>
-						<reference key="destination" ref="638740025"/>
+						<string key="label">graphView</string>
+						<reference key="source" ref="1005"/>
+						<reference key="destination" ref="940138596"/>
 					</object>
-					<int key="connectionID">108</int>
+					<int key="connectionID">110</int>
 				</object>
 			</object>
 			<object class="IBMutableOrderedSet" key="objectRecords">
@@ -462,7 +415,7 @@
 						<reference key="object" ref="1005"/>
 						<object class="NSMutableArray" key="children">
 							<bool key="EncodedWithXMLCoder">YES</bool>
-							<reference ref="187905233"/>
+							<reference ref="940138596"/>
 						</object>
 						<reference key="parent" ref="0"/>
 						<string key="objectName">SpectrumAnalyzerView</string>
@@ -597,32 +550,14 @@
 						<reference key="parent" ref="998755208"/>
 					</object>
 					<object class="IBObjectRecord">
-						<int key="objectID">101</int>
-						<reference key="object" ref="187905233"/>
-						<object class="NSMutableArray" key="children">
-							<bool key="EncodedWithXMLCoder">YES</bool>
-							<reference ref="638740025"/>
-						</object>
-						<reference key="parent" ref="1005"/>
-					</object>
-					<object class="IBObjectRecord">
 						<int key="objectID">104</int>
 						<reference key="object" ref="12110560"/>
 						<reference key="parent" ref="998755208"/>
 					</object>
 					<object class="IBObjectRecord">
-						<int key="objectID">106</int>
-						<reference key="object" ref="638740025"/>
-						<object class="NSMutableArray" key="children">
-							<bool key="EncodedWithXMLCoder">YES</bool>
-							<reference ref="279109786"/>
-						</object>
-						<reference key="parent" ref="187905233"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">107</int>
-						<reference key="object" ref="279109786"/>
-						<reference key="parent" ref="638740025"/>
+						<int key="objectID">109</int>
+						<reference key="object" ref="940138596"/>
+						<reference key="parent" ref="1005"/>
 					</object>
 				</object>
 			</object>
@@ -634,10 +569,9 @@
 					<string>-2.IBPluginDependency</string>
 					<string>-3.IBPluginDependency</string>
 					<string>1.IBPluginDependency</string>
-					<string>101.IBPluginDependency</string>
 					<string>104.IBPluginDependency</string>
-					<string>106.IBPluginDependency</string>
-					<string>107.IBPluginDependency</string>
+					<string>109.CustomClassName</string>
+					<string>109.IBPluginDependency</string>
 					<string>65.IBPluginDependency</string>
 					<string>69.IBPluginDependency</string>
 					<string>70.IBPluginDependency</string>
@@ -664,8 +598,7 @@
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
+					<string>SimpleSpectrum_GraphView</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
@@ -699,14 +632,14 @@
 				<reference key="dict.values" ref="0"/>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">108</int>
+			<int key="maxID">110</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<object class="NSMutableArray" key="referencedPartialClassDescriptions">
 				<bool key="EncodedWithXMLCoder">YES</bool>
 				<object class="IBPartialClassDescription">
 					<string key="className">SimpleSpectrum_GraphView</string>
-					<string key="superclassName">NSView</string>
+					<string key="superclassName">NSOpenGLView</string>
 					<object class="NSMutableDictionary" key="outlets">
 						<string key="NS.key.0">cursorInfos</string>
 						<string key="NS.object.0">NSTextField</string>

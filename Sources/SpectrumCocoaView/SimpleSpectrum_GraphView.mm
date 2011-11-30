@@ -9,6 +9,9 @@
 #import "SimpleSpectrum_GraphView.h"
 
 #import "CABitOperations.h"
+#import <OpenGL/gl.h>
+#import <OpenGL/glu.h>
+#import <OpenGL/glext.h>
 
 #define kDefaultMinHertz	11
 #define kDefaultMaxHertz	22050
@@ -25,6 +28,14 @@
 
 @implementation SimpleSpectrum_GraphView
 #pragma mark ____ (INIT /) DEALLOC ____
+-(void)awakeFromNib {
+    NSRect size = [super bounds];
+    
+    mActiveWidth = size.size.width;
+    mActiveHeight = size.size.height;
+    mLocalCopySize = 0;
+}
+
 -(id)initWithFrame:(NSRect)frameRect
 {
     if(self = [super initWithFrame:frameRect]) {
@@ -84,6 +95,17 @@
 }
 
 #pragma mark ____ PUBLIC METHODS ____
+-(void)prepareOpenGL
+{    
+    glDisable(GL_DEPTH_TEST);
+    glClearColor(0.01f, 0.01f, 0.01f, 0.0f);
+    
+    glMatrixMode (GL_PROJECTION);
+    glLoadIdentity ();
+    glOrtho(0, mActiveWidth, mActiveHeight, 0, 0, 1);
+}
+
+
 -(CGFloat) locationForFrequencyValue: (double) value 
 {
 	if(value >= kDefaultMaxHertz)
@@ -172,6 +194,34 @@
     return YES;
 }
 
+-(void)drawRect:(NSRect)dirtyRect
+{    
+    glClear(GL_COLOR_BUFFER_BIT);
+    
+    glMatrixMode (GL_MODELVIEW);
+    glLoadIdentity(); 
+    //Displacement trick for exact pixelization
+    //glTranslatef(0.375, 0.375, 0);
+    
+    glBegin(GL_LINE_STRIP);
+    glColor3ub(255, 255, 0);
+    
+    double lastDbPos, dbPos = 0;
+    for (UInt32 i = 1; i < mLocalCopySize; ++i) {		
+		double freq = i * (double) 44100 / (double)(mLocalCopySize * 2);
+        freq = [self locationForFrequencyValue:freq];
+        lastDbPos = dbPos;
+        dbPos = [self locationForDBValue: mLocalCopy[i]];		
+        
+        if(fabs(lastDbPos - dbPos) > 1)
+           glVertex2i(freq, dbPos);
+    }
+    glEnd();
+    
+    // flush the buffer! (send drawing to the screen)
+    [[self openGLContext] flushBuffer];
+}
+/*
 - (void)drawRect:(NSRect)rect
 {
 	if (!mBackgroundCache) {
@@ -241,7 +291,7 @@
         [curveColor set];
 		[mCurvePath fill];
 	}
-}
+}*/
 
 -(void) setFrameSize: (NSSize) newSize {	
     mActiveWidth = newSize.width - kRightMargin - kDBAxisGap;
@@ -263,6 +313,16 @@
     [self setFrameSize:frameRect.size];	
 }
 
+-(void) plotData: (Float32 *) data givenInfos: (SpectrumGraphInfo) infos;
+{
+    mLocalCopySize = infos.mNumBins;
+    mLocalCopy.alloc(infos.mNumBins);
+    memcpy(mLocalCopy(), data, mLocalCopySize * sizeof(Float32));
+    
+    [self setNeedsDisplay:YES];
+}
+
+/*
 -(void) plotData: (Float32 *) data givenInfos: (SpectrumGraphInfo) infos;
 {	
 	if (!curveColor)
@@ -320,7 +380,7 @@
     [mCurvePath closePath];
 	
 	[self setNeedsDisplay: YES];	
-}
+}*/
 
 -(void) disableGraphCurve {													
     // update the view, but don't draw the curve (used when the AU is not initialized and the curve can not be retrieved)
