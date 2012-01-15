@@ -28,7 +28,7 @@ void SimpleSpectrumKernel::Process(Float32 const* inSourceP,
 }
 
 #pragma mark ____SimpleSpectrum
-SimpleSpectrum::SimpleSpectrum(AudioUnit component) : AUEffectBase(component), mCAMutex("mutex")
+SimpleSpectrum::SimpleSpectrum(AudioUnit component) : AUEffectBase(component)
 {
 	// all the parameters must be set to their initial values here
 	//
@@ -49,6 +49,8 @@ OSStatus SimpleSpectrum::Initialize()
 	if(result == noErr ) {
         // allocate our ring buffer
         mProcessor.Allocate(GetNumberOfChannels(), kMaxBlockSize);
+        mComputedMagnitudes.alloc(kMaxBlockSize >> 1);
+        
         mInfos.mNumBins = 0;
         mInfos.mNumChannels = GetNumberOfChannels();
         mInfos.mSamplingRate = GetSampleRate();
@@ -78,15 +80,10 @@ OSStatus SimpleSpectrum::Render(AudioUnitRenderActionFlags & ioActionFlags,
         mInfos.mNumBins = currentBlockSize>>1;
         UInt32 channelSelect = GetParameter(kSpectrumParam_SelectChannel);
         
-        // hard work outside the mutex block
-        CAAutoFree<Float32> magnitudes = mProcessor.GetMagnitudes(currentWindow, channelSelect);
-
-        mCAMutex.Lock();
-        mComputedMagnitudes = magnitudes;
-        mCAMutex.Unlock();
-        
-        // notify UI
-        PropertyChanged(kAudioUnitProperty_SpectrumGraphData, kAudioUnitScope_Global, 0);
+        if(mProcessor.GetMagnitudes(mComputedMagnitudes(), currentWindow, channelSelect)) {
+            // notify UI
+            PropertyChanged(kAudioUnitProperty_SpectrumGraphData, kAudioUnitScope_Global, 0);
+        } 
     }
 
 	return AUEffectBase::Render(ioActionFlags, inTimeStamp, inFramesToProcess);
@@ -138,9 +135,7 @@ OSStatus SimpleSpectrum::GetProperty(AudioUnitPropertyID  inID,
                 Float32* mData = (Float32*) outData;
                 
                 if(mInfos.mNumBins > 0) {
-                    mCAMutex.Lock();
                     memcpy(mData, mComputedMagnitudes(), mInfos.mNumBins * sizeof(Float32));
-                    mCAMutex.Unlock();
                 }
             }
 		}

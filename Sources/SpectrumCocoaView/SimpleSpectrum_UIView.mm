@@ -236,14 +236,17 @@ void dispatchAudioUnitEventProc(void * inUserData,
                                                   &sizeOfResult);
     
     if(result == noErr && graphInfo.mNumBins > 0) {
-        CAAutoFree<Float32> graphData;
-        graphData.allocBytes(sizeOfResult = graphInfo.mNumBins * sizeof(Float32));
+        constexpr size_t mBins = graphInfo.mNumBins;
+        sizeOfResult = graphInfo.mNumBins * sizeof(Float32);
+        
+        Float32 graphData[mBins];
+        memset(graphData, 0, sizeOfResult);
         
         result = AudioUnitGetProperty(mAU,
                                       kAudioUnitProperty_SpectrumGraphData,
                                       kAudioUnitScope_Global,
                                       0,
-                                      graphData(),
+                                      graphData,
                                       &sizeOfResult);
         
         [graphView plotData: graphData givenInfos: graphInfo];

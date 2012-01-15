@@ -273,14 +273,17 @@
     
     CGFloat lastDBPos = [self locationForDBValue: kDefaultMinDbFS], dbPos, distanceX, distanceY;
     NSPoint lastPoint = NSMakePoint(.5, lastDBPos), dest, controlPoint;
+    UInt32 dbGap = mActiveHeight / fabs(kDefaultMinDbFS);
+    
 	[mCurvePath moveToPoint:lastPoint];
     
 	for (UInt32 i = 1; i < infos.mNumBins; ++i) {		
 		double freq = i * (double) infos.mSamplingRate / (double)(infos.mNumBins * 2);
+
         dbPos = [self locationForDBValue: data[i]];												
         
-        // only create a new point in our bezier path if db moves by 1 point
-        if (lastDBPos - dbPos > 0) {
+        // only create a new point in our bezier path if db moves by dbGap points
+        if (lastDBPos - dbPos > dbGap) {
             dest = NSMakePoint([self locationForFrequencyValue:freq], dbPos);
             
             distanceX = dest.x - lastPoint.x;
@@ -436,10 +439,6 @@
              withAttributes: mFreqAxisStringAttributes];
 		}
 	}
-}
-
--(void) drawInfosLabel:()sender{
-    
 }
 
 @end

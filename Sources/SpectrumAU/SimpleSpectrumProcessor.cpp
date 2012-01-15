@@ -167,13 +167,11 @@ bool SimpleSpectrumProcessor::TryFFT(UInt32 inNumFrames, Window w)
     return true;
 }
 
-CAAutoFree<Float32> SimpleSpectrumProcessor::GetMagnitudes(Window w, UInt32 channelSelect)
+bool SimpleSpectrumProcessor::GetMagnitudes(Float32 *result, const Window w, const UInt32 channelSelect)
 {
     UInt32 bins = mFFTSize>>1;
     Float32 one(1), two(2), fBins(bins), fGainOffset;
-    CAAutoFree<Float32> result;
-    result.alloc(bins, true);
-    
+
     for (UInt32 i=0; i<mNumChannels; ++i) {        
         // compute Z magnitude
         vDSP_zvabs(mChannels[i].mDSPSplitComplex(), 1, mChannels[i].mOutputData(), 1, bins);
@@ -201,16 +199,16 @@ CAAutoFree<Float32> SimpleSpectrumProcessor::GetMagnitudes(Window w, UInt32 chan
     
     // stereo analysis ; for this demo, we only support up to 2 channels
     if (channelSelect == 3 && mNumChannels > 1 && mNumChannels < 3) { 
-        vDSP_vadd(mChannels[0].mOutputData(), 1, mChannels[1].mOutputData(), 1, result(), 1, bins);
-        vDSP_vsdiv(result(), 1, &two, result(), 1, bins);
-        return result;
+        vDSP_vadd(mChannels[0].mOutputData(), 1, mChannels[1].mOutputData(), 1, result, 1, bins);
+        vDSP_vsdiv(result, 1, &two, result, 1, bins);
+        return true;
     }
     
     // mono analysis
     if (channelSelect <= mNumChannels) {
-        memcpy(result(), mChannels[channelSelect-1].mOutputData(), bins * sizeof(Float32));
-        return result;
+        memcpy(result, mChannels[channelSelect-1].mOutputData(), bins * sizeof(Float32));
+        return true;
     }
     
-    return result;
+    return false;
 }

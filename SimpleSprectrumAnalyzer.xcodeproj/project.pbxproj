@@ -62,7 +62,6 @@
 		B63A975414658417002D8A37 /* SpectrumCocoaView-Prefix.pch in Headers */ = {isa = PBXBuildFile; fileRef = B63A975314658417002D8A37 /* SpectrumCocoaView-Prefix.pch */; };
 		B63A9755146584D4002D8A37 /* SimpleSpectrum.h in Headers */ = {isa = PBXBuildFile; fileRef = B63A96DD14657318002D8A37 /* SimpleSpectrum.h */; };
 		B675E593146B1BDE0011284C /* SpectrumCocoaView.bundle in CopyFiles */ = {isa = PBXBuildFile; fileRef = B675E56B146B0DE00011284C /* SpectrumCocoaView.bundle */; };
-		B6E58BA3148657520070AB06 /* SimpleSpectrumAnalyzer.component in CopyFiles */ = {isa = PBXBuildFile; fileRef = B675E56C146B0DE00011284C /* SimpleSpectrumAnalyzer.component */; };
 		B6E7515F146759DA00287728 /* SimpleSpectrumSharedData.h in Headers */ = {isa = PBXBuildFile; fileRef = B6E7515E146759DA00287728 /* SimpleSpectrumSharedData.h */; };
 		B6E75160146759DA00287728 /* SimpleSpectrumSharedData.h in Headers */ = {isa = PBXBuildFile; fileRef = B6E7515E146759DA00287728 /* SimpleSpectrumSharedData.h */; };
 		B6E7516214676DAB00287728 /* SpectrumView.xib in Resources */ = {isa = PBXBuildFile; fileRef = B6E7516114676DAB00287728 /* SpectrumView.xib */; };
@@ -94,16 +93,6 @@
 			dstSubfolderSpec = 7;
 			files = (
 				B675E593146B1BDE0011284C /* SpectrumCocoaView.bundle in CopyFiles */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		B6E58BA21486572D0070AB06 /* CopyFiles */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "$(USER_LIBRARY_DIR)/Audio/Plug-Ins/Components/";
-			dstSubfolderSpec = 0;
-			files = (
-				B6E58BA3148657520070AB06 /* SimpleSpectrumAnalyzer.component in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -469,7 +458,6 @@
 				B63A970E14657AE9002D8A37 /* Frameworks */,
 				B63A974314657D27002D8A37 /* Rez */,
 				B63FD8BB1466F128002C70ED /* CopyFiles */,
-				B6E58BA21486572D0070AB06 /* CopyFiles */,
 			);
 			buildRules = (
 			);
